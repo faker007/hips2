@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-trend-tag',
+  selector: 'hips-trend-tag',
   templateUrl: './trend-tag.component.html',
   styleUrls: ['./trend-tag.component.css']
 })
