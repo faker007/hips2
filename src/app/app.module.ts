@@ -8,22 +8,28 @@ import { TagInputModule } from 'ng2-tag-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { SearchInputComponent } from './search-input/search-input.component';
-import { TrendingComponent } from './trending/trending.component';
-import { TrendingBoxComponent } from './trending-box/trending-box.component';
-import { ListComponent } from './list/list.component';
-import { SearchComponent } from './search/search.component';
+import { MgmtComponent } from './mgmt/mgmt.component';
+import { EventManagerComponent } from './mgmt/event-manager/event-manager.component';
+import { TagManagerComponent } from './mgmt/tag-manager/tag-manager.component';
+import { HipsComponent } from './hips/hips.component';
+import { MainComponent } from './hips/main/main.component';
+import { SearchComponent } from './hips/search/search.component';
+import { TrendTagComponent } from './hips/main/trend-tag/trend-tag.component';
+import { EventListComponent } from './hips/main/event-list/event-list.component';
+import { SearchInputComponent } from './hips/main/search-input/search-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    MgmtComponent,
+    EventManagerComponent,
+    TagManagerComponent,
+    HipsComponent,
+    MainComponent,
+    SearchComponent,
+    TrendTagComponent,
+    EventListComponent,
     SearchInputComponent,
-    TrendingComponent,
-    TrendingBoxComponent,
-    ListComponent,
-    SearchComponent
   ],
   imports: [
     BrowserModule,

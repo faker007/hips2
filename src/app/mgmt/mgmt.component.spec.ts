@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrendingBoxComponent } from './trending-box.component';
+import { MgmtComponent } from './mgmt.component';
 
-describe('TrendingBoxComponent', () => {
-  let component: TrendingBoxComponent;
-  let fixture: ComponentFixture<TrendingBoxComponent>;
+describe('MgmtComponent', () => {
+  let component: MgmtComponent;
+  let fixture: ComponentFixture<MgmtComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrendingBoxComponent ]
+      declarations: [ MgmtComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TrendingBoxComponent);
+    fixture = TestBed.createComponent(MgmtComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
