@@ -1,0 +1,23 @@
+.search .form-group {
+  border: solid 1px #FE5454;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.search .form-group input {
+  border: none;
+  box-shadow: none;
+  width: 78%;
+  display: inline-block;
+  height: 44px;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.search .form-group button {
+  background-color: #FE5454;
+  color: white;
+  border: none;
+  width: 20%;
+  float: right;
+}

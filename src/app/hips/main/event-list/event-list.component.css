@@ -1,0 +1,15 @@
+.event-list .header {
+  padding: 15px 0;
+}
+
+.event-list .event-group {
+  border-bottom: solid 1px #777777;
+}
+
+.event-list .event-item {
+  padding: 10px;
+  border: solid 1px #777777;
+  border-bottom: none;
+  line-height: 34px;
+  vertical-align: middle;
+}
