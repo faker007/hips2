@@ -1,3 +1,4 @@
-<p>
-  event-manager works!
-</p>
+<ng2-smart-table [settings]="settings" [source]="source"
+                 (editConfirm)="onSaveConfirm($event)"
+                 (createConfirm)="onCreateConfirm($event)">
+</ng2-smart-table>

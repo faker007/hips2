@@ -1,3 +1,7 @@
-.trend-tags .header {
+.trend-tag .header {
   padding: 15px 0;
+}
+
+.trend-tag .tag-container .tag-item{
+  text-decoration: none;
 }
