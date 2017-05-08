@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventListService } from '../../../services/event-list.service';
 
 @Component({
   selector: 'hips-event-list',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
-
-  constructor() { }
+	eventList: Array<any>;
+  constructor(public elS: EventListService) { 
+  }
 
   ngOnInit() {
+  	this.elS.getEvents().subscribe((snapshots) => {
+  		snapshots.forEach(function (snapshot) {
+  			this.eventList.push(snapshot.val());
+  		});
+  	});
   }
 
 }
