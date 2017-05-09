@@ -3,22 +3,14 @@
     <!--header-->
     <div class="header">
       <button class="btn btn-default">오늘</button>
-      <span>5월 1일 <b>월요일</b></span>
+      <span>{{month}}월 {{day}}일 <b>{{dayName}}</b></span>
     </div>
-    <div class="col-xs-12 event-item">
-      <div class="col-sm-2 col-xs-3 begin text-center">오전 9시</div>
-      <div class="col-sm-8 col-xs-7 title">4차혁명과 일자리 변화</div>
-      <div class="col-xs-2 address text-center"><button class="btn btn-warning">서초구</button></div>
-    </div>
-    <div class="col-xs-12 event-item">
-      <div class="col-sm-2 col-xs-3 begin text-center">오전 9시</div>
-      <div class="col-sm-8 col-xs-7 title">4차혁명과 일자리 변화</div>
-      <div class="col-xs-2 address text-center"><button class="btn btn-warning">서초구</button></div>
-    </div>
-    <div class="col-xs-12 event-item">
-      <div class="col-sm-2 col-xs-3 begin text-center">오전 9시</div>
-      <div class="col-sm-8 col-xs-7 title">4차혁명과 일자리 변화</div>
-      <div class="col-xs-2 address text-center"><button class="btn btn-warning">서초구</button></div>
+    <div class="col-xs-12 event-item" *ngFor="let eventList of eventLists">
+      <a target="_blank" href="{{eventList.url}}">
+        <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin}}</div>
+        <div class="col-sm-8 col-xs-7 title">{{eventList.title}}</div>
+        <div class="col-xs-2 address text-center"><button class="btn btn-warning">서초구</button></div>
+      </a>
     </div>
   </div>
 </section>
