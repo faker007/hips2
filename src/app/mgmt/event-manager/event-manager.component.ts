@@ -99,6 +99,10 @@ export class EventManagerComponent implements OnInit {
     }
   }
 
+  onEdit(event){
+    console.log("Edit : ", event);
+  }
+
   ngOnInit() {
   }
 

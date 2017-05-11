@@ -11,7 +11,7 @@ export class EventListComponent implements OnInit {
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
-	day:string = ''; // 일 
+	day:string = ''; // 일
 
   constructor(public elS: EventListService) {
   	this.elS.getEvents().subscribe((snapshots) => {
@@ -25,12 +25,12 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getTodayDay();  	
+  	this.getTodayDay();
   }
 
   getTodayDay() {
   	let date = new Date();
-  	let dayNameArray = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] // date.getDay() 메소드는 0부터 반환한다. 0은 일요일.
+  	let dayNameArray = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; // date.getDay() 메소드는 0부터 반환한다. 0은 일요일.
   	let dayName = dayNameArray[date.getDay()];
   	let month = date.getMonth () + 1;
   	let day = date.getDate();
@@ -63,7 +63,7 @@ export class EventListComponent implements OnInit {
   			if(hourSort1 < hourSort2 ) return -1;
   			if(hourSort1 > hourSort2 ) return 1;
   			if(minuteSort1 < minuteSort2 ) return -1;
-  			if(minuteSort1 > minuteSort2 ) return 1;  			
+  			if(minuteSort1 > minuteSort2 ) return 1;
 
   			return 0;
   		});
@@ -73,11 +73,11 @@ export class EventListComponent implements OnInit {
   removeArrayFromToday() {
   	var index = 0;
   	for(let i = 0; i < this.eventLists.length; i++) {
-  		var month1 = parseInt(this.eventLists[i].begin.split(" ")[0].split("-")[1]); 
+  		var month1 = parseInt(this.eventLists[i].begin.split(" ")[0].split("-")[1]);
   		var month2 = parseInt(this.month);
 
-  		var day1 = parseInt(this.eventLists[i].begin.split(" ")[0].split("-")[2]); 
-  		var day2 = parseInt(this.day); 
+  		var day1 = parseInt(this.eventLists[i].begin.split(" ")[0].split("-")[2]);
+  		var day2 = parseInt(this.day);
 
   		if(month1 < month2) {
   			index++;
@@ -85,21 +85,21 @@ export class EventListComponent implements OnInit {
 
   		if(day1 < day2) {
   			index++;
-  		} 
+  		}
 
   	}
   	while(index) {
   		this.eventLists.shift();
-  		index--;  		
+  		index--;
   	}
-  }  
+  }
 
   // removeArrayFromToday() {
   // 	this.eventLists.forEach((data, idx) => {
   // 		var month1 = parseInt(data['begin'].split(" ")[0].split("-")[1][1]);
   // 		var month2 = parseInt(this.month);
   // 		if(month1 < month2) {
-  // 			this.eventLists.splice(idx, 1);  				
+  // 			this.eventLists.splice(idx, 1);
   // 			console.log(idx);
   // 		}
   // 	});
