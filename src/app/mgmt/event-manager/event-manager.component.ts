@@ -1,8 +1,39 @@
-import {Component, OnInit} from '@angular/core';
-import {Ng2SmartTableModule, LocalDataSource} from 'ng2-smart-table';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
 import {AngularFire, FirebaseListObservable, AngularFireDatabase} from "angularfire2";
 import {EventListService} from "../../services/event-list.service";
-import {EventObject} from "../../models/event.model";
+import {isNullOrUndefined} from "util";
+import {isUndefined} from "util";
+
+@Component({
+  selector: 'button-view',
+  template: `
+    <button style="color: white" class="btn btn-primary" (click)="onClick()">{{ renderValue }}</button>
+  `,
+})
+export class ButtonViewComponent implements ViewCell, OnInit {
+  renderValue: string;
+  isUndefined: boolean;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
+
+  ngOnInit() {
+    this.isUndefined = this.value.toString().length > 0 ? false : true;
+
+    if(this.isUndefined){
+      this.renderValue = "승인하기";
+    }else{
+      this.renderValue = this.value.toString();
+    }
+  }
+
+  onClick() {
+    this.save.emit(this.rowData);
+  }
+}
 
 @Component({
   selector: 'mgmt-event-manager',
@@ -24,27 +55,32 @@ export class EventManagerComponent implements OnInit {
       id: {
         title: 'ID',
         filter: false,
-        width: "5%"
+        width: "4%"
       },
       begin: {
         title: '행사일',
         filter: false,
-        width: "10%"
+        width: "8%"
       },
       title: {
         title: '행사 제목',
         filter: false,
-        width: "15%"
+        width: "12%"
       },
       address: {
         title: '행사 위치',
         filter: false,
-        width: "8%"
+        width: "10%"
       },
       tags: {
         title: '행사 태그',
         filter: false,
-        width: "25%",
+        width: "26%",
+      },
+      url:{
+        title: 'url',
+        filter: false,
+        width: "10%"
       },
       created: {
         title: '생성 날짜',
@@ -54,10 +90,12 @@ export class EventManagerComponent implements OnInit {
       updated: {
         title: '업데이트 날짜',
         width: "10%",
-        filter: false
+        filter: false,
+        type: 'custom',
+        renderComponent: ButtonViewComponent,
       },
       isDeprecated: {
-        title: '승인/삭제/복구',
+        title: '삭제/복구',
         width: "10%",
         filter: false
       },

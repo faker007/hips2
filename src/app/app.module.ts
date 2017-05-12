@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 import {MgmtComponent} from './mgmt/mgmt.component';
-import {EventManagerComponent} from './mgmt/event-manager/event-manager.component';
+import {EventManagerComponent, ButtonViewComponent} from './mgmt/event-manager/event-manager.component';
 import {TagManagerComponent} from './mgmt/tag-manager/tag-manager.component';
 import {HipsComponent} from './hips/hips.component';
 import {MainComponent} from './hips/main/main.component';
@@ -41,7 +41,9 @@ export const firebaseConfig = {
     TrendTagComponent,
     EventListComponent,
     SearchInputComponent,
+    ButtonViewComponent
   ],
+  entryComponents: [ButtonViewComponent],
   imports: [
     BrowserModule,
     FormsModule,
