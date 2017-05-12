@@ -8,7 +8,8 @@ import {isUndefined} from "util";
 @Component({
   selector: 'button-view',
   template: `
-    <button style="color: white" class="btn btn-primary" (click)="onClick()">{{ renderValue }}</button>
+    <button *ngIf="isUndefined" (click)="onClick()">{{ renderValue }}</button>
+    <p *ngIf="!isUndefined">{{renderValue}}</p>
   `,
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
@@ -31,7 +32,36 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   onClick() {
-    this.save.emit(this.rowData);
+    console.log("승인하기 : ",this.rowData);
+    // this.save.emit(this.rowData);
+  }
+}
+
+@Component({
+  selector: 'btn-delete',
+  template: `
+    <button (click)="onClick()">{{ renderValue }}</button>
+  `,
+})
+export class BtnDeleteComponent implements ViewCell, OnInit {
+  renderValue: string;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
+
+  ngOnInit() {
+
+    if(this.value){
+      this.renderValue = "복구하기";
+    }else{
+      this.renderValue = "삭제하기";
+    }
+  }
+
+  onClick() {
+    console.log("복구/삭제하기 : ",this.rowData);
   }
 }
 
@@ -80,7 +110,9 @@ export class EventManagerComponent implements OnInit {
       url:{
         title: 'url',
         filter: false,
-        width: "10%"
+        width: "10%",
+        type: 'html',
+        valuePrepareFunction: (value) => { return '<a href="{{value}}" >{{value}} '}
       },
       created: {
         title: '생성 날짜',
@@ -97,7 +129,9 @@ export class EventManagerComponent implements OnInit {
       isDeprecated: {
         title: '삭제/복구',
         width: "10%",
-        filter: false
+        filter: false,
+        type: 'custom',
+        renderComponent: BtnDeleteComponent,
       },
     }
   };
