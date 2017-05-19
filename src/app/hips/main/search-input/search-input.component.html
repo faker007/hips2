@@ -5,15 +5,14 @@
       <h1>스타트업 행사들을</h1>
       <h1>찾아보세요.</h1>
 
-      <form action="/">
+      <!---<form action="/">
         <div class="form-group">
           <input class="form-control" type="text" placeholder="띄어쓰기 기준으로 태그화되어 검색됩니다.">
           <button class="btn btn-lg btn-default" type="submit">검색</button>
         </div>
-      </form>
-
-      <hr>
-
+      </form> -->
+      
+      <tag-input [(ngModel)]="search_queries" [separatorKeyCodes]="[32]"></tag-input> 
     </div>
   </section>
 </div>
