@@ -7,13 +7,9 @@
     </div>
 
     <div class="col-xs-12 tag-container">
-      <!--href 검색페이지 이동-->
-      <a href="#" class="btn-lg btn-danger tag-item">TAG</a>
-      <a href="#" class="btn-lg btn-danger tag-item">EXAMPLE</a>
-      <a href="#" class="btn-lg btn-warning tag-item">HIPS</a>
-      <a href="#" class="btn-lg btn-primary tag-item">개발자로성공하기</a>
-      <a href="#" class="btn-lg btn-success tag-item">건물주가꿈입니다</a>
-
+      <span *ngFor="let trend_tag of trend_tags">
+      <a href="#" class="btn-lg btn-danger tag-item" (click)="add(trend_tag)">{{trend_tag}}</a>
+      </span>
       <hr>
     </div>
 

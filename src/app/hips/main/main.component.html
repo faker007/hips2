@@ -1,8 +1,8 @@
 <section class="hs-main">
   <div class="content-wrapper">
     <div class="container">
-      <hips-search-input></hips-search-input>
-      <hips-trend-tag></hips-trend-tag>
+      <hips-search-input #search_input></hips-search-input>
+      <hips-trend-tag [ref]="search_input"></hips-trend-tag>
       <hips-event-list></hips-event-list>
     </div>
   </div>

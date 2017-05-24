@@ -13,6 +13,8 @@ export class EventListComponent implements OnInit {
 	month:string = ''; // 월
 	day:string = ''; // 일
 
+  array:Array<any> = [];
+
   constructor(public elS: EventListService) {
   	this.elS.getEvents().subscribe((snapshots) => {
   		snapshots.forEach((snapshot) => {
@@ -94,14 +96,8 @@ export class EventListComponent implements OnInit {
   	}
   }
 
-  // removeArrayFromToday() {
-  // 	this.eventLists.forEach((data, idx) => {
-  // 		var month1 = parseInt(data['begin'].split(" ")[0].split("-")[1][1]);
-  // 		var month2 = parseInt(this.month);
-  // 		if(month1 < month2) {
-  // 			this.eventLists.splice(idx, 1);
-  // 			console.log(idx);
-  // 		}
-  // 	});
-  // }
+  addMyArray() {
+    this.array.push('something');
+    console.log(this.array);
+  }
 }

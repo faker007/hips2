@@ -13,4 +13,8 @@ export class SearchInputComponent implements OnInit {
 
   }
 
+  addSearchQueries(word) {
+  	this.search_queries.push(word);
+  }
+
 }
