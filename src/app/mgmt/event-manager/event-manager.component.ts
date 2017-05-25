@@ -8,7 +8,7 @@ import {isUndefined} from "util";
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf="isUndefined" (click)="onClick()">{{ renderValue }}</button>
+    <button *ngIf="isUndefined" (click)="onClick($event)">{{ renderValue }}</button>
     <p *ngIf="!isUndefined">{{renderValue}}</p>
   `,
 })
@@ -31,8 +31,9 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     }
   }
 
-  onClick() {
-    console.log("승인하기 : ",this.rowData);
+  onClick(event) {
+    console.log("승인하기",this.rowData);
+    console.log(event);
     // this.save.emit(this.rowData);
   }
 }
@@ -40,7 +41,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 @Component({
   selector: 'btn-delete',
   template: `
-    <button (click)="onClick()">{{ renderValue }}</button>
+    <button (click)="onClick($event)">{{ renderValue }}</button>
   `,
 })
 export class BtnDeleteComponent implements ViewCell, OnInit {
@@ -60,8 +61,8 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
     }
   }
 
-  onClick() {
-    console.log("복구/삭제하기 : ",this.rowData);
+  onClick(event) {
+    console.log("복구/삭제하기 : ",event.value);
   }
 }
 
@@ -85,7 +86,8 @@ export class EventManagerComponent implements OnInit {
       id: {
         title: 'ID',
         filter: false,
-        width: "4%"
+        width: "4%",
+        editable: false
       },
       begin: {
         title: '행사일',
@@ -112,24 +114,32 @@ export class EventManagerComponent implements OnInit {
         filter: false,
         width: "10%",
         type: 'html',
-        valuePrepareFunction: (value) => { return '<a href="{{value}}" >{{value}} '}
+        valuePrepareFunction: (value) => { return '<a href="'+ value +'" >'+value+'</a>'}
       },
       created: {
         title: '생성 날짜',
         width: "10%",
-        filter: false
+        filter: false,
+        editable:false,
       },
       updated: {
         title: '업데이트 날짜',
         width: "10%",
         filter: false,
-        type: 'custom',
-        renderComponent: ButtonViewComponent,
+        editable:false,
+        type: 'html',
+        valuePrepareFunction: (value) => {
+          value = "승인하기";
+
+          return '<a class="btn-sm btn-primary" style="color: white" onclick="onConfirm(value)">'+value+'</a>'}
+        // type: 'custom',
+        // renderComponent: ButtonViewComponent,
       },
       isDeprecated: {
         title: '삭제/복구',
         width: "10%",
         filter: false,
+        editable:false,
         type: 'custom',
         renderComponent: BtnDeleteComponent,
       },
@@ -169,6 +179,10 @@ export class EventManagerComponent implements OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+
+  onConfirm(value){
+    alert("승인하기");
   }
 
   onEdit(event){
