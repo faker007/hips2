@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 
 @Component({
   selector: 'hips-search-input',
   templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.css']
+  styleUrls: ['./search-input.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchInputComponent implements OnInit {
   @Input() ref;
