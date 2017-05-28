@@ -7,6 +7,7 @@ import { EventListService } from '../../../services/event-list.service';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
+
 	eventLists:Array<any> = [];
 
 	dayName:string = ''; // 요일
