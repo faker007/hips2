@@ -34,8 +34,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
   onClick(event) {
     console.log("승인하기", this.rowData);
-    console.log(this);
-    // this.save.emit(this.rowData);
+    this.save.emit(this.rowData);
   }
 }
 
@@ -64,6 +63,8 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
 
   onClick(event) {
     console.log("복구/삭제하기 : ", event.value);
+
+    this.save.emit(this.rowData);
   }
 }
 
@@ -76,9 +77,9 @@ export class EventManagerComponent implements OnInit {
 
   source: LocalDataSource;
   settings = {
-    pager : {
-      display : true,
-      perPage:25
+    pager: {
+      display: true,
+      perPage: 25
     },
     edit: {
       confirmSave: true,
@@ -135,10 +136,15 @@ export class EventManagerComponent implements OnInit {
         editable: false,
         type: 'custom',
         renderComponent: ButtonViewComponent,
+        onComponentInitFunction(instance) {
+          instance.save.subscribe(row => {
+            alert(`${row.name} saved!`)
+          });
+        }
         // type: 'html',
         // valuePrepareFunction: (cell, row) => {
-          // return '<a href="#" id="btn-confirm-255">'+row.id+'</a>';
-          // return '<a (click)="alert()">{{value}}</a>';
+        // return '<a href="#" id="btn-confirm-255">'+row.id+'</a>';
+        // return '<a (click)="alert()">{{value}}</a>';
         // }
       },
       isDeprecated: {
@@ -148,6 +154,11 @@ export class EventManagerComponent implements OnInit {
         editable: false,
         type: 'custom',
         renderComponent: BtnDeleteComponent,
+        onComponentInitFunction(instance) {
+          instance.save.subscribe(row => {
+            alert(`${row.name} saved!`)
+          });
+        }
       },
     }
   };
@@ -228,19 +239,20 @@ export class EventManagerComponent implements OnInit {
             if (tags.length > 0) {
               //태그 길이 검증
               data.tags = tags;
-            }else{
+            } else {
               alert("태그를 입력해주세요.");
             }
             console.log("data.tags : ", data.tags);
             console.log("tags : ", tags);
           }
 
-          this.af.database.object('event/'+event.newData.id).set(data)
-            .then(_ => console.log("Updated"))
-            .catch(err => console.log(err, "Failed"));
-
+          if (typeof data != 'undefined') {
+            this.af.database.object('event/' + event.newData.id).set(data)
+              .then(_ => console.log("Updated"))
+              .catch(err => console.log(err, "Failed"));
+            event.confirm.resolve(event.newData);
+          }
         });
-      event.confirm.resolve(event.newData);
 
     } else {
       event.confirm.reject();

@@ -14,7 +14,7 @@ import {
   ButtonViewComponent,
   BtnDeleteComponent
 } from './mgmt/event-manager/event-manager.component';
-import {TagManagerComponent} from './mgmt/tag-manager/tag-manager.component';
+import {TagManagerComponent, BtnDeleteComponent2} from './mgmt/tag-manager/tag-manager.component';
 import {HipsComponent} from './hips/hips.component';
 import {MainComponent} from './hips/main/main.component';
 import {SearchComponent} from './hips/search/search.component';
@@ -47,9 +47,10 @@ export const firebaseConfig = {
     EventListComponent,
     SearchInputComponent,
     ButtonViewComponent,
-    BtnDeleteComponent
+    BtnDeleteComponent,
+    BtnDeleteComponent2
   ],
-  entryComponents: [ButtonViewComponent, BtnDeleteComponent],
+  entryComponents: [ButtonViewComponent, BtnDeleteComponent, BtnDeleteComponent2],
   imports: [
     BrowserModule,
     FormsModule,
