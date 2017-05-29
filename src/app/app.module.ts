@@ -10,7 +10,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {MgmtComponent} from './mgmt/mgmt.component';
 import {
-  EventManagerComponent, ButtonViewComponent,
+  EventManagerComponent, 
+  ButtonViewComponent,
   BtnDeleteComponent
 } from './mgmt/event-manager/event-manager.component';
 import {TagManagerComponent} from './mgmt/tag-manager/tag-manager.component';

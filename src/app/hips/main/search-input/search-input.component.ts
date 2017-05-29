@@ -28,6 +28,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   returnSearchedArray() {
+    this.eventListIndex = 0;
     if(this.undo_array[0] === undefined) {
       this.undo_array = this.ref.eventLists;
     }
@@ -35,17 +36,40 @@ export class SearchInputComponent implements OnInit {
     this.atarashi_array = [];
 
     this.ref.eventLists.filter((eventList) => {
+      var priority = 0;      
       this.eventListIndex = this.eventListIndex + 1;
 
       this.search_queries.forEach((query:any, index) => {
         if(query.value) {
           if(eventList.title.indexOf(query.value) !== -1) {
-            console.log(eventList);
+            priority++;
           }
+          eventList.tags.forEach((tag, index) => {
+            if(tag.indexOf(query.value) !== -1) {
+              priority++;
+            }
+          });
+        }
+        if(priority >= 1) {
+          let obj = {
+            address: eventList.address,
+            beign: eventList.begin,
+            created: eventList.created,
+            end: eventList.end,
+            id: eventList.id,
+            isDeprecated: eventList.isDeprecated,
+            tags: eventList.tags,
+            title: eventList.title,
+            url: eventList.url,
+            priority: priority  
+          }
+          this.atarashi_array.push(obj);
         }
 
-
+        this.ref.eventLists = this.atarashi_array;
       });
+
+
 
       /*eventList.tags.forEach((tag, index) => {
         this.search_queries.forEach((query:any, index2) => {
