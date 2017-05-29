@@ -1,16 +1,17 @@
 <div class="row">
   <section class="search">
-    <div class="col-xs-12">
+    <div class="col-xs-12 title">
       <h1>힙스에서 여러분에게 필요한</h1>
       <h1>스타트업 행사들을</h1>
       <h1>찾아보세요.</h1>
-
-      <!---<form action="/">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="띄어쓰기 기준으로 태그화되어 검색됩니다.">
-          <button class="btn btn-lg btn-default" type="submit">검색</button>
-        </div>
-      </form> -->
+    </div>
+    <!---<form action="/">
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="띄어쓰기 기준으로 태그화되어 검색됩니다.">
+        <button class="btn btn-lg btn-default" type="submit">검색</button>
+      </div>
+    </form> -->
+    <div class="col-xs-12">
       <tag-input [(ngModel)]="search_queries" [separatorKeyCodes]="[32]"></tag-input>
       <button (click)="returnSearchedArray()">click</button>
       <button (click)="beOriginalArray()">click2</button>

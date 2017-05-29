@@ -10,7 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {MgmtComponent} from './mgmt/mgmt.component';
 import {
-  EventManagerComponent, 
+  EventManagerComponent,
   ButtonViewComponent,
   BtnDeleteComponent
 } from './mgmt/event-manager/event-manager.component';
@@ -61,7 +61,22 @@ export const firebaseConfig = {
     BrowserAnimationsModule,
     Ng2SmartTableModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    RouterModule.forRoot([
+      {
+        path: 'event-manager',
+        component: EventManagerComponent
+      },
+      {
+        path: 'tag-manager',
+        component: TagManagerComponent
+      }
+      ,
+      {
+        path: 'hips',
+        component: HipsComponent
+      }
+    ]),
   ],
   providers: [EventListService,TagListService],
   bootstrap: [AppComponent]
