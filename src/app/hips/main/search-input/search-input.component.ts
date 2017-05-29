@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import {forEach} from "@angular/router/src/utils/collection";
+import { forEach } from "@angular/router/src/utils/collection";
+
+import { SearchListService } from '../../../services/search-list.service';;
 
 @Component({
   selector: 'hips-search-input',
@@ -16,7 +18,7 @@ export class SearchInputComponent implements OnInit {
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
 
-  constructor() {
+  constructor(public slS: SearchListService) {
 
   }
 
@@ -57,45 +59,26 @@ export class SearchInputComponent implements OnInit {
             }
           });
         }
-        if(priority >= 1) {
-          let obj = {
-            address: eventList.address,
-            beign: eventList.begin,
-            created: eventList.created,
-            end: eventList.end,
-            id: eventList.id,
-            isDeprecated: eventList.isDeprecated,
-            tags: eventList.tags,
-            title: eventList.title,
-            url: eventList.url,
-            priority: priority
-          };
-          this.atarashi_array.push(obj);
-        }
-
-        this.ref.eventLists = this.atarashi_array;
       });
 
+      if(priority >= 1) {
+        let obj = {
+          address: eventList.address,
+          begin: eventList.begin,
+          created: eventList.created,
+          end: eventList.end,
+          id: eventList.id,
+          isDeprecated: eventList.isDeprecated,
+          tags: eventList.tags,
+          title: eventList.title,
+          url: eventList.url,
+          priority: priority
+        };
+        this.atarashi_array.push(obj);
+      }
 
-
-      /*eventList.tags.forEach((tag, index) => {
-        this.search_queries.forEach((query:any, index2) => {
-          if(query.value) {
-            if(tag.indexOf(query.value) !== -1) {
-              console.log(query);
-              console.log(tag);
-              console.log(eventList.title);
-              console.log(this.eventListIndex);
-            }
-          }
-        });
-      });*/
-
-      /* if(eventList.tags[0].indexOf("남") !== -1) {
-        this.atarashi_array.push(eventList);
-
-        this.ref.eventLists = this.atarashi_array;
-      } */
+      this.ref.eventLists = this.atarashi_array;
+      console.log(this.atarashi_array);   
     });
   }
 
