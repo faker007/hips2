@@ -21,6 +21,7 @@ export class TrendTagComponent implements OnInit {
   }
 
   add(word) {
+    console.log(word);
   	this.ref.addSearchQueries(word);
   }
 

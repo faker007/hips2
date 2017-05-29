@@ -8,7 +8,7 @@
 
     <div class="col-xs-12 tag-container">
       <span *ngFor="let trend_tag of trend_tags">
-      <a href="#" class="btn-lg btn-danger tag-item" (click)="add(trend_tag.label)">{{trend_tag.label}}({{trend_tag.count}})</a>
+      <a class="btn-lg btn-danger tag-item" (click)="add(trend_tag.label)">{{trend_tag.label}}({{trend_tag.count}})</a>
       </span>
       <hr>
     </div>

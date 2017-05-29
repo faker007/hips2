@@ -43,7 +43,7 @@ export class SearchInputComponent implements OnInit {
     this.atarashi_array = [];
 
     this.ref.eventLists.filter((eventList) => {
-      var priority = 0;      
+      var priority = 0;
       this.eventListIndex = this.eventListIndex + 1;
 
       this.search_queries.forEach((query:any, index) => {
@@ -68,8 +68,8 @@ export class SearchInputComponent implements OnInit {
             tags: eventList.tags,
             title: eventList.title,
             url: eventList.url,
-            priority: priority  
-          }
+            priority: priority
+          };
           this.atarashi_array.push(obj);
         }
 

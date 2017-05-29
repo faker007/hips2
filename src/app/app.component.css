@@ -1,0 +1,13 @@
+.navbar{
+  margin-bottom: 0;
+  min-height: 50px;
+}
+.navbar .navbar-brand{
+  padding: 0 10px;
+}
+.navbar-brand .hips-logo {
+  width: 80px;
+}
+.content-wrapper{
+  margin-top: 75px;
+}

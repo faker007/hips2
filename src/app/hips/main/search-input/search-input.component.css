@@ -1,3 +1,4 @@
+
 /*.ng2-tag-input{*/
   /*border: solid 1px #777777;*/
   /*border-radius: 5px;*/
@@ -25,3 +26,9 @@
   /*width: 20%;*/
   /*float: right;*/
 /*}*/
+.search .title{
+  padding-bottom: 25px;
+}
+.search .title h1{
+  margin: 2.5px 0;
+}
