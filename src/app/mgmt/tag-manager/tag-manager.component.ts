@@ -1,6 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {ViewCell, LocalDataSource} from "ng2-smart-table";
-import {ButtonViewComponent} from "../event-manager/event-manager.component";
 import {FirebaseListObservable, AngularFire, AngularFireDatabase} from "angularfire2";
 import {TagListService} from "../../services/tag-list.service";
 
@@ -10,7 +9,7 @@ import {TagListService} from "../../services/tag-list.service";
     <button (click)="onClick($event)">{{ renderValue }}</button>
   `,
 })
-export class BtnDeleteComponent implements ViewCell, OnInit {
+export class BtnDeleteComponent2 implements ViewCell, OnInit {
   renderValue: string;
 
   @Input() value: string | number;
@@ -28,7 +27,8 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
   }
 
   onClick(event) {
-    console.log("복구/삭제하기 : ", event.value);
+    this.save.emit(this.rowData);
+    // console.log("복구/삭제하기 : ", event.value);
   }
 }
 
@@ -61,12 +61,14 @@ export class TagManagerComponent implements OnInit {
       label: {
         title: '태그명',
         filter: false,
-        width: "20%"
+        width: "20%",
+        editable: false
       },
       count: {
         title: '태그 횟수',
         filter: false,
-        width: "15%"
+        width: "15%",
+        editable: false
       },
       created: {
         title: '생성 날짜',
@@ -86,7 +88,12 @@ export class TagManagerComponent implements OnInit {
         filter: false,
         editable: false,
         type: 'custom',
-        renderComponent: BtnDeleteComponent,
+        renderComponent: BtnDeleteComponent2,
+        onComponentInitFunction(instance) {
+          instance.save.subscribe(row => {
+            alert(`${row.name} saved!`)
+          });
+        }
       },
     }
   };
