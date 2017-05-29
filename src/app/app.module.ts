@@ -22,8 +22,10 @@ import {TrendTagComponent} from './hips/main/trend-tag/trend-tag.component';
 import {EventListComponent} from './hips/main/event-list/event-list.component';
 import {SearchInputComponent} from './hips/main/search-input/search-input.component';
 import {Ng2SmartTableModule} from "ng2-smart-table";
+
 import {EventListService} from "./services/event-list.service";
 import {TagListService} from "./services/tag-list.service";
+import {SearchListService } from './services/search-list.service';
 import {AngularFireModule} from "angularfire2";
 
 import {AngularFireDatabaseModule} from "angularfire2/database";
@@ -80,7 +82,7 @@ export const firebaseConfig = {
       }
     ]),
   ],
-  providers: [EventListService,TagListService],
+  providers: [EventListService,TagListService, SearchListService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
