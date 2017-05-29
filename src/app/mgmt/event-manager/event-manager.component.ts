@@ -75,8 +75,11 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
 export class EventManagerComponent implements OnInit {
 
   source: LocalDataSource;
-
   settings = {
+    pager : {
+      display : true,
+      perPage:25
+    },
     edit: {
       confirmSave: true,
     },

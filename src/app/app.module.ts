@@ -22,6 +22,7 @@ import {EventListComponent} from './hips/main/event-list/event-list.component';
 import {SearchInputComponent} from './hips/main/search-input/search-input.component';
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {EventListService} from "./services/event-list.service";
+import {TagListService} from "./services/tag-list.service";
 import {AngularFireModule} from "angularfire2";
 
 export const firebaseConfig = {
@@ -57,7 +58,7 @@ export const firebaseConfig = {
     Ng2SmartTableModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
-  providers: [EventListService,],
+  providers: [EventListService,TagListService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
