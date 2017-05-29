@@ -3,6 +3,8 @@ import { forEach } from "@angular/router/src/utils/collection";
 
 import { SearchListService } from '../../../services/search-list.service';
 
+import { IMyDrpOptions } from 'mydaterangepicker';
+
 @Component({
   selector: 'hips-search-input',
   templateUrl: './search-input.component.html',
@@ -17,6 +19,23 @@ export class SearchInputComponent implements OnInit {
 	search_queries = ['띄어쓰기', '기준으로', '태그화', '됩니다.'];
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
+
+  private myDateRangePickerModule: IMyDrpOptions = {
+    dateFormat: 'yyyy.mm.dd'
+  };
+
+  private model: any = {
+    beginDate: {
+      year: 2017,
+      month: 6,
+      day: 17
+    },
+    endDate: {
+      year: 2017,
+      month: 6,
+      day: 18      
+    }
+  }
 
   constructor(public slS: SearchListService) {
 
@@ -88,6 +107,26 @@ export class SearchInputComponent implements OnInit {
     this.search_queries.forEach((query, index) => {
       this.slS.addUserSearch(query);
     });    
+  }
+
+  searchByDate() {
+    this.ref.eventLists.forEach((eventList, index) => {
+      var eventListTimeSpliter = eventList.begin.split(" ")[0].split("-");
+      var eventListYear = eventListTimeSpliter[0];
+      var eventListMonth = eventListTimeSpliter[1];
+      var eventListDay = eventListTimeSpliter[2];
+      var eventListDate = new Date(eventListYear, eventListMonth, eventListDay);
+
+      var myDate = new Date(this.model.beginDate.year, this.model.beginDate.month, this.model.beginDate.day);
+      var myDate2 = new Date(this.model.endDate.year, this.model.endDate.month, this.model.endDate.day);
+      
+      if(eventListDate >= myDate && eventListDate <= myDate2) {
+        this.atarashi_array.push(eventList);
+        console.log(index);
+      }
+
+      this.ref.eventLists = this.atarashi_array;
+    });
   }
 
   beOriginalArray() {
