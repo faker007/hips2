@@ -7,11 +7,14 @@ import { EventListService } from '../../../services/event-list.service';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
+
 	eventLists:Array<any> = [];
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
 	day:string = ''; // 일
+
+  array:Array<any> = [];
 
   constructor(public elS: EventListService) {
   	this.elS.getEvents().subscribe((snapshots) => {
@@ -43,29 +46,30 @@ export class EventListComponent implements OnInit {
   sortArray() {
   	if(this.eventLists !== []) {
   		this.eventLists.sort(function (a, b) {
+  			if(a !== undefined && b !== undefined) {
+  				var monthSort1 = a.begin.split(" ")[0].split("-")[1];
+	  			var monthSort2 = b.begin.split(" ")[0].split("-")[1];
 
-  			var monthSort1 = a.begin.split(" ")[0].split("-")[1];
-  			var monthSort2 = b.begin.split(" ")[0].split("-")[1];
+	  			var daySort1 = a.begin.split(" ")[0].split("-")[2];
+	  			var daySort2 = b.begin.split(" ")[0].split("-")[2];
 
-  			var daySort1 = a.begin.split(" ")[0].split("-")[2];
-  			var daySort2 = b.begin.split(" ")[0].split("-")[2];
+	  			var hourSort1 = a.begin.split(" ")[1].split(":")[0];
+	  			var hourSort2 = b.begin.split(" ")[1].split(":")[0];
 
-  			var hourSort1 = a.begin.split(" ")[1].split(":")[0];
-  			var hourSort2 = b.begin.split(" ")[1].split(":")[0];
+	  			var minuteSort1 = a.begin.split(" ")[1].split(":")[1];
+	  			var minuteSort2 = b.begin.split(" ")[1].split(":")[1];
 
-  			var minuteSort1 = a.begin.split(" ")[1].split(":")[1];
-  			var minuteSort2 = b.begin.split(" ")[1].split(":")[1];
+	  			if(monthSort1 < monthSort2 ) return -1;
+	  			if(monthSort1 > monthSort2 ) return 1;
+	  			if(daySort1 < daySort2 ) return -1;
+	  			if(daySort1 > daySort2 ) return 1;
+	  			if(hourSort1 < hourSort2 ) return -1;
+	  			if(hourSort1 > hourSort2 ) return 1;
+	  			if(minuteSort1 < minuteSort2 ) return -1;
+	  			if(minuteSort1 > minuteSort2 ) return 1;
 
-  			if(monthSort1 < monthSort2 ) return -1;
-  			if(monthSort1 > monthSort2 ) return 1;
-  			if(daySort1 < daySort2 ) return -1;
-  			if(daySort1 > daySort2 ) return 1;
-  			if(hourSort1 < hourSort2 ) return -1;
-  			if(hourSort1 > hourSort2 ) return 1;
-  			if(minuteSort1 < minuteSort2 ) return -1;
-  			if(minuteSort1 > minuteSort2 ) return 1;
-
-  			return 0;
+	  			return 0;
+  			}
   		});
   	}
   }
@@ -83,25 +87,29 @@ export class EventListComponent implements OnInit {
   			index++;
   		}
 
-  		if(day1 < day2) {
+  		if(day1 < day2 && month1 <= month2) {
   			index++;
   		}
 
+  		console.log('month1: ' + month1);
+  		console.log('month2: ' + month2);
+
+  		console.log('day1: ' + day1);
+  		console.log('day2: ' + day2);
+
+  		console.log('index: ' + index);
+
+
   	}
+
   	while(index) {
   		this.eventLists.shift();
   		index--;
   	}
   }
 
-  // removeArrayFromToday() {
-  // 	this.eventLists.forEach((data, idx) => {
-  // 		var month1 = parseInt(data['begin'].split(" ")[0].split("-")[1][1]);
-  // 		var month2 = parseInt(this.month);
-  // 		if(month1 < month2) {
-  // 			this.eventLists.splice(idx, 1);
-  // 			console.log(idx);
-  // 		}
-  // 	});
-  // }
+  addMyArray() {
+    this.array.push('something');
+    console.log(this.array);
+  }
 }

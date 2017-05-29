@@ -11,8 +11,10 @@
           <button class="btn btn-lg btn-default" type="submit">검색</button>
         </div>
       </form> -->
-
       <tag-input [(ngModel)]="search_queries" [separatorKeyCodes]="[32]"></tag-input>
+      <button (click)="returnSearchedArray()">click</button>
+      <button (click)="beOriginalArray()">click2</button>
+      <button (click)="showArray()">click3</button>
     </div>
   </section>
 </div>
