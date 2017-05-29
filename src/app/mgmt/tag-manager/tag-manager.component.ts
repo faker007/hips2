@@ -41,15 +41,17 @@ export class TagManagerComponent implements OnInit {
 
   source: LocalDataSource;
   settings = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+    },
     pager : {
       display : true,
       perPage:25
     },
-    edit: {
-      confirmSave: true,
-    },
-    add: {
-      confirmCreate: true,
+    delete : {
+      confirmDelete: true,
     },
     columns: {
       id: {
@@ -111,89 +113,12 @@ export class TagManagerComponent implements OnInit {
   callEvents() {
     this.items.subscribe(snapshots => {
       snapshots.forEach(snapshot => {
-        this.source.append(snapshot.val());
+        this.source.prepend(snapshot.val());
       });
     });
   }
 
-  onSaveConfirm(event) {
-
-    if (window.confirm('Are you sure you want to save?')) {
-      // event.newData['name'] += ' + added in code';
-      //get data from db
-      this.af.database.object('/event/' + event.newData.id)
-        .subscribe(data => {
-          console.log(data);
-          console.log(event.newData);
-
-          //update check
-          //title
-          if (data.title != event.newData.title) {
-            if (event.newData.title.length > 0) {
-              data.title = event.newData.title;
-            } else {
-              alert("행사 제목을 입력해주세요.");
-            }
-          }
-
-          //address
-          if (data.address != event.newData.address) {
-            if (event.newData.address.length > 0) {
-              data.begin = event.newData.address;
-
-            } else {
-              alert("행사 위치를 입력해주세요.");
-            }
-          }
-
-          //begin
-          if (data.begin != event.newData.begin) {
-            if (event.newData.begin.length > 0) {
-              data.begin = event.newData.begin;
-            } else {
-              alert("행사 시작 시간을 입력해주세요.");
-            }
-          }
-
-          //url
-          if (data.url != event.newData.url) {
-            if (event.newData.url.length > 0) {
-              data.begin = event.newData.url;
-            } else {
-              alert("행사 시작 시간을 입력해주세요.");
-            }
-          }
-
-          //tags
-          if (typeof(event.newData.tags) == "string") {
-            let tags = event.newData.tags.split(",");
-
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
-
-            if (tags.length > 0) {
-              //태그 길이 검증
-              data.tags = tags;
-            }else{
-              alert("태그를 입력해주세요.");
-            }
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
-          }
-
-          this.af.database.object('event/'+event.newData.id).set(data)
-            .then(_ => console.log("Updated"))
-            .catch(err => console.log(err, "Failed"));
-
-        });
-      event.confirm.resolve(event.newData);
-
-    } else {
-      event.confirm.reject();
-    }
-  }
-
-  onCreateConfirm(event) {
+  ondeleteConfirm(event) {
     if (window.confirm('Are you sure you want to create?')) {
       event.newData['name'] += ' + added in code';
       event.confirm.resolve(event.newData);
@@ -206,9 +131,6 @@ export class TagManagerComponent implements OnInit {
     alert("승인하기");
   }
 
-  onEdit(event) {
-    console.log("Edit : ", event);
-  }
 
   ngOnInit() {
   }

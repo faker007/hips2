@@ -6,6 +6,7 @@ import {isNullOrUndefined} from "util";
 import {isUndefined} from "util";
 import {split} from "ts-node/dist";
 
+
 @Component({
   selector: 'button-view',
   template: `
@@ -182,20 +183,23 @@ export class EventManagerComponent implements OnInit {
   }
 
   onSaveConfirm(event) {
+    var result = window.confirm('Are you sure you want to save?');
 
-    if (window.confirm('Are you sure you want to save?')) {
-      // event.newData['name'] += ' + added in code';
+    if(result){
+      event.confirm.resolve(event.newData);
+      console.log(event.newData);
+
       //get data from db
       this.af.database.object('/event/' + event.newData.id)
         .subscribe(data => {
-          console.log(data);
-          console.log(event.newData);
+          let isUpdated: boolean = false;
 
           //update check
           //title
           if (data.title != event.newData.title) {
             if (event.newData.title.length > 0) {
               data.title = event.newData.title;
+              isUpdated = true;
             } else {
               alert("행사 제목을 입력해주세요.");
             }
@@ -205,7 +209,7 @@ export class EventManagerComponent implements OnInit {
           if (data.address != event.newData.address) {
             if (event.newData.address.length > 0) {
               data.begin = event.newData.address;
-
+              isUpdated = true;
             } else {
               alert("행사 위치를 입력해주세요.");
             }
@@ -215,6 +219,7 @@ export class EventManagerComponent implements OnInit {
           if (data.begin != event.newData.begin) {
             if (event.newData.begin.length > 0) {
               data.begin = event.newData.begin;
+              isUpdated = true;
             } else {
               alert("행사 시작 시간을 입력해주세요.");
             }
@@ -224,6 +229,7 @@ export class EventManagerComponent implements OnInit {
           if (data.url != event.newData.url) {
             if (event.newData.url.length > 0) {
               data.begin = event.newData.url;
+              isUpdated = true;
             } else {
               alert("행사 시작 시간을 입력해주세요.");
             }
@@ -239,6 +245,7 @@ export class EventManagerComponent implements OnInit {
             if (tags.length > 0) {
               //태그 길이 검증
               data.tags = tags;
+              isUpdated = true;
             } else {
               alert("태그를 입력해주세요.");
             }
@@ -246,15 +253,14 @@ export class EventManagerComponent implements OnInit {
             console.log("tags : ", tags);
           }
 
-          if (typeof data != 'undefined') {
+          if ((typeof data != 'undefined') && isUpdated) {
             this.af.database.object('event/' + event.newData.id).set(data)
               .then(_ => console.log("Updated"))
               .catch(err => console.log(err, "Failed"));
-            event.confirm.resolve(event.newData);
           }
         });
 
-    } else {
+    }else{
       event.confirm.reject();
     }
   }
@@ -273,7 +279,7 @@ export class EventManagerComponent implements OnInit {
   }
 
   onEdit(event) {
-    console.log("Edit : ", event);
+    console.log("on Edit");
   }
 
   ngOnInit() {
