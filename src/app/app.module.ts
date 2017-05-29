@@ -31,6 +31,9 @@ import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import { DatePipePipe } from './pipe/date-pipe.pipe';
 
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomReuseStrategy } from './reuse-strategy';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDsEP8hG1QUXn_zvZ87il2grtUsQQgoi5E",
   authDomain: "hips-f9841.firebaseapp.com",
@@ -82,7 +85,11 @@ export const firebaseConfig = {
       }
     ]),
   ],
-  providers: [EventListService,TagListService, SearchListService],
+  providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
+    EventListService, 
+    TagListService,
+    SearchListService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
