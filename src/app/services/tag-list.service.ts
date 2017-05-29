@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { AngularFire } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class TagListService {
@@ -12,8 +12,8 @@ export class TagListService {
   trendtags: any;
   my_events: Subject<Array<any>>;
 
-  constructor(public af: AngularFire) {
-    this.events = this.af.database.list('/tag', {
+  constructor(public db: AngularFireDatabase) {
+    this.events = this.db.list('/tag', {
       query: {
         orderByChild: 'count',
         // limitToLast: 15
@@ -22,7 +22,7 @@ export class TagListService {
     });
 
 
-    this.trendtags = this.af.database.list('/tag', {
+    this.trendtags = this.db.list('/tag', {
       query: {
         orderByChild: 'count',
         // limitToLast: 15

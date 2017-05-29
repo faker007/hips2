@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {ViewCell, LocalDataSource} from "ng2-smart-table";
-import {FirebaseListObservable, AngularFire, AngularFireDatabase} from "angularfire2";
+import {FirebaseListObservable, AngularFireDatabase} from "angularfire2/database";
 import {TagListService} from "../../services/tag-list.service";
 
 @Component({
@@ -103,10 +103,10 @@ export class TagManagerComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   tagObj: FirebaseListObservable<any[]>;
 
-  constructor(public af: AngularFire, public tgService: TagListService, db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public tgService: TagListService) {
     this.source = new LocalDataSource();
     this.items = this.tgService.getEvents();
-    this.tagObj = this.af.database.list('/tag');
+    this.tagObj = this.db.list('/tag');
     this.callEvents();
   }
 

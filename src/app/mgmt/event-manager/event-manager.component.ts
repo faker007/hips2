@@ -1,11 +1,10 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
-import {AngularFire, FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable} from "angularfire2";
+import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
 import {EventListService} from "../../services/event-list.service";
 import {isNullOrUndefined} from "util";
 import {isUndefined} from "util";
 import {split} from "ts-node/dist";
-
 
 @Component({
   selector: 'button-view',
@@ -167,10 +166,10 @@ export class EventManagerComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   eventObj: FirebaseListObservable<any[]>;
 
-  constructor(public af: AngularFire, public elService: EventListService, db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public elService: EventListService) {
     this.source = new LocalDataSource();
     this.items = this.elService.getEvents();
-    this.eventObj = this.af.database.list('/event');
+    this.eventObj = this.db.list('/event');
     this.callEvents();
   }
 
@@ -190,7 +189,7 @@ export class EventManagerComponent implements OnInit {
       console.log(event.newData);
 
       //get data from db
-      this.af.database.object('/event/' + event.newData.id)
+      this.db.object('/event/' + event.newData.id)
         .subscribe(data => {
           let isUpdated: boolean = false;
 
@@ -254,7 +253,7 @@ export class EventManagerComponent implements OnInit {
           }
 
           if ((typeof data != 'undefined') && isUpdated) {
-            this.af.database.object('event/' + event.newData.id).set(data)
+            this.db.object('event/' + event.newData.id).set(data)
               .then(_ => console.log("Updated"))
               .catch(err => console.log(err, "Failed"));
           }

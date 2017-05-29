@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { AngularFire } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class EventListService {
@@ -11,8 +11,8 @@ export class EventListService {
   events: any;
   my_events: Subject<Array<any>>;
 
-  constructor(public af: AngularFire) {
-    this.events = this.af.database.list('/event', { preserveSnapshot: true});
+  constructor(public db: AngularFireDatabase) {
+    this.events = this.db.list('/event', { preserveSnapshot: true});
     this.name = new Subject();
   	this.status = new Subject();
     this.my_events = new Subject();

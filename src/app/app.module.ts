@@ -26,6 +26,8 @@ import {EventListService} from "./services/event-list.service";
 import {TagListService} from "./services/tag-list.service";
 import {AngularFireModule} from "angularfire2";
 
+import {AngularFireDatabaseModule} from "angularfire2/database";
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDsEP8hG1QUXn_zvZ87il2grtUsQQgoi5E",
   authDomain: "hips-f9841.firebaseapp.com",
@@ -58,7 +60,8 @@ export const firebaseConfig = {
     TagInputModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [EventListService,TagListService],
   bootstrap: [AppComponent]
