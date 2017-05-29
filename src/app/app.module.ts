@@ -34,6 +34,8 @@ import { DatePipePipe } from './pipe/date-pipe.pipe';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomReuseStrategy } from './reuse-strategy';
 
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDsEP8hG1QUXn_zvZ87il2grtUsQQgoi5E",
   authDomain: "hips-f9841.firebaseapp.com",
@@ -84,6 +86,7 @@ export const firebaseConfig = {
         component: HipsComponent
       }
     ]),
+    MyDateRangePickerModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     EventListService, 
