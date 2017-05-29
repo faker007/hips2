@@ -110,6 +110,12 @@ export class SearchInputComponent implements OnInit {
   }
 
   searchByDate() {
+    if(this.undo_array[0] === undefined) {
+      this.undo_array = this.ref.eventLists;
+    }
+
+    this.atarashi_array = [];
+    
     this.ref.eventLists.forEach((eventList, index) => {
       var eventListTimeSpliter = eventList.begin.split(" ")[0].split("-");
       var eventListYear = eventListTimeSpliter[0];
