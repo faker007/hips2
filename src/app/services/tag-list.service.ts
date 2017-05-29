@@ -12,7 +12,13 @@ export class TagListService {
   my_events: Subject<Array<any>>;
 
   constructor(public af: AngularFire) {
-    this.events = this.af.database.list('/tag', { preserveSnapshot: true});
+    this.events = this.af.database.list('/tag', {
+      query: {
+        orderByChild: 'count',
+        // limitToLast: 15
+      },
+      preserveSnapshot: true
+    });
     this.name = new Subject();
   	this.status = new Subject();
     this.my_events = new Subject();
