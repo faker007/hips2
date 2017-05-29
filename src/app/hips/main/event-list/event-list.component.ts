@@ -90,16 +90,6 @@ export class EventListComponent implements OnInit {
   		if(day1 < day2 && month1 <= month2) {
   			index++;
   		}
-
-  		console.log('month1: ' + month1);
-  		console.log('month2: ' + month2);
-
-  		console.log('day1: ' + day1);
-  		console.log('day2: ' + day2);
-
-  		console.log('index: ' + index);
-
-
   	}
 
   	while(index) {
