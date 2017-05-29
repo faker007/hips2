@@ -27,6 +27,7 @@ import {TagListService} from "./services/tag-list.service";
 import {AngularFireModule} from "angularfire2";
 
 import {AngularFireDatabaseModule} from "angularfire2/database";
+import { DatePipePipe } from './pipe/date-pipe.pipe';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDsEP8hG1QUXn_zvZ87il2grtUsQQgoi5E",
@@ -50,7 +51,8 @@ export const firebaseConfig = {
     SearchInputComponent,
     ButtonViewComponent,
     BtnDeleteComponent,
-    BtnDeleteComponent2
+    BtnDeleteComponent2,
+    DatePipePipe
   ],
   entryComponents: [ButtonViewComponent, BtnDeleteComponent, BtnDeleteComponent2],
   imports: [
