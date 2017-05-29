@@ -77,7 +77,12 @@ export class SearchInputComponent implements OnInit {
         this.atarashi_array.push(obj);
       }
 
+      this.atarashi_array.sort((a, b) => {
+        return b.priority - a.priority; 
+      });      
+
       this.ref.eventLists = this.atarashi_array;
+
       console.log(this.atarashi_array);   
     });
   }
