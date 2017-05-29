@@ -5,6 +5,7 @@ import {EventListService} from "../../services/event-list.service";
 import {isNullOrUndefined} from "util";
 import {isUndefined} from "util";
 import {split} from "ts-node/dist";
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'button-view',
@@ -184,17 +185,15 @@ export class EventManagerComponent implements OnInit {
   onSaveConfirm(event) {
     var result = window.confirm('Are you sure you want to save?');
 
-    if(result){
+    if(result) {
       event.confirm.resolve(event.newData);
       console.log(event.newData);
 
-      //get data from db
       this.db.object('/event/' + event.newData.id)
+        .take(1)
         .subscribe(data => {
           let isUpdated: boolean = false;
 
-          //update check
-          //title
           if (data.title != event.newData.title) {
             if (event.newData.title.length > 0) {
               data.title = event.newData.title;
@@ -204,7 +203,6 @@ export class EventManagerComponent implements OnInit {
             }
           }
 
-          //address
           if (data.address != event.newData.address) {
             if (event.newData.address.length > 0) {
               data.begin = event.newData.address;
@@ -214,7 +212,6 @@ export class EventManagerComponent implements OnInit {
             }
           }
 
-          //begin
           if (data.begin != event.newData.begin) {
             if (event.newData.begin.length > 0) {
               data.begin = event.newData.begin;
@@ -224,7 +221,6 @@ export class EventManagerComponent implements OnInit {
             }
           }
 
-          //url
           if (data.url != event.newData.url) {
             if (event.newData.url.length > 0) {
               data.begin = event.newData.url;
@@ -234,7 +230,6 @@ export class EventManagerComponent implements OnInit {
             }
           }
 
-          //tags
           if (typeof(event.newData.tags) == "string") {
             let tags = event.newData.tags.split(",");
 
@@ -259,7 +254,7 @@ export class EventManagerComponent implements OnInit {
           }
         });
 
-    }else{
+    } else {
       event.confirm.reject();
     }
   }
@@ -281,7 +276,6 @@ export class EventManagerComponent implements OnInit {
     console.log("on Edit");
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
