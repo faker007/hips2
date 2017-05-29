@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
+import { FirebaseApp } from 'angularfire2';
+
 import { AngularFireDatabase } from 'angularfire2/database';
+
+import * as firebase from 'firebase';
 
 @Injectable()
 export class SearchListService {
@@ -10,14 +14,7 @@ export class SearchListService {
   Subject: Subject<boolean>;
   userSearchs: any;
 
-  constructor(public db: AngularFireDatabase) {
-    this.userSearchs = this.db.list('/search', {
-      query: {
-        orderByChild: 'count',
-        // limitToLast: 15
-      },
-      preserveSnapshot: true
-    });
+  constructor(public db: AngularFireDatabase, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
   }
 
   getUserSearchs(): any {
@@ -25,10 +22,23 @@ export class SearchListService {
   }
 
   addUserSearch(searchQuery): any { // searchQuery의 파라미터가 존재하지 않으면, 새롭게 생성하고, 아니면 count = count + 1 함.
-    this.userSearchs.child(searchQuery).once('value', function (snapshot) {
+    console.log(searchQuery);
+    this.firebaseApp.database().ref().child('search/' + searchQuery.value).once('value', (snapshot) => {
       var exists = (snapshot.val() !== null);
-      console.log(exists);
-    });  
+      if(exists === false) {
+        this.firebaseApp.database().ref().child('search/' + searchQuery.value).set({
+          label: searchQuery.value,
+          count: 1
+        });
+      } else {
+        this.firebaseApp.database().ref().child('search/' + searchQuery.value).once('value', (snapshot) => {
+          this.firebaseApp.database().ref().child('search/' + searchQuery.value).set({
+            label: searchQuery.value,
+            count: snapshot.val().count + 1
+          });
+        });
+      }
+    });
   }
 }
 

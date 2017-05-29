@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { forEach } from "@angular/router/src/utils/collection";
 
-import { SearchListService } from '../../../services/search-list.service';;
+import { SearchListService } from '../../../services/search-list.service';
 
 @Component({
   selector: 'hips-search-input',
@@ -81,10 +81,13 @@ export class SearchInputComponent implements OnInit {
         return b.priority - a.priority; 
       });      
 
-      this.ref.eventLists = this.atarashi_array;
-
       console.log(this.atarashi_array);   
     });
+    this.ref.eventLists = this.atarashi_array;
+
+    this.search_queries.forEach((query, index) => {
+      this.slS.addUserSearch(query);
+    });    
   }
 
   beOriginalArray() {
