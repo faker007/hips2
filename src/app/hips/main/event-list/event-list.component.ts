@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventListService } from '../../../services/event-list.service';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'hips-event-list',
   templateUrl: './event-list.component.html',
@@ -16,18 +18,25 @@ export class EventListComponent implements OnInit {
 
   array:Array<any> = [];
 
+  groupByEventList:Array<any> = []; // lodash의 groupBy를 하기 위한 변수.
+
+  sortedGroupByEventList:Array<any> = [];
+
+  tatanoArray:Array<any> = [];
+
   constructor(public elS: EventListService) {
+  }
+
+  ngOnInit() {
   	this.elS.getEvents().subscribe((snapshots) => {
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
   		});
   		this.sortArray();
   		this.removeArrayFromToday();
+  		this.groupBy(this.eventLists);  		
   		console.log(this.eventLists);
-  	});
-  }
-
-  ngOnInit() {
+  	});  	
   	this.getTodayDay();
   }
 
@@ -101,5 +110,35 @@ export class EventListComponent implements OnInit {
   addMyArray() {
     this.array.push('something');
     console.log(this.array);
+  }
+
+  groupBy(array) {
+  	let tempArray = [];
+  	this.groupByEventList = array;
+  	this.groupByEventList.forEach((eventList, index) => {
+  		let obj = {
+  			address: eventList.address,
+  			parsed_begin: eventList.begin.split(" ")[0], 
+  			begin: eventList.begin,
+  			created: eventList.created,
+  			end: eventList.end,
+  			id: eventList.id,
+  			isDeprecated: eventList.isDeprecated,
+  			tags: eventList.tags,
+  			title: eventList.title,
+  			url: eventList.url
+  		}
+
+  		tempArray.push(obj);
+  	});
+
+  	let tatanoArray:any = _.groupBy(tempArray, 'parsed_begin');
+
+  	this.sortedGroupByEventList = [];
+
+  	let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin')) 
+  	objKeys.forEach((key, index) => {
+  		this.sortedGroupByEventList.push(tatanoArray[key]);
+  	});
   }
 }
