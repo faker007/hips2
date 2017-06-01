@@ -105,15 +105,15 @@ export class EventManagerComponent implements OnInit {
         filter: false,
         width: "12%"
       },
-      address: {
-        title: '행사 위치',
-        filter: false,
-        width: "10%"
-      },
       tags: {
         title: '행사 태그',
         filter: false,
         width: "26%",
+      },
+      address: {
+        title: '행사 위치',
+        filter: false,
+        width: "10%"
       },
       url: {
         title: 'url',
