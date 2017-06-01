@@ -13,6 +13,12 @@
   line-height: 34px;
   vertical-align: middle;
 }
+
+.event-list .event-item .tag-item{
+  background-color: #fd4242;
+  padding: 5px;
+  border-radius: 12px;
+}
 .loader,
 .loader:before,
 .loader:after {

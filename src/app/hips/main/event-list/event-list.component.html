@@ -10,14 +10,13 @@
         <br>
       </div>
       <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
+        <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin | datePipe}}</div>
         <a target="_blank" href="{{eventList.url}}">
-          <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin | datePipe}}</div>
-
           <div class="col-sm-8 col-xs-7 title">{{eventList.title}}</div>
-          <div class="col-xs-2 address text-center">
-            <button class="btn btn-warning">{{eventList.tags[0]}}</button>
-          </div>
         </a>
+        <div class="col-xs-2 address text-center">
+          <button class="btn btn-warning">{{eventList.tags[0]}}</button>
+        </div>
         <div class="col-sm-offset-2 col-sm-8 col-xs-offset-3 col-xs-7">
             <span class="tags_iterator_div" *ngFor="let tag of eventList.tags; let i = index">
               <a *ngIf="i>0" href="#" class="btn-danger tag-item">{{tag}}</a>
