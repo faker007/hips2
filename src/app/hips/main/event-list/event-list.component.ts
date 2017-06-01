@@ -127,7 +127,7 @@ export class EventListComponent implements OnInit {
   			tags: eventList.tags,
   			title: eventList.title,
   			url: eventList.url
-  		}
+  		};
 
   		tempArray.push(obj);
   	});
@@ -136,7 +136,7 @@ export class EventListComponent implements OnInit {
 
   	this.sortedGroupByEventList = [];
 
-  	let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin')) 
+  	let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin'));
   	objKeys.forEach((key, index) => {
   		this.sortedGroupByEventList.push(tatanoArray[key]);
   	});
