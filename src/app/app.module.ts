@@ -59,7 +59,7 @@ export const firebaseConfig = {
     ButtonViewComponent,
     BtnDeleteComponent,
     BtnDeleteComponent2,
-    DatePipePipe
+    DatePipePipe,
   ],
   entryComponents: [ButtonViewComponent, BtnDeleteComponent, BtnDeleteComponent2],
   imports: [
@@ -86,10 +86,10 @@ export const firebaseConfig = {
         component: HipsComponent
       }
     ]),
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
-    EventListService, 
+    EventListService,
     TagListService,
     SearchListService
   ],

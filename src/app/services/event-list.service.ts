@@ -29,5 +29,12 @@ export class EventListService {
   setMyEvents(events): any {
     this.my_events.next(events);
   }
+
+  getEventsByDate(begin,end): any{
+    return this.db.list('/event',{ query: {orderByChild:'begin',
+                                          startAt: begin,
+                                          endAt: end },
+                                    preserveSnapshot: true })
+  }
 }
 
