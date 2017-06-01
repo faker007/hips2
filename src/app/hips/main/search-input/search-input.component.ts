@@ -102,7 +102,8 @@ export class SearchInputComponent implements OnInit {
 
       console.log(this.atarashi_array);   
     });
-    this.ref.eventLists = this.atarashi_array;
+
+    this.ref.groupBy(this.atarashi_array);
 
     this.search_queries.forEach((query, index) => {
       this.slS.addUserSearch(query);
@@ -131,14 +132,14 @@ export class SearchInputComponent implements OnInit {
         console.log(index);
       }
 
-      this.ref.eventLists = this.atarashi_array;
+      this.ref.groupBy(this.atarashi_array);
     });
   }
 
   beOriginalArray() {
     this.ref.eventLists = [];
     this.atarashi_array = [];
-    this.ref.eventLists = this.undo_array;
+    this.ref.groupBy(this.undo_array);
   }
 
   showArray() {

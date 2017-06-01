@@ -27,7 +27,7 @@ export class DatePipePipe implements PipeTransform {
 	    	hour = hour - 12;
 	    }
 
-	    let returned = `${year} ${month} ${day} ${timeSpliter}${hour}:${minutes}`;
+	    let returned = `${timeSpliter}${hour}:${minutes}`;
 	    return returned;  		
   	}
   }
