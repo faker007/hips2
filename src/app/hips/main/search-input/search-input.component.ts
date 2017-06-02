@@ -145,4 +145,8 @@ export class SearchInputComponent implements OnInit {
   showArray() {
     console.log(this.ref.eventLists);
   }
+
+  onTagEdited($event) {
+    console.log($event);
+  }
 }

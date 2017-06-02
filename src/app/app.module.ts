@@ -36,6 +36,8 @@ import { CustomReuseStrategy } from './reuse-strategy';
 
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
+import { RlTagInputModule } from 'angular2-tag-input';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDsEP8hG1QUXn_zvZ87il2grtUsQQgoi5E",
   authDomain: "hips-f9841.firebaseapp.com",
@@ -87,6 +89,7 @@ export const firebaseConfig = {
       }
     ]),
     MyDateRangePickerModule,
+    RlTagInputModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     EventListService,

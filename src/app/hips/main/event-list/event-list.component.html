@@ -6,7 +6,7 @@
         <button class="btn btn-default" *ngIf="i === 0">오늘</button>
         <button class="btn btn-default" *ngIf="i === 1">내일</button>
         <button class="btn btn-default" *ngIf="i > 1"> D-{{i}}</button>
-        <span>   {{eventList2[0].begin.split(" ")[0].split("-")[1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2]}}일</span>
+        <span>{{eventList2[0].begin.split(" ")[0].split("-")[1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2]}}일</span>
         <br>
       </div>
       <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">

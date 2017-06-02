@@ -1,10 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { FirebaseApp } from 'angularfire2';
-
 import { AngularFireDatabase } from 'angularfire2/database';
 
+import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Injectable()
