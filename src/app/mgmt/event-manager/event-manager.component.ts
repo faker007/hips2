@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
 import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
 import {EventListService} from "../../services/event-list.service";
@@ -6,6 +6,9 @@ import {isNullOrUndefined} from "util";
 import {isUndefined} from "util";
 import {split} from "ts-node/dist";
 import 'rxjs/add/operator/take';
+
+import { FirebaseApp } from 'angularfire2';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'button-view',
@@ -167,7 +170,7 @@ export class EventManagerComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   eventObj: FirebaseListObservable<any[]>;
 
-  constructor(public db: AngularFireDatabase, public elService: EventListService) {
+  constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
     this.source = new LocalDataSource();
     this.items = this.elService.getEvents();
     this.eventObj = this.db.list('/event');
@@ -250,12 +253,13 @@ export class EventManagerComponent implements OnInit {
 
             //update할 데이터
             let tags = event.newData.tags.split(",");
-            let existingTags:any=""; //update이전에도 존재했던 태그목록 index
-            let deletedTags:any=""; //update후 삭제된 태그목록 index
-            let newTags:any="";//update후 새롭게 추가된 태그목록 index
 
-            for (let i in tags) {
-              let indexOf: number = data.tags.indexOf(tags[i]);
+            let existingTags:any = ""; //update이전에도 존재했던 태그목록 index
+            let deletedTags:any = ""; //update후 삭제된 태그목록 index
+            let newTags:any = "";//update후 새롭게 추가된 태그목록 index
+
+            /** for (let i in tags) {
+              // let indexOf: number = data.tags.indexOf(tags[i]);
               if( indexOf > -1 ){
                 //원래 있던 태그
                 existingTags.push(indexOf);
@@ -264,7 +268,7 @@ export class EventManagerComponent implements OnInit {
                 //추가된 태그
                 newTags.push(parseInt(i));
               }
-            }
+            } **/
 
             //tag table update for deleted tags
             for(let i in data.tags){
@@ -275,15 +279,28 @@ export class EventManagerComponent implements OnInit {
               }
             }
 
+            console.log(event.newData);
+
             //tag table update for new tags
             //Todo: push on the tag table to this data : newTags
             //Todo: check if is tag already exist
             //case 1: exist : count ++;
             //case 2: not exist : create new record
 
-            // this.db.object('event/' + event.newData.id).set(data)
-            //   .then(_ => console.log("Updated"))
-            //   .catch(err => console.log(err, "Failed"));
+            /*this.db.object('event/' + event.newData.id).set(data)
+            	.then(_ => console.log("Updated"))
+            	.catch(err => console.log(err, "Failed"));
+            	*/
+            console.log(event.newData.url.split('event/')[1]);
+
+            let _id = event.newData.url.split('event/')[1]; 	
+            
+            
+            this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
+          		this.firebaseApp.database().ref().child('event/' + _id).update({
+          			tags: tags
+          	});
+        });	
           }
         });
 
