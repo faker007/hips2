@@ -31,6 +31,7 @@ export class EventListComponent implements OnInit {
   	this.elS.getEvents().subscribe((snapshots) => {
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
+        console.log(snapshot.val());
   		});
   		this.sortArray();
   		this.removeArrayFromToday();
