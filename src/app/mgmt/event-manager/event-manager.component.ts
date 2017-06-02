@@ -237,9 +237,7 @@ export class EventManagerComponent implements OnInit {
             console.log("tags : ", tags);
 
             if (tags.length > 0) {
-              //태그 길이 검증
-              data.tags = tags;
-              isUpdated = true;
+              console.log(tags.length);
             } else {
               alert("태그를 입력해주세요.");
             }
@@ -248,9 +246,44 @@ export class EventManagerComponent implements OnInit {
           }
 
           if ((typeof data != 'undefined') && isUpdated) {
-            this.db.object('event/' + event.newData.id).set(data)
-              .then(_ => console.log("Updated"))
-              .catch(err => console.log(err, "Failed"));
+            //이전 데이터 => data.tags
+
+            //update할 데이터
+            let tags = event.newData.tags.split(",");
+            let existingTags:any=""; //update이전에도 존재했던 태그목록 index
+            let deletedTags:any=""; //update후 삭제된 태그목록 index
+            let newTags:any="";//update후 새롭게 추가된 태그목록 index
+
+            for (let i in tags) {
+              let indexOf: number = data.tags.indexOf(tags[i]);
+              if( indexOf > -1 ){
+                //원래 있던 태그
+                existingTags.push(indexOf);
+                console.log("원래 있던 태그 : ",tags[i]);
+              }else{
+                //추가된 태그
+                newTags.push(parseInt(i));
+              }
+            }
+
+            //tag table update for deleted tags
+            for(let i in data.tags){
+              //update 이전에도 존재했던 태그이면 통과
+              if( existingTags.indexOf(i) == -1 ){
+                //Todo: DeleteTags, find tag equal to label and count--
+                console.log("delete tag : ", i, data.tags[i]);
+              }
+            }
+
+            //tag table update for new tags
+            //Todo: push on the tag table to this data : newTags
+            //Todo: check if is tag already exist
+            //case 1: exist : count ++;
+            //case 2: not exist : create new record
+
+            // this.db.object('event/' + event.newData.id).set(data)
+            //   .then(_ => console.log("Updated"))
+            //   .catch(err => console.log(err, "Failed"));
           }
         });
 

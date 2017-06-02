@@ -12,7 +12,7 @@ export class EventListService {
   my_events: Subject<Array<any>>;
 
   constructor(public db: AngularFireDatabase) {
-    this.events = this.db.list('/event', { preserveSnapshot: true});
+    this.events = this.db.list('/event', { preserveSnapshot: true });
     this.name = new Subject();
   	this.status = new Subject();
     this.my_events = new Subject();
@@ -30,11 +30,12 @@ export class EventListService {
     this.my_events.next(events);
   }
 
-  getEventsByDate(begin,end): any{
-    return this.db.list('/event',{ query: {orderByChild:'begin',
-                                          startAt: begin,
-                                          endAt: end },
-                                    preserveSnapshot: true })
+  getEventsByDate(begin, end): any{
+    return this.db.list('/event', { 
+      query: {orderByChild: 'begin',
+      startAt: begin,
+      endAt: end 
+    }, preserveSnapshot: true });
   }
 }
 
