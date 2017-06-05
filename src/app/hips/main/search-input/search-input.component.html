@@ -13,7 +13,6 @@
     </form> -->
 		    
     <div class="col-xs-12">
-      <tag-input [(ngModel)]="search_queries" [separatorKeyCodes]="[32]" (onSelect)="onSelect($event)"></tag-input>
       <button (click)="returnSearchedArray()">태그검색하기</button>
       <button (click)="beOriginalArray()">행사되돌리기</button>
       <button (click)="searchByDate()">searchByDate</button>
@@ -25,7 +24,7 @@
     </div>
 
     <div class="col-xs-12">
-    	<rl-tag-input ([ngModel])="search_queries"></rl-tag-input>
+    	<rl-tag-input [(ngModel)]="search_queries"></rl-tag-input>
     </div>    
   </section>
 </div>

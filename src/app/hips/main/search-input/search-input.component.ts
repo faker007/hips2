@@ -16,7 +16,7 @@ export class SearchInputComponent implements OnInit {
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
   undo_array: Array<any> = []; // 태그 검색을 하면 원본 배열이 사라지는데, 사라지는 원본 배열에 대한 백업용
 
-	search_queries = ['띄어쓰기', '기준으로', '태그화', '됩니다.'];
+	search_queries = [];
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
 
@@ -66,14 +66,14 @@ export class SearchInputComponent implements OnInit {
     this.ref.eventLists.filter((eventList) => {
       var priority = 0;
       this.eventListIndex = this.eventListIndex + 1;
-
       this.search_queries.forEach((query:any, index) => {
-        if(query.value) {
-          if(eventList.title.indexOf(query.value) !== -1) {
+        console.log(query);
+        if(query) {
+          if(eventList.title.indexOf(query) !== -1) {
             priority++;
           }
           eventList.tags.forEach((tag, index) => {
-            if(tag.indexOf(query.value) !== -1) {
+            if(tag.indexOf(query) !== -1) {
               priority++;
             }
           });
@@ -98,9 +98,7 @@ export class SearchInputComponent implements OnInit {
 
       this.atarashi_array.sort((a, b) => {
         return b.priority - a.priority; 
-      });      
-
-      console.log(this.atarashi_array);   
+      }); 
     });
 
     this.ref.groupBy(this.atarashi_array);
