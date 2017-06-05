@@ -29,6 +29,7 @@ export class EventListComponent implements OnInit {
 
   ngOnInit() {
   	this.elS.getEvents().subscribe((snapshots) => {
+      this.eventLists = [];
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
         console.log(snapshot.val());
