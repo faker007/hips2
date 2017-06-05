@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf="isUndefined" (click)="onClick($event)">{{ renderValue }}</button>
+    <button *ngIf="isUndefined" (click)="onClick($event, source)">{{ renderValue }}</button>
     <p *ngIf="!isUndefined">{{renderValue}}</p>
   `,
 })
@@ -36,8 +36,9 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     }
   }
 
-  onClick(event) {
+  onClick(event, source) {
     console.log("승인하기", this.rowData);
+    console.log(source);
     this.save.emit(this.rowData);
   }
 }
@@ -178,7 +179,7 @@ export class EventManagerComponent implements OnInit {
   }
 
   callEvents() {
-    this.items.subscribe(snapshots => {
+    this.items.take(1).subscribe(snapshots => {
       snapshots.forEach(snapshot => {
         this.source.append(snapshot.val());
       });
