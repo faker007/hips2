@@ -143,4 +143,24 @@ export class EventListComponent implements OnInit {
   		this.sortedGroupByEventList.push(tatanoArray[key]);
   	});
   }
+
+  getDday(month, day) {
+    var now = new Date();
+    var then= new Date(`2017-${month}-${day}`);
+    var gap = now.getTime() - then.getTime();
+    gap = Math.floor(gap / (1000 * 60 * 60 * 24)) * -1
+    if(gap !== NaN) {
+      return gap;
+    } else {
+      return "999";
+    }
+  }
+
+  getYoil(month, day) {
+    let date = new Date(`2017-${month}-${day}`);
+    let dayNameArray = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; // date.getDay() 메소드는 0부터 반환한다. 0은 일요일.
+    let dayName = dayNameArray[date.getDay()];
+    console.log(dayName);
+    return dayName;
+  }
 }
