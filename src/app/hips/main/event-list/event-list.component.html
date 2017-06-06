@@ -6,7 +6,7 @@
         <!--<button class="btn btn-default">{{getDday(month, day)}}</button>
         <button class="btn btn-default">내일</button>-->
         <button class="btn btn-default"> D-{{getDday(eventList2[0].begin.split(" ")[0].split("-")[1], eventList2[0].begin.split(" ")[0].split("-")[2])}}</button>
-        <span>{{eventList2[0].begin.split(" ")[0].split("-")[1][1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2][1]}}일 ({{getYoil(eventList2[0].begin.split(" ")[0].split("-")[1], eventList2[0].begin.split(" ")[0].split("-")[2])}})</span>
+        <span>{{eventList2[0].begin.split(" ")[0].split("-")[1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2]}}일 ({{getYoil(eventList2[0].begin.split(" ")[0].split("-")[1], eventList2[0].begin.split(" ")[0].split("-")[2])}})</span>
         <br>
       </div>
       <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
