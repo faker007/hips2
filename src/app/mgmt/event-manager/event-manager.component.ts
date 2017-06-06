@@ -192,6 +192,7 @@ export class EventManagerComponent implements OnInit {
       this.db.object('/event/' + event.newData.id)
         .take(1)
         .subscribe(data => {
+          console.log(data);
           let isUpdated: boolean = false;
 
           if (data.title != event.newData.title) {
