@@ -11,8 +11,8 @@
         <button class="btn btn-lg btn-default" type="submit">검색</button>
       </div>
     </form> -->
+		    
     <div class="col-xs-12">
-      <tag-input [(ngModel)]="search_queries" [separatorKeyCodes]="[32]"></tag-input>
       <button (click)="returnSearchedArray()">태그검색하기</button>
       <button (click)="beOriginalArray()">행사되돌리기</button>
       <button (click)="searchByDate()">searchByDate</button>
@@ -22,5 +22,9 @@
         <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="model" required></my-date-range-picker>
       </form>
     </div>
+
+    <div class="col-xs-12">
+    	<rl-tag-input [(ngModel)]="search_queries"></rl-tag-input>
+    </div>    
   </section>
 </div>

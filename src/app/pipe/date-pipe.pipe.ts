@@ -27,7 +27,13 @@ export class DatePipePipe implements PipeTransform {
 	    	hour = hour - 12;
 	    }
 
-	    let returned = `${timeSpliter}${hour}:${minutes}`;
+	    if(minutes === "00") {
+	    	minutes = "";
+	    } else {
+	    	minutes = minutes + "분";
+	    }
+
+	    let returned = `${timeSpliter}${hour}시${minutes}`;
 	    return returned;  		
   	}
   }

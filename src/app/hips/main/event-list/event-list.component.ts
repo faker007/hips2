@@ -3,10 +3,27 @@ import { EventListService } from '../../../services/event-list.service';
 
 import * as _ from 'lodash';
 
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+
 @Component({
   selector: 'hips-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css']
+  styleUrls: ['./event-list.component.css'],
+  animations: [
+    trigger('myAwesomeAnimation', [
+      state('small', style({
+        transform: 'scale(1)',
+      })),
+      state('large', style({
+        transform: 'scale(1.0)'
+      })),
+      transition('small <=> large', animate('300ms ease-in', keyframes([
+        style({opacity: 0, transform: 'translateY(-75%)', offset: 0}),
+        style({opacity: 0.5, transform: 'translateY(35px)', offset: 0.5}),
+        style({opacity: 1, transform: 'translateY(0)', offset: 1.0})
+      ]))),
+    ])
+  ]
 })
 export class EventListComponent implements OnInit {
 
@@ -24,13 +41,17 @@ export class EventListComponent implements OnInit {
 
   tatanoArray:Array<any> = [];
 
+  state:string = 'small'
+
   constructor(public elS: EventListService) {
   }
 
   ngOnInit() {
   	this.elS.getEvents().subscribe((snapshots) => {
+      this.eventLists = [];
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
+        console.log(snapshot.val());
   		});
   		this.sortArray();
   		this.removeArrayFromToday();
@@ -140,5 +161,28 @@ export class EventListComponent implements OnInit {
   	objKeys.forEach((key, index) => {
   		this.sortedGroupByEventList.push(tatanoArray[key]);
   	});
+  }
+
+  getDday(month, day) {
+    var now = new Date();
+    var then= new Date(`2017-${month}-${day}`);
+    var gap = now.getTime() - then.getTime();
+    gap = Math.floor(gap / (1000 * 60 * 60 * 24)) * -1
+    if(gap !== NaN) {
+      return gap;
+    } else {
+      return "999";
+    }
+  }
+
+  getYoil(month, day) {
+    let date = new Date(`2017-${month}-${day}`);
+    let dayNameArray = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; // date.getDay() 메소드는 0부터 반환한다. 0은 일요일.
+    let dayName = dayNameArray[date.getDay()];
+    return dayName;
+  }
+
+  animateMe() {
+    this.state = (this.state === 'small' ? 'large' : 'small');
   }
 }

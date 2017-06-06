@@ -1,10 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { FirebaseApp } from 'angularfire2';
-
 import { AngularFireDatabase } from 'angularfire2/database';
 
+import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Injectable()
@@ -22,18 +21,17 @@ export class SearchListService {
   }
 
   addUserSearch(searchQuery): any { // searchQuery의 파라미터가 존재하지 않으면, 새롭게 생성하고, 아니면 count = count + 1 함.
-    console.log(searchQuery);
-    this.firebaseApp.database().ref().child('search/' + searchQuery.value).once('value', (snapshot) => {
+    this.firebaseApp.database().ref().child('search/' + searchQuery).once('value', (snapshot) => {
       var exists = (snapshot.val() !== null);
       if(exists === false) {
-        this.firebaseApp.database().ref().child('search/' + searchQuery.value).set({
-          label: searchQuery.value,
+        this.firebaseApp.database().ref().child('search/' + searchQuery).set({
+          label: searchQuery,
           count: 1
         });
       } else {
-        this.firebaseApp.database().ref().child('search/' + searchQuery.value).once('value', (snapshot) => {
-          this.firebaseApp.database().ref().child('search/' + searchQuery.value).set({
-            label: searchQuery.value,
+        this.firebaseApp.database().ref().child('search/' + searchQuery).once('value', (snapshot) => {
+          this.firebaseApp.database().ref().child('search/' + searchQuery).set({
+            label: searchQuery,
             count: snapshot.val().count + 1
           });
         });

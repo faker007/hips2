@@ -3,10 +3,10 @@
   <ng-template ngIf="sortedGroupByEventlist.length >= 1">
     <div class="row event-group" *ngFor="let eventList2 of sortedGroupByEventList; let i = index">
       <div class="header">
-        <button class="btn btn-default" *ngIf="i === 0">오늘</button>
-        <button class="btn btn-default" *ngIf="i === 1">내일</button>
-        <button class="btn btn-default" *ngIf="i > 1">D-{{i}}</button>
-        <span>{{eventList2[0].begin.split(" ")[0].split("-")[1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2]}}일</span>
+        <!--<button class="btn btn-default">{{getDday(month, day)}}</button>
+        <button class="btn btn-default">내일</button>-->
+        <button class="btn btn-default"> D-{{getDday(eventList2[0].begin.split(" ")[0].split("-")[1], eventList2[0].begin.split(" ")[0].split("-")[2])}}</button>
+        <span>{{eventList2[0].begin.split(" ")[0].split("-")[1]}}월 {{eventList2[0].begin.split(" ")[0].split("-")[2]}}일 ({{getYoil(eventList2[0].begin.split(" ")[0].split("-")[1], eventList2[0].begin.split(" ")[0].split("-")[2])}})</span>
         <br>
       </div>
       <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
@@ -25,4 +25,5 @@
       </div>
     </div>
   </ng-template>
+  <p [@myAwesomeAnimation]='state' (click)="animateMe()">I will animate</p>
 </section>
