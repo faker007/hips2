@@ -32,10 +32,12 @@ export class EventListService {
 
   getEventsByDate(begin, end): any{
     return this.db.list('/event', { 
-      query: {orderByChild: 'begin',
-      startAt: begin,
-      endAt: end 
-    }, preserveSnapshot: true });
+      query: {
+        orderByChild: 'begin',
+        startAt: begin,
+        endAt: end 
+      }, preserveSnapshot: true 
+    });
   }
 }
 
