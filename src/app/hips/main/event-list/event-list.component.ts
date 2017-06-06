@@ -160,7 +160,6 @@ export class EventListComponent implements OnInit {
     let date = new Date(`2017-${month}-${day}`);
     let dayNameArray = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; // date.getDay() 메소드는 0부터 반환한다. 0은 일요일.
     let dayName = dayNameArray[date.getDay()];
-    console.log(dayName);
     return dayName;
   }
 }
