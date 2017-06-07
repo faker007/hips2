@@ -11,13 +11,16 @@
   border: solid 1px #777777;
   border-bottom: none;
   line-height: 34px;
-  vertical-align: middle;
+  vertical-align: middle;  
 }
 
 .event-list .event-item .tag-item{
   background-color: #fd4242;
   padding: 5px;
   border-radius: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .loader,
 .loader:before,
