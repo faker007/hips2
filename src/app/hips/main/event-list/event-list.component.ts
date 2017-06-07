@@ -28,6 +28,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 export class EventListComponent implements OnInit {
 
 	eventLists:Array<any> = [];
+	countPullEvents:number = 50;
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
@@ -47,18 +48,21 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.elS.getEvents().subscribe((snapshots) => {
-      this.eventLists = [];
+  	this.pullEvents();
+  }
+
+  pullEvents() {
+  	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
+      this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
-        console.log(snapshot.val());
+        console.log(snapshot.val());        
   		});
-  		this.sortArray();
-  		this.removeArrayFromToday();
-  		this.groupBy(this.eventLists);  		
-  		console.log(this.eventLists);
+			// this.sortArray();
+			// this.removeArrayFromToday();
+			this.groupBy(this.eventLists);  		
+			console.log(this.eventLists);   		
   	});  	
-  	this.getTodayDay();
   }
 
   getTodayDay() {

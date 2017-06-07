@@ -10,6 +10,7 @@ export class EventListService {
   Subject: Subject<boolean>;
   events: any;
   my_events: Subject<Array<any>>;
+  eventCount: number = 0;
 
   constructor(public db: AngularFireDatabase) {
     this.events = this.db.list('/event', { preserveSnapshot: true });
@@ -36,6 +37,17 @@ export class EventListService {
         orderByChild: 'begin',
         startAt: begin,
         endAt: end 
+      }, preserveSnapshot: true 
+    });
+  }
+
+  getEventsNumber(count: number) {
+    this.eventCount = this.eventCount + count;
+    return this.db.list('/event', { 
+      query: {
+        orderByChild: 'begin',
+        startAt: '2017-06-07',
+        limitToFirst: this.eventCount
       }, preserveSnapshot: true 
     });
   }
