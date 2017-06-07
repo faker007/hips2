@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 
+
 @Injectable()
 export class EventListService {
   name: Subject<string>;

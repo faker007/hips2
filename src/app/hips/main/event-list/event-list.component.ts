@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { EventListService } from '../../../services/event-list.service';
 
 import * as _ from 'lodash';
@@ -44,7 +44,27 @@ export class EventListComponent implements OnInit {
 
   state:string = 'small'
 
-  constructor(public elS: EventListService) {
+  constructor(public elS: EventListService, public lc: NgZone) {
+  	window.onscroll = () => {
+  		let status = false;
+  		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+  		let body = document.body, html = document.documentElement;
+  		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  		let windowBottom = windowHeight + window.pageYOffset;
+  		if(windowBottom >= docHeight) {
+  			status = true;
+  		} else {
+  			status = false;
+  		}
+  		lc.run(() => {
+  			if(status === true) {
+	  			this.pullEvents();
+	  			console.log('도달');
+  			} else {
+  				console.log('안 도달');
+  			}
+  		});
+  	}
   }
 
   ngOnInit() {
