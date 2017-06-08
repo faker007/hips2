@@ -1,5 +1,7 @@
-import {Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, NgZone, Inject, HostListener } from '@angular/core';
 import { EventListService } from '../../../services/event-list.service';
+
+import { DOCUMENT } from '@angular/platform-browser';
 
 import * as _ from 'lodash';
 
@@ -28,6 +30,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 export class EventListComponent implements OnInit {
 
 	eventLists:Array<any> = [];
+	countPullEvents:number = 50;
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
@@ -43,22 +46,107 @@ export class EventListComponent implements OnInit {
 
   state:string = 'small'
 
-  constructor(public elS: EventListService) {
+  constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
+  	// // window.onscroll = () => {
+  	// // 	let status = false;
+  	// // 	let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+  	// // 	let body = document.body, html = document.documentElement;
+  	// // 	let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  	// // 	let windowBottom = windowHeight + window.pageYOffset;
+  	// // 	if(windowBottom >= docHeight) {
+  	// // 		status = true;
+  	// // 	} else {
+  	// // 		status = false;
+  	// // 	}
+  	// // 	lc.run(() => {
+  	// // 		if(status === true) {
+	  // // 			this.pullEvents();
+	  // // 			console.log('도달');
+  	// // 		} else {
+  	// // 			console.log('안 도달');
+  	// // 		}
+  	// // 	});
+  	// }
   }
 
   ngOnInit() {
-  	this.elS.getEvents().subscribe((snapshots) => {
-      this.eventLists = [];
+  	this.pullEvents();
+  }
+
+	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
+
+	preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault)
+      e.preventDefault();
+  e.returnValue = false;  
+}
+
+	preventDefaultForScrollKeys(e) {
+    if (this.keys[e.keyCode]) {
+        this.preventDefault(e);
+        return false;
+    }
+}  
+
+	disableScroll() {
+	  if (window.addEventListener) // older FF
+	      window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+	  window.onwheel = this.preventDefault; // modern standard
+	  window.onmousewheel = document.onmousewheel = this.preventDefault; // older browsers, IE
+	  window.ontouchmove  = this.preventDefault; // mobile
+	  document.onkeydown  = this.preventDefaultForScrollKeys;
+	}
+
+	enableScroll() {
+	    if (window.removeEventListener)
+	        window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+	    window.onmousewheel = document.onmousewheel = null; 
+	    window.onwheel = null; 
+	    window.ontouchmove = null;  
+	    document.onkeydown = null;  
+	}
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+  		let status = false;
+  		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+  		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+  		let body = document.body, html = document.documentElement;
+  		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  		let windowBottom = windowHeight + window.pageYOffset;
+
+  		if(windowBottom >= docHeight) {
+  			status = true;
+  		} else {
+  			status = false;
+  		}
+
+			if(status === true) {
+				scrollBarPosition = scrollBarPosition - 150;
+
+				window.scrollTo(0, scrollBarPosition);
+				this.disableScroll();
+  			this.pullEvents();
+  			console.log('도달');
+			} else {
+				console.log('안 도달');
+			}  		
+  }
+
+  pullEvents() {
+  	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
+      this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
         console.log(snapshot.val());
+        this.enableScroll();  
   		});
-  		this.sortArray();
-  		this.removeArrayFromToday();
-  		this.groupBy(this.eventLists);
-  		console.log(this.eventLists);
-  	});
-  	this.getTodayDay();
+			// this.sortArray();
+			// this.removeArrayFromToday();
+			this.groupBy(this.eventLists);  		
+			console.log(this.eventLists);   		
+  	});  	
   }
 
   getTodayDay() {
@@ -139,7 +227,7 @@ export class EventListComponent implements OnInit {
   	this.groupByEventList.forEach((eventList, index) => {
   		let obj = {
   			address: eventList.address,
-  			parsed_begin: eventList.begin.split(" ")[0],
+  			parsed_begin: eventList.begin.split(" ")[0], 
   			begin: eventList.begin,
   			created: eventList.created,
   			end: eventList.end,
@@ -184,11 +272,5 @@ export class EventListComponent implements OnInit {
 
   animateMe() {
     this.state = (this.state === 'small' ? 'large' : 'small');
-  }
-
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
-    console.log($event);
-    console.log($event.currentTarget.height);
-    console.log("scrolling");
   }
 }

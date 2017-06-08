@@ -1,5 +1,5 @@
+<button class="btn btn-primary" (click)="pullEvents();"></button>
 <section class="event-list">
-
   <ng-template ngIf="sortedGroupByEventlist.length >= 1">
     <div class="row event-group" *ngFor="let eventList2 of sortedGroupByEventList; let i = index">
       <div class="header">
