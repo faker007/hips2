@@ -70,6 +70,7 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
+  	this.disableScroll();
   	this.pullEvents();
   }
 
@@ -123,7 +124,11 @@ export class EventListComponent implements OnInit {
   		}
 
 			if(status === true) {
-				scrollBarPosition = scrollBarPosition - 150;
+				if(window.innerWidth <= 400) {
+					scrollBarPosition = scrollBarPosition - 1000;
+				} else {
+					scrollBarPosition = scrollBarPosition - 150;
+				}
 
 				window.scrollTo(0, scrollBarPosition);
 				this.disableScroll();
@@ -139,9 +144,9 @@ export class EventListComponent implements OnInit {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
   			this.eventLists.push(snapshot.val());
-        console.log(snapshot.val());
-        this.enableScroll();  
+        console.log(snapshot.val());  
   		});
+      this.enableScroll();  		
 			// this.sortArray();
 			// this.removeArrayFromToday();
 			this.groupBy(this.eventLists);  		
