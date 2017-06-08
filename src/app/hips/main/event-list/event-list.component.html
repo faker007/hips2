@@ -20,6 +20,7 @@
         <div class="col-sm-offset-2 col-sm-8 col-xs-offset-3 col-xs-7 tag-container">
             <span class="tags_iterator_div" *ngFor="let tag of eventList.tags; let i = index">
               <a *ngIf="i>0" href="#" class="btn-danger tag-item">{{tag}}</a>
+              <a *ngIf="eventList.tags.length===1" class="btn-primary tag-item">등록된_태그가_없어요_ㅜㅜㅜ</a>
             </span>
         </div>
       </div>
