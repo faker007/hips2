@@ -1,14 +1,17 @@
-<section class="trend-tag">
-  <div class="row">
-    <div class="col-xs-12 header">
-      <button class="btn-default btn" disabled>트랜딩 태그</button>
-    </div>
-
-    <div class="col-xs-12 tag-container">
-      <div style="display: inline-block; padding-right: 5px" *ngFor="let trend_tag of trend_tags">
-        <a class="btn-lg btn-danger tag-item " (click)="add(trend_tag.label)">{{trend_tag.label}}({{trend_tag.count}})</a>
+<div class="container">
+  <section class="trend-tag">
+    <div class="row">
+      <div class="col-xs-12 header">
+        <button class="btn-default btn" disabled>트랜딩 태그</button>
       </div>
-      <hr>
+
+      <div class="col-xs-12 tag-container">
+        <div style="display: inline-block; padding-right: 5px" *ngFor="let trend_tag of trend_tags">
+          <a class="btn-lg btn-danger tag-item " (click)="add(trend_tag.label)">{{trend_tag.label}}({{trend_tag.count}})</a>
+        </div>
+        <hr>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
+
