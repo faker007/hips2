@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, HostListener} from '@angular/core';
 import { EventListService } from '../../../services/event-list.service';
 
 import * as _ from 'lodash';
@@ -55,9 +55,9 @@ export class EventListComponent implements OnInit {
   		});
   		this.sortArray();
   		this.removeArrayFromToday();
-  		this.groupBy(this.eventLists);  		
+  		this.groupBy(this.eventLists);
   		console.log(this.eventLists);
-  	});  	
+  	});
   	this.getTodayDay();
   }
 
@@ -139,7 +139,7 @@ export class EventListComponent implements OnInit {
   	this.groupByEventList.forEach((eventList, index) => {
   		let obj = {
   			address: eventList.address,
-  			parsed_begin: eventList.begin.split(" ")[0], 
+  			parsed_begin: eventList.begin.split(" ")[0],
   			begin: eventList.begin,
   			created: eventList.created,
   			end: eventList.end,
@@ -184,5 +184,11 @@ export class EventListComponent implements OnInit {
 
   animateMe() {
     this.state = (this.state === 'small' ? 'large' : 'small');
+  }
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
+    console.log($event);
+    console.log($event.currentTarget.height);
+    console.log("scrolling");
   }
 }
