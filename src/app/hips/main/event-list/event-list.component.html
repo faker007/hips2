@@ -17,7 +17,7 @@
         <div class="col-xs-2 address text-center">
           <button class="btn btn-warning">{{eventList.tags[0]}}</button>
         </div>
-        <div class="col-sm-offset-2 col-sm-8 col-xs-offset-3 col-xs-7">
+        <div class="col-sm-offset-2 col-sm-8 col-xs-offset-3 col-xs-7 tag-container">
             <span class="tags_iterator_div" *ngFor="let tag of eventList.tags; let i = index">
               <a *ngIf="i>0" href="#" class="btn-danger tag-item">{{tag}}</a>
             </span>

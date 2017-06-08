@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, Inject, HostListener} from '@angular/core';
 import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
 import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
 import {EventListService} from "../../services/event-list.service";
@@ -7,7 +7,7 @@ import {isUndefined} from "util";
 import {split} from "ts-node/dist";
 import 'rxjs/add/operator/take';
 
-import { FirebaseApp } from 'angularfire2';
+import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
@@ -37,9 +37,16 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   onClick(event, source) {
-    console.log("승인하기", this.rowData);
-    console.log(source);
-    this.save.emit(this.rowData);
+    var result = window.confirm('이 이벤트를 승인하시겠습니까?');
+
+    if (result) {
+
+      console.log("승인하기", this.rowData);
+
+    } else {
+
+    }
+
   }
 }
 
@@ -141,11 +148,11 @@ export class EventManagerComponent implements OnInit {
         editable: false,
         type: 'custom',
         renderComponent: ButtonViewComponent,
-        onComponentInitFunction(instance) {
-          instance.save.subscribe(row => {
-            alert(`${row.name} saved!`)
-          });
-        }
+        // onComponentInitFunction(instance) {
+        //   instance.save.subscribe(row => {
+        //     alert(`${row.name} saved!`)
+        //   });
+        // }
         // type: 'html',
         // valuePrepareFunction: (cell, row) => {
         // return '<a href="#" id="btn-confirm-255">'+row.id+'</a>';
@@ -295,14 +302,14 @@ export class EventManagerComponent implements OnInit {
             	*/
             console.log(event.newData.url.split('event/')[1]);
 
-            let _id = event.newData.url.split('event/')[1]; 	
-            
-            
+            let _id = event.newData.url.split('event/')[1];
+
+
             this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
           		this.firebaseApp.database().ref().child('event/' + _id).update({
           			tags: tags
           	});
-        });	
+        });
           }
         });
 
@@ -328,6 +335,7 @@ export class EventManagerComponent implements OnInit {
     console.log("on Edit");
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

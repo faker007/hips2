@@ -13,6 +13,13 @@
   line-height: 34px;
   vertical-align: middle;  
 }
+.event-list .event-item .tag-container{
+  display: none;
+}
+
+.event-list .event-item:hover .tag-container{
+  display: inherit;
+}
 
 .event-list .event-item .tag-item{
   background-color: #fd4242;
