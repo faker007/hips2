@@ -20,7 +20,7 @@ import {MainComponent} from './hips/main/main.component';
 import {SearchComponent} from './hips/search/search.component';
 import {TrendTagComponent} from './hips/main/trend-tag/trend-tag.component';
 import {EventListComponent} from './hips/main/event-list/event-list.component';
-import {SearchInputComponent} from './hips/main/search-input/search-input.component';
+import {SearchInputComponent, SearchInput2Component} from './hips/main/search-input/search-input.component';
 import {Ng2SmartTableModule} from "ng2-smart-table";
 
 import {EventListService} from "./services/event-list.service";
@@ -58,6 +58,7 @@ export const firebaseConfig = {
     TrendTagComponent,
     EventListComponent,
     SearchInputComponent,
+    SearchInput2Component,
     ButtonViewComponent,
     BtnDeleteComponent,
     BtnDeleteComponent2,

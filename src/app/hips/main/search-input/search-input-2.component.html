@@ -1,11 +1,6 @@
-<section class="search">
+<div class="_search">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 title">
-        <h1>힙스에서 여러분에게 필요한</h1>
-        <h1>스타트업 행사들을</h1>
-        <h1>찾아보세요.</h1>
-      </div>
       <div class="col-xs-12">
         <button (click)="searchByDate()">searchByDate</button>
       </div>
@@ -18,7 +13,7 @@
       <div class="col-xs-12">
         <rl-tag-input [(ngModel)]="search_queries" [addOnSpace]="true" (addTag)="onAddTag()" (removeTag)="onRemoveTag()" style="width: 100%"></rl-tag-input>
       </div>
-      </div>
+    </div>
   </div>
-</section>
+</div>
 
