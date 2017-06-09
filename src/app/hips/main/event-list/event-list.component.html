@@ -1,5 +1,4 @@
 <div class="container">
-  <button class="btn btn-primary" (click)="pullEvents();"></button>
   <section class="event-list">
     <ng-template ngIf="sortedGroupByEventlist.length >= 1">
       <div class="row event-group" *ngFor="let eventList2 of sortedGroupByEventList; let i = index">
@@ -16,7 +15,7 @@
             <div class="col-sm-8 col-xs-7 title">{{eventList.title}}</div>
           </a>
           <div class="col-xs-2 address text-center">
-            <button class="btn btn-warning">{{eventList.tags[0]}}</button>
+            <button class="btn btn-warning tag-item-location">{{eventList.tags[0]}}</button>
           </div>
           <div class="col-sm-offset-2 col-sm-8 col-xs-offset-3 col-xs-7 tag-container">
             <span class="tags_iterator_div" *ngFor="let tag of eventList.tags; let i = index">

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, NgZone, Inject, HostListener, Directive, ElementRef, Input } from '@angular/core';
 import { EventListService } from '../../../services/event-list.service';
 
 import { DOCUMENT } from '@angular/platform-browser';
@@ -28,6 +28,8 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
   ]
 })
 export class EventListComponent implements OnInit {
+  private _defaultColor = 'blue';
+  private el: HTMLElement;
 
 	eventLists:Array<any> = [];
 	countPullEvents:number = 50;
@@ -44,30 +46,13 @@ export class EventListComponent implements OnInit {
 
   tatanoArray:Array<any> = [];
 
+  searchArray:Array<any> = [];
+
   state:string = 'small'
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
-  	// // window.onscroll = () => {
-  	// // 	let status = false;
-  	// // 	let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-  	// // 	let body = document.body, html = document.documentElement;
-  	// // 	let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  	// // 	let windowBottom = windowHeight + window.pageYOffset;
-  	// // 	if(windowBottom >= docHeight) {
-  	// // 		status = true;
-  	// // 	} else {
-  	// // 		status = false;
-  	// // 	}
-  	// // 	lc.run(() => {
-  	// // 		if(status === true) {
-	  // // 			this.pullEvents();
-	  // // 			console.log('도달');
-  	// // 		} else {
-  	// // 			console.log('안 도달');
-  	// // 		}
-  	// // 	});
-  	// }
   }
+
 
   ngOnInit() {
   	this.disableScroll();
@@ -146,6 +131,16 @@ export class EventListComponent implements OnInit {
   			this.eventLists.push(snapshot.val());
         console.log(snapshot.val());  
   		});
+
+      if(this.searchArray.length === 0) {
+        this.elS.getTodayEvents().subscribe((snapshots) => {
+          this.searchArray = [];
+          snapshots.forEach((snapshot, index) => {
+            this.searchArray.push(snapshot.val());
+          });
+        });
+      }
+
       this.enableScroll();  		
 			// this.sortArray();
 			// this.removeArrayFromToday();
@@ -227,33 +222,37 @@ export class EventListComponent implements OnInit {
   }
 
   groupBy(array) {
-  	let tempArray = [];
-  	this.groupByEventList = array;
-  	this.groupByEventList.forEach((eventList, index) => {
-  		let obj = {
-  			address: eventList.address,
-  			parsed_begin: eventList.begin.split(" ")[0], 
-  			begin: eventList.begin,
-  			created: eventList.created,
-  			end: eventList.end,
-  			id: eventList.id,
-  			isDeprecated: eventList.isDeprecated,
-  			tags: eventList.tags,
-  			title: eventList.title,
-  			url: eventList.url
-  		};
+    if(array[0] === undefined) {
+    } else {
+      let tempArray = [];
+      this.groupByEventList = array;
+      this.groupByEventList.forEach((eventList, index) => {
+        let obj = {
+          address: eventList.address,
+          parsed_begin: eventList.begin.split(" ")[0], 
+          begin: eventList.begin,
+          created: eventList.created,
+          end: eventList.end,
+          id: eventList.id,
+          isDeprecated: eventList.isDeprecated,
+          tags: eventList.tags,
+          title: eventList.title,
+          url: eventList.url
+        };
 
-  		tempArray.push(obj);
-  	});
+        tempArray.push(obj);
+      });
 
-  	let tatanoArray:any = _.groupBy(tempArray, 'parsed_begin');
+      let tatanoArray:any = _.groupBy(tempArray, 'parsed_begin');
 
-  	this.sortedGroupByEventList = [];
+      this.sortedGroupByEventList = [];
 
-  	let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin'));
-  	objKeys.forEach((key, index) => {
-  		this.sortedGroupByEventList.push(tatanoArray[key]);
-  	});
+      let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin'));
+      objKeys.forEach((key, index) => {
+        this.sortedGroupByEventList.push(tatanoArray[key]);
+      });      
+    }
+
   }
 
   getDday(month, day) {
@@ -279,3 +278,28 @@ export class EventListComponent implements OnInit {
     this.state = (this.state === 'small' ? 'large' : 'small');
   }
 }
+@Directive({
+  selector: '[myHighlight]',
+  host: {
+    '(mouseenter)': 'onMouseEnter()',
+    '(mouseleave)': 'onMouseLeave()'
+  }
+})
+export class HighlightDirective {
+  private _defaultColor = 'blue';
+  private el: HTMLElement;
+
+  constructor(el: ElementRef) {
+    this.el = el.nativeElement;
+  }
+
+  @Input('myHighlight') highlightColor: string;
+
+  onMouseEnter() { this.highlight(this.highlightColor || this._defaultColor) }
+  onMouseLeave() { this.highlight(null) }
+
+  private highlight(color:string) {
+    this.el.style.background = color;
+  }
+}
+
