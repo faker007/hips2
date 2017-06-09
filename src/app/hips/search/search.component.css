@@ -1,5 +1,5 @@
 .content-wrapper{
-  padding: 100px 0;
+  padding: 300px 0;
 }
 
 .hips-search .nav {
@@ -7,16 +7,13 @@
   width: 284px;
 }
 
-.hips-search .contents{
-  padding-top: 125px /*floating div height*/;
-}
 .hips-search .floating-header{
   position: fixed;
   border-bottom: solid 2px #777777;
   background-color: white;
   left: 0;
   top: 0;
-  padding: 20px 0;
+  padding: 50px 0;
 }
 
 .hips-search .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
