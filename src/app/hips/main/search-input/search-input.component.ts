@@ -135,7 +135,6 @@ export class SearchInputComponent implements OnInit {
   }
 
   beOriginalArray() {
-    this.ref.eventLists = [];
     this.atarashi_array = [];
     this.ref.groupBy(this.undo_array);
   }
@@ -146,5 +145,18 @@ export class SearchInputComponent implements OnInit {
 
   onTagEdited($event) {
     console.log($event);
+  }
+
+  onAddTag() {
+    this.returnSearchedArray();
+  }
+
+  onRemoveTag() {
+    if(this.search_queries[0] !== undefined) {
+      this.returnSearchedArray();
+    } else {
+      this.beOriginalArray();
+      console.log('되면 개꿀인데');
+    }
   }
 }
