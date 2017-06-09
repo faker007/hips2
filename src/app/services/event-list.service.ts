@@ -42,13 +42,41 @@ export class EventListService {
     this.my_events.next(events);
   }
 
-  getEventsByDate(begin, end): any {
-    return this.db.list('/event', { 
+  getEventsByDate(begin, end): any{
+    return this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: begin,
-        endAt: end 
-      }, preserveSnapshot: true 
+        endAt: end
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByID(id): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'id',
+        equalTo: id,
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByCreated(created): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'created',
+        equalTo: created,
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByTitle(title): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'title',
+        equalTo: title,
+        limitToFirst: 1
+      }, preserveSnapshot: true
     });
   }
 
@@ -62,12 +90,12 @@ export class EventListService {
 
   getEventsNumber(count: number): any {
     this.eventCount = this.eventCount + count;
-    return this.db.list('/event', { 
+    return this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: `${this.todayYear}-${this.addZero(this.todayMonth)}-${this.addZero(this.todayDay)}`,
         limitToFirst: this.eventCount
-      }, preserveSnapshot: true 
+      }, preserveSnapshot: true
     });
   }
 

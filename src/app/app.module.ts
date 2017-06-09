@@ -86,6 +86,10 @@ export const firebaseConfig = {
       {
         path: 'hips',
         component: HipsComponent
+      },
+      {
+        path: 'search',
+        component: SearchComponent
       }
     ]),
     MyDateRangePickerModule,
@@ -99,4 +103,5 @@ export const firebaseConfig = {
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }

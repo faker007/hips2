@@ -1,0 +1,48 @@
+.content-wrapper{
+  padding: 100px 0;
+}
+
+.hips-search .nav {
+  margin: auto;
+  width: 284px;
+}
+
+.hips-search .contents{
+  padding-top: 125px /*floating div height*/;
+}
+.hips-search .floating-header{
+  position: fixed;
+  border-bottom: solid 2px #777777;
+  background-color: white;
+  left: 0;
+  top: 0;
+  padding: 20px 0;
+}
+
+.hips-search .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+  background-color: #fd4242;
+  color: white;
+}
+
+.hips-search .nav li a{
+  color: #fd4242;
+}
+
+.hips-search .form-group input {
+border: none;
+box-shadow: none;
+width: 78%;
+display: inline-block;
+height: 44px;
+padding: 5px;
+font-size: 18px;
+}
+
+.hips-search .form-group button {
+background-color: #FE5454;
+color: white;
+border: none;
+width: 20%;
+float: right;
+}
+
