@@ -17,7 +17,7 @@
   display: none;
 }
 
-.event-list .tag-item-location:hover .tag-container{
+.event-list .event-item:hover .tag-container{
   display: inherit;
 }
 
