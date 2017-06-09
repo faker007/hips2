@@ -33,23 +33,51 @@ export class EventListService {
   }
 
   getEventsByDate(begin, end): any{
-    return this.db.list('/event', { 
+    return this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: begin,
-        endAt: end 
-      }, preserveSnapshot: true 
+        endAt: end
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByID(id): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'id',
+        equalTo: id,
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByCreated(created): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'created',
+        equalTo: created,
+      }, preserveSnapshot: true
+    });
+  }
+
+  getEventByTitle(title): any{
+    return this.db.list('/event', {
+      query: {
+        orderByChild: 'title',
+        equalTo: title,
+        limitToFirst: 1
+      }, preserveSnapshot: true
     });
   }
 
   getEventsNumber(count: number) {
     this.eventCount = this.eventCount + count;
-    return this.db.list('/event', { 
+    return this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: '2017-06-07',
         limitToFirst: this.eventCount
-      }, preserveSnapshot: true 
+      }, preserveSnapshot: true
     });
   }
 }

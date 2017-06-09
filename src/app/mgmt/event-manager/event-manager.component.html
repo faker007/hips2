@@ -1,6 +1,8 @@
-<ng2-smart-table [settings]="settings" 
-								[source]="source"
-                (editConfirm)="onSaveConfirm($event)"
-                (createConfirm)="onCreateConfirm($event)"
-                (edit)="onEdit($event)">
-</ng2-smart-table>
+<div class="content-wrapper">
+  <ng2-smart-table [settings]="settings"
+                   [source]="source"
+                   (editConfirm)="onSaveConfirm($event)"
+                   (createConfirm)="onCreateConfirm($event)"
+                   (edit)="onEdit($event)">
+  </ng2-smart-table>
+</div>

@@ -11,7 +11,7 @@
   border: solid 1px #777777;
   border-bottom: none;
   line-height: 34px;
-  vertical-align: middle;  
+  vertical-align: middle;
 }
 .event-list .event-item .tag-container{
   display: none;
@@ -87,3 +87,27 @@
   }
 }
 
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width:768px) {
+  .mobile-content{
+    display: inherit;
+  }
+  .web-content{
+    display: none;
+  }
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
