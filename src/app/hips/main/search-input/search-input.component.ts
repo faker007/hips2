@@ -203,7 +203,9 @@ export class SearchInput2Component implements OnInit {
 
   ngOnInit() {
     this.search_queries = this.ref2.array;
-    this.returnSearchedArray();
+    setTimeout(() => { // 잠시 setTimeout()를 이용했을 뿐. 반드시 구조적으로 해결 바람.
+      this.returnSearchedArray();
+    }, 900);
   }
 
   addSearchQueries(word) {

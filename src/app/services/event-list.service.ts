@@ -89,6 +89,7 @@ export class EventListService {
   }  
 
   getEventsNumber(count: number): any {
+  	console.log(this.events);
     this.eventCount = this.eventCount + count;
     this.events = this.db.list('/event', {
       query: {
@@ -98,17 +99,18 @@ export class EventListService {
       }, preserveSnapshot: true
     });
 
-    return this.events;
+    return this.getEvents();
   }
 
   getTodayEvents(): any {
-    return this.db.list('event', {
+    this.events = this.db.list('event', {
       query: {
         orderByChild: 'begin',
         startAt: `${this.todayYear}-${this.todayMonth}-${this.todayDay}`,
         limitToFirst: 1000
       }, preserveSnapshot: true
     });
+    return this.getEvents();
   }
 }
 
