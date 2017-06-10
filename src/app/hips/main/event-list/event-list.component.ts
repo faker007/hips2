@@ -51,12 +51,13 @@ export class EventListComponent implements OnInit {
   state:string = 'small'
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
+    this.disableScroll();
+    this.pullEvents(); 
   }
 
 
   ngOnInit() {
-  	this.disableScroll();
-  	this.pullEvents();
+
   }
 
 	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
@@ -128,8 +129,7 @@ export class EventListComponent implements OnInit {
   	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
-  			this.eventLists.push(snapshot.val());
-        console.log(snapshot.val());  
+  			this.eventLists.push(snapshot.val());  
   		});
 
       if(this.searchArray.length === 0) {
