@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { SearchListService } from '../../../services/search-list.service';
 
-import { IMyDrpOptions } from 'mydaterangepicker';
+import { IMyDrpOptions, IMyDateRangeModel, IMyCalendarViewChanged } from 'mydaterangepicker';
 
 @Component({
   selector: 'hips-search-input',
@@ -317,4 +317,13 @@ export class SearchInput2Component implements OnInit {
       this.beOriginalArray();
     }
   }
+
+  onDateRangeChanged(event: IMyDateRangeModel) {
+    console.log(event);
+  }
+
+  onInputFieldChanged(event: IMyCalendarViewChanged) {
+    console.log('onInputFieldChanged(): Value: ' + event);
+  }
 }
+
