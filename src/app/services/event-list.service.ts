@@ -90,13 +90,15 @@ export class EventListService {
 
   getEventsNumber(count: number): any {
     this.eventCount = this.eventCount + count;
-    return this.db.list('/event', {
+    this.events = this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: `${this.todayYear}-${this.addZero(this.todayMonth)}-${this.addZero(this.todayDay)}`,
         limitToFirst: this.eventCount
       }, preserveSnapshot: true
     });
+
+    return this.events;
   }
 
   getTodayEvents(): any {
