@@ -8,14 +8,15 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  search_queries: any;
+  private sub: any;
 
   constructor(public router: Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
-  	/*this.route.params
-  		.switchMap((params: Params) => {
-  			console.log(params);
-  		})*/
+    this.sub = this.route.queryParams.subscribe(params => {
+      this.search_queries = params;
+      console.log(this.search_queries);
+    });
   }
-
 }

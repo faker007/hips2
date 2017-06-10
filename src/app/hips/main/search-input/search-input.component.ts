@@ -147,8 +147,10 @@ export class SearchInputComponent implements OnInit {
   }
 
   onAddTag() {
-    this.search_queries = []; 
-    this.router.navigate(['/search']);
+  }
+
+  navigateToSearch() {
+    this.router.navigate(['/search'], { queryParams: { array: this.search_queries } });    
   }
 
   onRemoveTag() {
@@ -169,6 +171,7 @@ export class SearchInputComponent implements OnInit {
 })
 export class SearchInput2Component implements OnInit {
   @Input() ref;
+  @Input() ref2;
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
   undo_array: Array<any> = []; // 태그 검색을 하면 원본 배열이 사라지는데, 사라지는 원본 배열에 대한 백업용
 
@@ -199,6 +202,8 @@ export class SearchInput2Component implements OnInit {
   }
 
   ngOnInit() {
+    this.search_queries = this.ref2.array;
+    this.returnSearchedArray();
   }
 
   addSearchQueries(word) {
