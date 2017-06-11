@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { forEach } from "@angular/router/src/utils/collection";
 
@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { SearchListService } from '../../../services/search-list.service';
 
-import { IMyDrpOptions, IMyDateRangeModel, IMyCalendarViewChanged } from 'mydaterangepicker';
+import { IMyDrpOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from 'mydaterangepicker';
 
 @Component({
   selector: 'hips-search-input',
@@ -169,13 +169,13 @@ export class SearchInputComponent implements OnInit {
   providers: [SearchInputComponent],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchInput2Component implements OnInit {
+export class SearchInput2Component implements OnInit, OnChanges {
   @Input() ref;
   @Input() ref2;
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
   undo_array: Array<any> = []; // 태그 검색을 하면 원본 배열이 사라지는데, 사라지는 원본 배열에 대한 백업용
 
-  search_queries = [];
+  search_queries: Array<any> = [];
 
   searchInput: any;
 
@@ -199,13 +199,25 @@ export class SearchInput2Component implements OnInit {
   }
 
   constructor(public slS: SearchListService) {
+    if(this.ref2 !== undefined) {
+      this.search_queries = this.ref2.array;
+    } else {
+      this.search_queries = [];
+    }
+
+    console.log(this.search_queries);
   }
 
   ngOnInit() {
-    this.search_queries = this.ref2.array;
-    setTimeout(() => { // 잠시 setTimeout()를 이용했을 뿐. 반드시 구조적으로 해결 바람.
-      this.returnSearchedArray();
-    }, 900);
+
+  }
+
+  ngOnChanges() {
+    if(this.search_queries.length !== 0) {
+      setTimeout(() => { // 잠시 setTimeout()를 이용했을 뿐. 반드시 구조적으로 해결 바람.
+        this.returnSearchedArray();
+      }, 900);      
+    }    
   }
 
   addSearchQueries(word) {
@@ -271,7 +283,7 @@ export class SearchInput2Component implements OnInit {
     });    
   }
 
-  searchByDate() {
+  searchByDate(beginDate, endDate) {
     if(this.undo_array[0] === undefined) {
       this.undo_array = this.ref.eventLists;
     }
@@ -285,8 +297,8 @@ export class SearchInput2Component implements OnInit {
       var eventListDay = eventListTimeSpliter[2];
       var eventListDate = new Date(eventListYear, eventListMonth, eventListDay);
 
-      var myDate = new Date(this.model.beginDate.year, this.model.beginDate.month, this.model.beginDate.day);
-      var myDate2 = new Date(this.model.endDate.year, this.model.endDate.month, this.model.endDate.day);
+      var myDate = new Date(beginDate.year, beginDate.month, beginDate.day);
+      var myDate2 = new Date(endDate.year, endDate.month, endDate.day);
       
       if(eventListDate >= myDate && eventListDate <= myDate2) {
         this.atarashi_array.push(eventList);
@@ -318,12 +330,9 @@ export class SearchInput2Component implements OnInit {
     }
   }
 
-  onDateRangeChanged(event: IMyDateRangeModel) {
+  onDateRangeChanged(event: any) {
     console.log(event);
-  }
-
-  onInputFieldChanged(event: IMyCalendarViewChanged) {
-    console.log('onInputFieldChanged(): Value: ' + event);
+    this.searchByDate(event.beginDate, event.endDate);    
   }
 }
 
