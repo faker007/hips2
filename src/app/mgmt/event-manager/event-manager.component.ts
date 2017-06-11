@@ -30,7 +30,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.isUndefined = this.value.toString().length > 0 ? false : true;
 
     if (this.isUndefined) {
-      this.renderValue = "승인하기1234";
+      this.renderValue = "승인하기";
     } else {
       this.renderValue = this.value.toString();
     }
@@ -51,14 +51,13 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     } else {
     	console.log('승인하기가 거절되었습니다.', this.rowData);
     }
-
   }
 }
 
 @Component({
   selector: 'btn-delete',
   template: `
-    <button (click)="onClick($event)">{{ renderValue }}</button>
+    <button (click)="onClick($event, source)">{{ renderValue }}</button>
   `,
 })
 export class BtnDeleteComponent implements ViewCell, OnInit {
@@ -78,10 +77,18 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
     }
   }
 
-  onClick(event) {
-    console.log("복구/삭제하기 : ", event.value);
+  constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
+  }  
 
-    this.save.emit(this.rowData);
+  onClick(event, source) {
+  	let result = window.confirm("이벤트를 삭제하시겠습니까?");
+  	if(result) {
+  		console.log('삭제하기: ', this.rowData);
+  		this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
+  	} else {
+  		console.log('삭제하기를 거절하였습니다: ', this.rowData);
+  	}
+    // this.save.emit(this.rowData);
   }
 }
 
