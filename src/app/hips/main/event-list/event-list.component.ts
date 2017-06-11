@@ -96,33 +96,33 @@ export class EventListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-  		let status = false;
-  		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
-  		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-  		let body = document.body, html = document.documentElement;
-  		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  		let windowBottom = windowHeight + window.pageYOffset;
+		let status = false;
+		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		let body = document.body, html = document.documentElement;
+		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+		let windowBottom = windowHeight + window.pageYOffset;
 
-  		if(windowBottom >= docHeight) {
-  			status = true;
-  		} else {
-  			status = false;
-  		}
+		if(windowBottom >= docHeight) {
+			status = true;
+		} else {
+			status = false;
+		}
 
-			if(status === true) {
-				if(window.innerWidth <= 400) {
-					scrollBarPosition = scrollBarPosition - 1000;
-				} else {
-					scrollBarPosition = scrollBarPosition - 150;
-				}
-
-				window.scrollTo(0, scrollBarPosition);
-				this.disableScroll();
-  			this.pullEvents();
-  			console.log('도달');
+		if(status === true) {
+			if(window.innerWidth <= 400) {
+				scrollBarPosition = scrollBarPosition - 1000;
 			} else {
-				console.log('안 도달');
-			}  		
+				scrollBarPosition = scrollBarPosition - 150;
+			}
+
+			window.scrollTo(0, scrollBarPosition);
+			this.disableScroll();
+			this.pullEvents();
+			console.log('도달');
+		} else {
+			console.log('안 도달');
+		}  		
   }
 
   pullEvents() {
