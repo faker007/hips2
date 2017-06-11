@@ -44,7 +44,6 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     if (result) {
       console.log('승인하기', this.rowData);
-      console.log('url split: ', this.rowData.url.split('/event/')[1]);
       this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
       	isDeprecated: true
       });
