@@ -41,7 +41,6 @@ export class SearchInputComponent implements OnInit {
   }
 
   constructor(public slS: SearchListService, public router: Router, public route: ActivatedRoute) {
-
   }
 
   ngOnInit() {
@@ -181,6 +180,11 @@ export class SearchInput2Component implements OnInit, OnChanges {
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
 
+  today: Date = new Date();
+  todayYear: any = this.today.getFullYear();
+  todayMonth: any = this.today.getMonth() + 1;
+  todayDay: any = this.today.getDate();
+
   private myDateRangePickerModule: IMyDrpOptions = {
     dateFormat: 'yyyy.mm.dd'
   };
@@ -284,6 +288,9 @@ export class SearchInput2Component implements OnInit, OnChanges {
   }
 
   searchByDate(beginDate, endDate) {
+    console.log('Called by searchByDate() beginDate: ' + beginDate);
+    console.log('Called by searchByDate() endDate: ' + endDate);
+
     if(this.undo_array[0] === undefined) {
       this.undo_array = this.ref.eventLists;
     }
@@ -334,5 +341,38 @@ export class SearchInput2Component implements OnInit, OnChanges {
     console.log(event);
     this.searchByDate(event.beginDate, event.endDate);    
   }
+
+  addZero(argu) {
+    if(parseInt(argu) < 10) {
+      return "0" + argu.toString().trim()
+    } else {
+      return argu;
+    }
+  }  
+
+  searchForThisWeek() {
+
+  }
+
+  searchForNextWeek() {
+    let today = `${this.todayYear}/${this.todayMonth}/${this.todayDay}`
+    let today2 = `${this.todayYear}-${this.addZero(this.todayMonth)}-${this.addZero(this.todayDay)}`
+    
+    let firstDay = new Date(today);
+    let nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
+    
+    let formatedNextWeekYear = nextWeek.getFullYear();
+    let formatedNextWeekMonth = nextWeek.getMonth() + 1;
+    let formatedNextWeekDay = nextWeek.getDate();
+    
+    let formated = `${formatedNextWeekYear}-${this.addZero(formatedNextWeekMonth)}-${this.addZero(formatedNextWeekDay)}`;
+
+    console.log(today2);
+    console.log(formated);
+    setTimeout(() => {
+      this.searchByDate(today2, formated);
+      console.log('Called searchForThisWeek(), setTimeout(): 1500...');
+    }, 1500);
+  }  
 }
 
