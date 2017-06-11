@@ -101,8 +101,9 @@ export class EventListComponent implements OnInit {
 		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
 		let body = document.body, html = document.documentElement;
 		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-		let windowBottom = windowHeight + window.pageYOffset;
-
+		let windowBottom = windowHeight + window.pageYOffset + 5;
+    console.log('windowBottom: ' + windowBottom);
+    console.log('docHeight: ' + docHeight);
 		if(windowBottom >= docHeight) {
 			status = true;
 		} else {

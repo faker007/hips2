@@ -365,14 +365,20 @@ export class SearchInput2Component implements OnInit, OnChanges {
     let formatedNextWeekMonth = nextWeek.getMonth() + 1;
     let formatedNextWeekDay = nextWeek.getDate();
     
-    let formated = `${formatedNextWeekYear}-${this.addZero(formatedNextWeekMonth)}-${this.addZero(formatedNextWeekDay)}`;
+    let todayObj = {
+    	year: `${this.todayYear}`,
+    	month: `${this.todayMonth}`,
+    	day: `${this.todayDay}`
+    }
+
+    let formatedObj =  {
+    	year: `${formatedNextWeekYear}`,
+    	month: `${formatedNextWeekMonth}`,
+    	day: `${formatedNextWeekDay}`
+    }
 
     console.log(today2);
-    console.log(formated);
-    setTimeout(() => {
-      this.searchByDate(today2, formated);
-      console.log('Called searchForThisWeek(), setTimeout(): 1500...');
-    }, 1500);
+    this.searchByDate(todayObj, formatedObj);
   }  
 }
 
