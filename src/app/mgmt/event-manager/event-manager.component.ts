@@ -1,21 +1,21 @@
-import {Component, OnInit, Input, Output, EventEmitter, Inject, HostListener} from '@angular/core';
-import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
-import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
-import {EventListService} from "../../services/event-list.service";
-import {isNullOrUndefined} from "util";
-import {isUndefined} from "util";
-import {split} from "ts-node/dist";
+import { Component, OnInit, Input, Output, EventEmitter, Inject, HostListener } from '@angular/core';
+import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from "angularfire2/database";
+import { EventListService } from "../../services/event-list.service";
+import { isNullOrUndefined } from "util";
+import { isUndefined } from "util";
+import { split } from "ts-node/dist";
 import 'rxjs/add/operator/take';
 
-import {FirebaseApp} from 'angularfire2';
+import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf="isUndefined" (click)="onClick($event, source)">{{ renderValue }}</button>
-    <p *ngIf="!isUndefined">{{renderValue}}</p>
-  `,
+    <button *ngIf = "isUndefined" (click) = "onClick($event, source)">{{ renderValue }}</button>
+    <p *ngIf = "!isUndefined">{{ renderValue }}</p>
+  `
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
   renderValue: string;
@@ -42,7 +42,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   onClick(event, source) {
     var result = window.confirm('이 이벤트를 승인하시겠습니까?');
 
-    if(result) {
+    if (result) {
       console.log('승인하기', this.rowData);
       console.log('url split: ', this.rowData.url.split('/event/')[1]);
       this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
@@ -58,7 +58,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   selector: 'btn-delete',
   template: `
     <button (click)="onClick($event, source)">{{ renderValue }}</button>
-  `,
+  `
 })
 export class BtnDeleteComponent implements ViewCell, OnInit {
   renderValue: string;
@@ -82,13 +82,12 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
 
   onClick(event, source) {
   	let result = window.confirm("이벤트를 삭제하시겠습니까?");
-  	if(result) {
+  	if (result) {
   		console.log('삭제하기: ', this.rowData);
   		this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
   	} else {
   		console.log('삭제하기를 거절하였습니다: ', this.rowData);
   	}
-    // this.save.emit(this.rowData);
   }
 }
 
@@ -208,7 +207,7 @@ export class EventManagerComponent implements OnInit {
   onSaveConfirm(event) {
     var result = window.confirm('Are you sure you want to save?');
 
-    if(result) {
+    if (result) {
       event.confirm.resolve(event.newData);
       console.log(event.newData);
 
@@ -294,7 +293,7 @@ export class EventManagerComponent implements OnInit {
             //tag table update for deleted tags
             for(let i in data.tags){
               //update 이전에도 존재했던 태그이면 통과
-              if( existingTags.indexOf(i) == -1 ){
+              if (existingTags.indexOf(i) == -1 ){
                 //Todo: DeleteTags, find tag equal to label and count--
                 console.log("delete tag : ", i, data.tags[i]);
               }
