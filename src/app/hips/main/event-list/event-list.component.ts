@@ -219,7 +219,7 @@ export class EventListComponent implements OnInit {
   addMyArray() {
     this.array.push('something');
     console.log(this.array);
-  }
+  }  
 
   groupBy(array) {
     if(array[0] === undefined) {

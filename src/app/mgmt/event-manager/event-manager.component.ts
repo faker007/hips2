@@ -30,21 +30,26 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.isUndefined = this.value.toString().length > 0 ? false : true;
 
     if (this.isUndefined) {
-      this.renderValue = "승인하기";
+      this.renderValue = "승인하기1234";
     } else {
       this.renderValue = this.value.toString();
     }
   }
 
+  constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
+  }  
+
   onClick(event, source) {
     var result = window.confirm('이 이벤트를 승인하시겠습니까?');
 
-    if (result) {
-
-      console.log("승인하기", this.rowData);
-
+    if(result) {
+      console.log('승인하기', this.rowData);
+      console.log('url split: ', this.rowData.url.split('/event/')[1]);
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+      	isDeprecated: true
+      });
     } else {
-
+    	console.log('승인하기가 거절되었습니다.', this.rowData);
     }
 
   }
