@@ -358,22 +358,20 @@ export class SearchInput2Component implements OnInit {
     } else {
       return argu;
     }
-  }  
-
-  searchForThisWeek() {
-
   }
 
-  searchForNextWeek() {
+  searchForThisWeek() {
     let today = `${this.todayYear}/${this.todayMonth}/${this.todayDay}`
     let today2 = `${this.todayYear}-${this.addZero(this.todayMonth)}-${this.addZero(this.todayDay)}`
     
     let firstDay = new Date(today);
-    let nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
-    
-    let formatedNextWeekYear = nextWeek.getFullYear();
-    let formatedNextWeekMonth = nextWeek.getMonth() + 1;
-    let formatedNextWeekDay = nextWeek.getDate();
+    let thisWeek = new Date(firstDay.getTime() + (7 - firstDay.getDay()) * 24 * 60 * 60 * 1000);
+
+    let formatedThisWeekYear = thisWeek.getFullYear();
+    let formatedThisWeekMonth = thisWeek.getMonth() + 1;
+    let formatedThisWeekDay = thisWeek.getDate();
+
+    this.undo_array = this.ref.eventLists;
     
     let todayObj = {
     	year: `${this.todayYear}`,
@@ -382,13 +380,47 @@ export class SearchInput2Component implements OnInit {
     }
 
     let formatedObj =  {
-    	year: `${formatedNextWeekYear}`,
-    	month: `${formatedNextWeekMonth}`,
-    	day: `${formatedNextWeekDay}`
+    	year: `${formatedThisWeekYear}`,
+    	month: `${formatedThisWeekMonth}`,
+    	day: `${formatedThisWeekDay}`
     }
 
     console.log(today2);
     this.searchByDate(todayObj, formatedObj);
-  }  
+  }
+
+  searchForNextWeek() {
+    let today = `${this.todayYear}/${this.todayMonth}/${this.todayDay}`
+    let today2 = `${this.todayYear}-${this.addZero(this.todayMonth)}-${this.addZero(this.todayDay)}`
+    
+    let firstDay = new Date(today);
+    let nextWeek = new Date(firstDay.getTime() + (7 - firstDay.getDay() + 1) * 24 * 60 * 60 * 1000);
+    let nextWeek2 = new Date(firstDay.getTime() + (7 + 7 - firstDay.getDay()) * 24 * 60 * 60 * 1000);
+
+    let formatedNextWeekYear = nextWeek2.getFullYear();
+    let formatedNextWeekMonth = nextWeek2.getMonth() + 1;
+    let formatedNextWeekDay = nextWeek2.getDate();
+
+    this.undo_array = this.ref.eventLists;
+    
+    let todayObj = {
+      year: `${nextWeek.getFullYear()}`,
+      month: `${nextWeek.getMonth() + 1}`,
+      day: `${nextWeek.getDate()}`
+    }
+
+    let formatedObj =  {
+      year: `${formatedNextWeekYear}`,
+      month: `${formatedNextWeekMonth}`,
+      day: `${formatedNextWeekDay}`
+    }
+
+    this.searchByDate(todayObj, formatedObj);
+  }
+
+  beDefaultWeek() {
+    this.beOriginalArray();
+  }
+
 }
 
