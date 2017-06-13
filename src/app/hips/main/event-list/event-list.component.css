@@ -13,6 +13,11 @@
   line-height: 34px;
   vertical-align: middle;
 }
+
+.event-list .my-ng-if {
+  
+}
+
 .event-list .event-item .tag-container{
   display: none;
 }

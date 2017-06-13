@@ -3,12 +3,12 @@
     <section class="hips-search">
 
       <div class="floating-header col-xs-12">
-        <!--todo : import serach-input component-->
-        <form action="#">
+        <hips-search-input-2 [ref]="event_list" [ref2]="search_queries"></hips-search-input-2>
+        <!--<form action="#">
           <div class="form-group">
             <input type="text"><button>검색</button>
           </div>
-        </form>
+        </form> -->
 
         <hr>
 
@@ -20,36 +20,7 @@
         </ul>
       </div>
       <div class="contents">
-        <!--todo : import event-list component-->
-
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
-        <p>hello World!</p>
+        <hips-event-list #event_list></hips-event-list>
       </div>
     </section>
   </div>

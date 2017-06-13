@@ -1,0 +1,11 @@
+._search {
+  padding: 100px 0;
+}
+._search .title{
+  padding-bottom: 25px;
+}
+._search .title h1{
+  color: white;
+  margin: 7.5px 0;
+  /*font-size: 50px;*/
+}

@@ -51,12 +51,13 @@ export class EventListComponent implements OnInit {
   state:string = 'small'
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
+    this.disableScroll();
+    this.pullEvents(); 
   }
 
 
   ngOnInit() {
-  	this.disableScroll();
-  	this.pullEvents();
+
   }
 
 	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
@@ -95,41 +96,41 @@ export class EventListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-  		let status = false;
-  		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
-  		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-  		let body = document.body, html = document.documentElement;
-  		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  		let windowBottom = windowHeight + window.pageYOffset;
+		let status = false;
+		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		let body = document.body, html = document.documentElement;
+		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+		let windowBottom = windowHeight + window.pageYOffset + 5;
+    console.log('windowBottom: ' + windowBottom);
+    console.log('docHeight: ' + docHeight);
+		if(windowBottom >= docHeight) {
+			status = true;
+		} else {
+			status = false;
+		}
 
-  		if(windowBottom >= docHeight) {
-  			status = true;
-  		} else {
-  			status = false;
-  		}
-
-			if(status === true) {
-				if(window.innerWidth <= 400) {
-					scrollBarPosition = scrollBarPosition - 1000;
-				} else {
-					scrollBarPosition = scrollBarPosition - 150;
-				}
-
-				window.scrollTo(0, scrollBarPosition);
-				this.disableScroll();
-  			this.pullEvents();
-  			console.log('도달');
+		if(status === true) {
+			if(window.innerWidth <= 400) {
+				scrollBarPosition = scrollBarPosition - 1000;
 			} else {
-				console.log('안 도달');
-			}  		
+				scrollBarPosition = scrollBarPosition - 150;
+			}
+
+			window.scrollTo(0, scrollBarPosition);
+			this.disableScroll();
+			this.pullEvents();
+			console.log('도달');
+		} else {
+			console.log('안 도달');
+		}  		
   }
 
   pullEvents() {
   	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
-  			this.eventLists.push(snapshot.val());
-        console.log(snapshot.val());  
+  			this.eventLists.push(snapshot.val());  
   		});
 
       if(this.searchArray.length === 0) {
@@ -219,7 +220,7 @@ export class EventListComponent implements OnInit {
   addMyArray() {
     this.array.push('something');
     console.log(this.array);
-  }
+  }  
 
   groupBy(array) {
     if(array[0] === undefined) {
