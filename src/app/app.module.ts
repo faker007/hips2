@@ -26,6 +26,7 @@ import {Ng2SmartTableModule} from "ng2-smart-table";
 import {EventListService} from "./services/event-list.service";
 import {TagListService} from "./services/tag-list.service";
 import {SearchListService } from './services/search-list.service';
+import { EmitterService } from './services/my.service';
 import {AngularFireModule} from "angularfire2";
 
 import {AngularFireDatabaseModule} from "angularfire2/database";
@@ -99,7 +100,8 @@ export const firebaseConfig = {
   providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     EventListService,
     TagListService,
-    SearchListService
+    SearchListService,
+    EmitterService
   ],
   bootstrap: [AppComponent]
 })

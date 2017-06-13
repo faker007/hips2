@@ -1,12 +1,15 @@
-import { Component, OnInit, ViewEncapsulation, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { forEach } from "@angular/router/src/utils/collection";
 
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 
 import { SearchListService } from '../../../services/search-list.service';
 
 import { IMyDrpOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from 'mydaterangepicker';
+
+import { EmitterService } from '../../../services/my.service';
 
 @Component({
   selector: 'hips-search-input',
@@ -168,9 +171,10 @@ export class SearchInputComponent implements OnInit {
   providers: [SearchInputComponent],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchInput2Component implements OnInit, OnChanges {
+export class SearchInput2Component implements OnInit {
   @Input() ref;
   @Input() ref2;
+
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
   undo_array: Array<any> = []; // 태그 검색을 하면 원본 배열이 사라지는데, 사라지는 원본 배열에 대한 백업용
 
@@ -203,6 +207,20 @@ export class SearchInput2Component implements OnInit, OnChanges {
   }
 
   constructor(public slS: SearchListService) {
+    if(EmitterService.get('queries') !== undefined) {
+      EmitterService.get('queries').take(1).subscribe(datas => {
+        datas.forEach((data, index) => {
+          this.search_queries.push(data);
+        });
+
+        if(this.search_queries.length !== 0) {
+          setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
+            this.returnSearchedArray();
+          }, 1000);
+        }
+      }); 
+    }
+
     if(this.ref2 !== undefined) {
       this.search_queries = this.ref2.array;
     } else {
@@ -214,14 +232,6 @@ export class SearchInput2Component implements OnInit, OnChanges {
 
   ngOnInit() {
 
-  }
-
-  ngOnChanges() {
-    if(this.search_queries.length !== 0) {
-      setTimeout(() => { // 잠시 setTimeout()를 이용했을 뿐. 반드시 구조적으로 해결 바람.
-        this.returnSearchedArray();
-      }, 900);      
-    }    
   }
 
   addSearchQueries(word) {
