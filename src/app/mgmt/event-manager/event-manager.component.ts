@@ -196,122 +196,141 @@ export class EventManagerComponent implements OnInit {
   onSaveConfirm(event) {
     var result = window.confirm('Are you sure you want to save?');
 
-    if(result) {
-      event.confirm.resolve(event.newData);
-      console.log(event.newData);
+    if (result) {
+      // event.confirm.resolve(event.newData);
 
-      this.db.object('/event/' + event.newData.id)
-        .take(1)
-        .subscribe(data => {
-          console.log(data);
+      console.log("new", event.newData);
+
+      let initData = this.elService.getEventByTitle(event.newData.title);
+
+      initData.take(1).subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          initData = snapshot.val();
+          console.log("initData: ", initData);
+
+          let isValidated: boolean = true;
           let isUpdated: boolean = false;
 
-          if (data.title != event.newData.title) {
+          if (!(initData.title === event.newData.title)) {
             if (event.newData.title.length > 0) {
-              data.title = event.newData.title;
+              initData.title = event.newData.title;
+              console.log("title changed: ", initData.title);
               isUpdated = true;
             } else {
               alert("행사 제목을 입력해주세요.");
+              isValidated = false;
             }
           }
 
-          if (data.address != event.newData.address) {
+          if (!(initData.address === event.newData.address)) {
             if (event.newData.address.length > 0) {
-              data.begin = event.newData.address;
+              initData.address = event.newData.address;
+              console.log("address changed: ", initData.address);
               isUpdated = true;
             } else {
               alert("행사 위치를 입력해주세요.");
+              isValidated = false;
             }
           }
 
-          if (data.begin != event.newData.begin) {
+          if (!(initData.begin === event.newData.begin)) {
             if (event.newData.begin.length > 0) {
-              data.begin = event.newData.begin;
+              initData.begin = event.newData.begin;
+              console.log("begin changed: ", initData.begin);
               isUpdated = true;
             } else {
               alert("행사 시작 시간을 입력해주세요.");
+              isValidated = false;
             }
           }
 
-          if (data.url != event.newData.url) {
+          if (!(initData.url === event.newData.url)) {
             if (event.newData.url.length > 0) {
-              data.begin = event.newData.url;
+              initData.url = event.newData.url;
+              console.log("url changed: ", initData.url);
               isUpdated = true;
             } else {
-              alert("행사 시작 시간을 입력해주세요.");
+              alert("행사 url을 입력해주세요.");
+              isValidated = false;
             }
           }
 
-          if (typeof(event.newData.tags) == "string") {
-            let tags = event.newData.tags.split(",");
 
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
-
-            if (tags.length > 0) {
-              console.log(tags.length);
-            } else {
-              alert("태그를 입력해주세요.");
-            }
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
-          }
-
-          if ((typeof data != 'undefined') && isUpdated) {
-            //이전 데이터 => data.tags
-
-            //update할 데이터
-            let tags = event.newData.tags.split(",");
-
-            let existingTags:any = ""; //update이전에도 존재했던 태그목록 index
-            let deletedTags:any = ""; //update후 삭제된 태그목록 index
-            let newTags:any = "";//update후 새롭게 추가된 태그목록 index
-
-            /** for (let i in tags) {
-              // let indexOf: number = data.tags.indexOf(tags[i]);
-              if( indexOf > -1 ){
-                //원래 있던 태그
-                existingTags.push(indexOf);
-                console.log("원래 있던 태그 : ",tags[i]);
-              }else{
-                //추가된 태그
-                newTags.push(parseInt(i));
-              }
-            } **/
-
-            //tag table update for deleted tags
-            for(let i in data.tags){
-              //update 이전에도 존재했던 태그이면 통과
-              if( existingTags.indexOf(i) == -1 ){
-                //Todo: DeleteTags, find tag equal to label and count--
-                console.log("delete tag : ", i, data.tags[i]);
-              }
-            }
-
-            console.log(event.newData);
-
-            //tag table update for new tags
-            //Todo: push on the tag table to this data : newTags
-            //Todo: check if is tag already exist
-            //case 1: exist : count ++;
-            //case 2: not exist : create new record
-
-            /*this.db.object('event/' + event.newData.id).set(data)
-            	.then(_ => console.log("Updated"))
-            	.catch(err => console.log(err, "Failed"));
-            	*/
-            console.log(event.newData.url.split('event/')[1]);
-
-            let _id = event.newData.url.split('event/')[1];
-
-
-            this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
-          		this.firebaseApp.database().ref().child('event/' + _id).update({
-          			tags: tags
-          	});
-        });
-          }
-        });
+        })
+      });
+      //
+      //
+      //
+      //     if (typeof(event.newData.tags) == "string") {
+      //       let tags = event.newData.tags.split(",");
+      //
+      //       console.log("data.tags : ", data.tags);
+      //       console.log("tags : ", tags);
+      //
+      //       if (tags.length > 0) {
+      //         console.log(tags.length);
+      //       } else {
+      //         alert("태그를 입력해주세요.");
+      //       }
+      //       console.log("data.tags : ", data.tags);
+      //       console.log("tags : ", tags);
+      //     }
+      //
+      //     if ((typeof data != 'undefined') && isUpdated) {
+      //       //이전 데이터 => data.tags
+      //
+      //       //update할 데이터
+      //       let tags = event.newData.tags.split(",");
+      //
+      //       let existingTags:any = ""; //update이전에도 존재했던 태그목록 index
+      //       let deletedTags:any = ""; //update후 삭제된 태그목록 index
+      //       let newTags:any = "";//update후 새롭게 추가된 태그목록 index
+      //
+      //       /** for (let i in tags) {
+      //         // let indexOf: number = data.tags.indexOf(tags[i]);
+      //         if( indexOf > -1 ){
+      //           //원래 있던 태그
+      //           existingTags.push(indexOf);
+      //           console.log("원래 있던 태그 : ",tags[i]);
+      //         }else{
+      //           //추가된 태그
+      //           newTags.push(parseInt(i));
+      //         }
+      //       } **/
+      //
+      //       //tag table update for deleted tags
+      //       for(let i in data.tags){
+      //         //update 이전에도 존재했던 태그이면 통과
+      //         if( existingTags.indexOf(i) == -1 ){
+      //           //Todo: DeleteTags, find tag equal to label and count--
+      //           console.log("delete tag : ", i, data.tags[i]);
+      //         }
+      //       }
+      //
+      //       console.log(event.newData);
+      //
+      //       //tag table update for new tags
+      //       //Todo: push on the tag table to this data : newTags
+      //       //Todo: check if is tag already exist
+      //       //case 1: exist : count ++;
+      //       //case 2: not exist : create new record
+      //
+      //       /*this.db.object('event/' + event.newData.id).set(data)
+      //       	.then(_ => console.log("Updated"))
+      //       	.catch(err => console.log(err, "Failed"));
+      //       	*/
+      //       console.log(event.newData.url.split('event/')[1]);
+      //
+      //       let _id = event.newData.url.split('event/')[1];
+      //
+      //
+      //       this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
+      //     		this.firebaseApp.database().ref().child('event/' + _id).update({
+      //     			tags: tags
+      //     	});
+      //   });
+      //     }
+      //   });
 
     } else {
       event.confirm.reject();
