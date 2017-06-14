@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf = "isUndefined" (click) = "onClick($event, source)">{{ renderValue }}</button>
+    <button *ngIf = "isUndefined" (click) = "onClick()">{{ renderValue }}</button>
     <p *ngIf = "!isUndefined">{{ renderValue }}</p>
   `
 })
@@ -39,14 +39,14 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
   }  
 
-  onClick(event, source) {
+  onClick() {
     var result = window.confirm('이 이벤트를 승인하시겠습니까?');
 
     if (result) {
       console.log('승인하기', this.rowData);
-      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+      /* this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
       	isDeprecated: true
-      });
+      }); */
     } else {
     	console.log('승인하기가 거절되었습니다.', this.rowData);
     }
@@ -68,11 +68,10 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
-
     if (this.value) {
-      this.renderValue = "복구하기";
+      this.renderValue = "복구하기1234";
     } else {
-      this.renderValue = "삭제하기";
+      this.renderValue = "삭제하기1234";
     }
   }
 
@@ -158,11 +157,11 @@ export class EventManagerComponent implements OnInit {
         editable: false,
         type: 'custom',
         renderComponent: ButtonViewComponent,
-        // onComponentInitFunction(instance) {
-        //   instance.save.subscribe(row => {
-        //     alert(`${row.name} saved!`)
-        //   });
-        // }
+        onComponentInitFunction(instance) {
+          instance.save.subscribe(row => {
+            console.log(row);
+          });
+        }
         // type: 'html',
         // valuePrepareFunction: (cell, row) => {
         // return '<a href="#" id="btn-confirm-255">'+row.id+'</a>';
