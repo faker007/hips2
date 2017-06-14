@@ -209,9 +209,11 @@ export class SearchInput2Component implements OnInit {
   constructor(public slS: SearchListService) {
     if(EmitterService.get('queries') !== undefined) {
       EmitterService.get('queries').take(1).subscribe(datas => {
-        datas.forEach((data, index) => {
-          this.search_queries.push(data);
-        });
+      	if(datas !== undefined && datas[0] !== undefined) {
+	        datas.forEach((data, index) => {
+	          this.search_queries.push(data);
+	        });      		
+      	}
 
         if(this.search_queries.length !== 0) {
           setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
