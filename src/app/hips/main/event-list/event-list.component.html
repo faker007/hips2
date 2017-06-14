@@ -10,6 +10,7 @@
           <br>
         </div>
         <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
+
           <div class="my-ng-if" *ngIf="eventList.isDeprecated === true">
             <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin | datePipe}}</div>
             <a target="_blank" href="{{eventList.url}}">
@@ -28,6 +29,6 @@
         </div>
       </div>
     </ng-template>
-    <p [@myAwesomeAnimation]='state' (click)="animateMe()">I will animate</p>
+    <p [@myAwesomeAnimation]='state' (click)="animateMe()">등록된 행사가 존재하지 않습니다.</p>
   </section>
 </div>

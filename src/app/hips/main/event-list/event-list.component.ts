@@ -55,7 +55,6 @@ export class EventListComponent implements OnInit {
     this.pullEvents(); 
   }
 
-
   ngOnInit() {
 
   }

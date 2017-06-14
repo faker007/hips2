@@ -285,6 +285,12 @@ export class SearchInput2Component implements OnInit {
         this.atarashi_array.push(obj);
       }
 
+      console.log(this.atarashi_array[0]);
+
+      if(this.atarashi_array[0] === undefined) {
+      	this.ref.sortedGroupByEventList = [];
+      }
+
       this.atarashi_array.sort((a, b) => {
         return b.priority - a.priority; 
       }); 
