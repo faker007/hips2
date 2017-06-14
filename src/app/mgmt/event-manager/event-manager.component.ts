@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, HostListener } from '@angular/core';
-import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
-import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from "angularfire2/database";
-import { EventListService } from "../../services/event-list.service";
-import { isNullOrUndefined } from "util";
-import { isUndefined } from "util";
-import { split } from "ts-node/dist";
+import {Component, OnInit, Input, Output, EventEmitter, Inject, HostListener} from '@angular/core';
+import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
+import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
+import {EventListService} from "../../services/event-list.service";
+import {isNullOrUndefined} from "util";
+import {isUndefined} from "util";
+import {split} from "ts-node/dist";
 import 'rxjs/add/operator/take';
 
-import { FirebaseApp } from 'angularfire2';
+import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
@@ -37,7 +37,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
-  }  
+  }
 
   onClick() {
     var result = window.confirm('이 이벤트를 승인하시겠습니까?');
@@ -45,10 +45,10 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     if (result) {
       console.log('승인하기', this.rowData);
       /* this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
-      	isDeprecated: true
-      }); */
+       isDeprecated: true
+       }); */
     } else {
-    	console.log('승인하기가 거절되었습니다.', this.rowData);
+      console.log('승인하기가 거절되었습니다.', this.rowData);
     }
   }
 }
@@ -76,16 +76,16 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
   }
 
   constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
-  }  
+  }
 
   onClick(event, source) {
-  	let result = window.confirm("이벤트를 삭제하시겠습니까?");
-  	if (result) {
-  		console.log('삭제하기: ', this.rowData);
-  		this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
-  	} else {
-  		console.log('삭제하기를 거절하였습니다: ', this.rowData);
-  	}
+    let result = window.confirm("이벤트를 삭제하시겠습니까?");
+    if (result) {
+      console.log('삭제하기: ', this.rowData);
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
+    } else {
+      console.log('삭제하기를 거절하였습니다: ', this.rowData);
+    }
   }
 }
 
@@ -272,9 +272,9 @@ export class EventManagerComponent implements OnInit {
             //update할 데이터
             let tags = event.newData.tags.split(",");
 
-            let existingTags:any = ""; //update이전에도 존재했던 태그목록 index
-            let deletedTags:any = ""; //update후 삭제된 태그목록 index
-            let newTags:any = "";//update후 새롭게 추가된 태그목록 index
+            let existingTags: any = ""; //update이전에도 존재했던 태그목록 index
+            let deletedTags: any = ""; //update후 삭제된 태그목록 index
+            let newTags: any = "";//update후 새롭게 추가된 태그목록 index
 
             /** for (let i in tags) {
               // let indexOf: number = data.tags.indexOf(tags[i]);
@@ -289,9 +289,9 @@ export class EventManagerComponent implements OnInit {
             } **/
 
             //tag table update for deleted tags
-            for(let i in data.tags){
+            for (let i in data.tags) {
               //update 이전에도 존재했던 태그이면 통과
-              if (existingTags.indexOf(i) == -1 ){
+              if (existingTags.indexOf(i) == -1) {
                 //Todo: DeleteTags, find tag equal to label and count--
                 console.log("delete tag : ", i, data.tags[i]);
               }
@@ -306,19 +306,19 @@ export class EventManagerComponent implements OnInit {
             //case 2: not exist : create new record
 
             /*this.db.object('event/' + event.newData.id).set(data)
-            	.then(_ => console.log("Updated"))
-            	.catch(err => console.log(err, "Failed"));
-            	*/
+             .then(_ => console.log("Updated"))
+             .catch(err => console.log(err, "Failed"));
+             */
             console.log(event.newData.url.split('event/')[1]);
 
             let _id = event.newData.url.split('event/')[1];
 
 
             this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
-          		this.firebaseApp.database().ref().child('event/' + _id).update({
-          			tags: tags
-          	});
-        });
+              this.firebaseApp.database().ref().child('event/' + _id).update({
+                tags: tags
+              });
+            });
           }
         });
 
@@ -327,10 +327,97 @@ export class EventManagerComponent implements OnInit {
     }
   }
 
+  convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+
+    var mmChars = mm.split('');
+    var ddChars = dd.split('');
+
+    return yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]);
+  }
+
   onCreateConfirm(event) {
     if (window.confirm('Are you sure you want to create?')) {
       event.newData['name'] += ' + added in code';
-      event.confirm.resolve(event.newData);
+      console.log(event.newData);
+
+      let current_date = new Date();
+      let timestamp = current_date.getTime();
+
+      if (event.newData.title.length > 0) {
+        if (event.newData.begin.length > 0) {
+          if (event.newData.address.length > 0) {
+            if (event.newData.url.length > 0) {
+              if (event.newData.tags.length > 0) {
+
+                let tags = event.newData.tags.split(",");
+
+                for (let i in tags) {
+                  this.firebaseApp.database().ref('tag').orderByChild('label').equalTo(tags[i]).limitToFirst(1).once('value').then((snapshot) => {
+
+                    //table에 tag 존재 X
+                    if (snapshot.val() === null) {
+
+                      this.firebaseApp.database().ref('tag/' + timestamp).set({
+                        label: tags[i],
+                        id: timestamp,
+                        count: 1,
+                        isDeprecated: false,
+                        created: this.convertDate(current_date)
+                      });
+
+                    } else {
+
+                      snapshot.forEach((childSnapshot) => {
+                        var value = childSnapshot.val();
+                        console.log("Title is : " + value.label);
+
+                        this.firebaseApp.database().ref().child('tag/' + value.id).update({
+                          count: parseInt(value.count) + 1
+                        });
+                      });
+                    }
+                  });
+                }
+
+                //todo: add new record to event table
+                this.firebaseApp.database().ref('event/' + timestamp).set({
+                  title: event.newData.title,
+                  address: event.newData.address,
+                  begin: event.newData.begin,
+                  url: event.newData.url,
+                  created: this.convertDate(current_date),
+                  isDeprecated: false,
+                  id: timestamp,
+                  tags: tags,
+                });
+
+                event.confirm.resolve();
+
+
+              } else {
+                event.confirm.reject();
+                alert("이벤트 태그를 입력해주세요");
+              }
+            } else {
+              event.confirm.reject();
+              alert("이벤트 url을 입력해주세요");
+            }
+          } else {
+            event.confirm.reject();
+            alert("이벤트 위치를 입력해주세요");
+          }
+        } else {
+          event.confirm.reject();
+          alert("이벤트 시작 시간을 입력해주세요");
+        }
+      } else {
+        event.confirm.reject();
+        alert("이벤트 제목을 입력해주세요");
+      }
+
     } else {
       event.confirm.reject();
     }
