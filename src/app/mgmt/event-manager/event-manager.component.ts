@@ -206,121 +206,162 @@ export class EventManagerComponent implements OnInit {
     var result = window.confirm('Are you sure you want to save?');
 
     if (result) {
-      event.confirm.resolve(event.newData);
-      console.log(event.newData);
 
-      this.db.object('/event/' + event.newData.id)
-        .take(1)
-        .subscribe(data => {
-          console.log(data);
-          let isUpdated: boolean = false;
+      //빈칸 체크
+      if (event.newData.title.toString().length > 0) {
+        if (event.newData.begin.toString().length > 0) {
+          if (event.newData.url.toString().length > 0) {
+            if (event.newData.address.toString().length > 0) {
+              if (event.newData.tags.toString().length > 0) {
 
-          if (data.title != event.newData.title) {
-            if (event.newData.title.length > 0) {
-              data.title = event.newData.title;
-              isUpdated = true;
-            } else {
-              alert("행사 제목을 입력해주세요.");
-            }
-          }
+                //빈칸 체크 통과 => event 구분
+                if (event.newData.id.toString().length == 13) {
+                  console.log("new event", event.newData.id);
+                } else {
+                  event.newData.id = event.newData.url.split('/event/')[1];
+                  console.log("on-off mix", event.newData.id);
+                }
 
-          if (data.address != event.newData.address) {
-            if (event.newData.address.length > 0) {
-              data.begin = event.newData.address;
-              isUpdated = true;
-            } else {
-              alert("행사 위치를 입력해주세요.");
-            }
-          }
+                //getItemByID
+                this.firebaseApp.database().ref('event/' + event.newData.id).once('value').then((snapshot) => {
 
-          if (data.begin != event.newData.begin) {
-            if (event.newData.begin.length > 0) {
-              data.begin = event.newData.begin;
-              isUpdated = true;
-            } else {
-              alert("행사 시작 시간을 입력해주세요.");
-            }
-          }
+                  //table에 event 존재
+                  if (snapshot.val() === null) {
+                    alert("심각한 오류가 발생했습니다!! 개발자에게 문의하세요!");
+                  } else {
+                    console.log("initial Tags: ", snapshot.val().tags);
 
-          if (data.url != event.newData.url) {
-            if (event.newData.url.length > 0) {
-              data.begin = event.newData.url;
-              isUpdated = true;
-            } else {
-              alert("행사 시작 시간을 입력해주세요.");
-            }
-          }
+                    //tags의 타입이 스트링이면 수정된 것
+                    if (typeof event.newData.tags == typeof "string") {
+                      let tags = event.newData.tags.split(",");
 
-          if (typeof(event.newData.tags) == "string") {
-            let tags = event.newData.tags.split(",");
+                      let existingTags: any[] = []; //update 이전에도 존재했던 태그목록 index
+                      let deletedTags: any[] = []; //update 후 삭제된 태그목록 index
+                      let newTags: any[] = [];//update후 새롭게 추가된 태그목록 index
 
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
+                      for (let i in tags) {
+                        let index = snapshot.val().tags.indexOf(tags[i]);
 
-            if (tags.length > 0) {
-              console.log(tags.length);
-            } else {
-              alert("태그를 입력해주세요.");
-            }
-            console.log("data.tags : ", data.tags);
-            console.log("tags : ", tags);
-          }
+                        if (index > -1) {
+                          //원래 있던 태그
+                          existingTags.push(index);
+                          console.log("원래 있던 태그 : ", tags[i] + index);
 
-          if ((typeof data != 'undefined') && isUpdated) {
-            //이전 데이터 => data.tags
+                        } else {
+                          //추가된 태그
+                          newTags.push(parseInt(i));
+                          console.log("새롭게 추가된 태그: ", tags[i] + i);
+                          //todo: tag table에 추가
+                          this.firebaseApp.database().ref('tag').orderByChild('label').equalTo(tags[i]).limitToFirst(1).once('value').then((snapshot) => {
 
-            //update할 데이터
-            let tags = event.newData.tags.split(",");
+                            //table에 tag 존재 X
+                            if (snapshot.val() === null) {
 
-            let existingTags: any = ""; //update이전에도 존재했던 태그목록 index
-            let deletedTags: any = ""; //update후 삭제된 태그목록 index
-            let newTags: any = "";//update후 새롭게 추가된 태그목록 index
+                              let current_date = new Date();
+                              let timestamp = current_date.getTime();
 
-            /** for (let i in tags) {
-              // let indexOf: number = data.tags.indexOf(tags[i]);
-              if( indexOf > -1 ){
-                //원래 있던 태그
-                existingTags.push(indexOf);
-                console.log("원래 있던 태그 : ",tags[i]);
-              }else{
-                //추가된 태그
-                newTags.push(parseInt(i));
+                              this.firebaseApp.database().ref('tag/' + timestamp).set({
+                                label: tags[i],
+                                id: timestamp,
+                                count: 1,
+                                isDeprecated: false,
+                                created: this.convertDate(current_date)
+                              });
+
+                            } else {
+
+                              snapshot.forEach((childSnapshot) => {
+                                var value = childSnapshot.val();
+                                console.log("Title is : " + value.label);
+
+                                this.firebaseApp.database().ref().child('tag/' + value.id).update({
+                                  count: parseInt(value.count) + 1
+                                });
+                              });
+                            }
+                          });
+                        }
+                      }
+
+                      console.log("원래 있던 태그 : ", existingTags);
+                      console.log("새롭게 추가된 태그: ", newTags);
+
+                      for (let i = 0; i < snapshot.val().tags.length; i++) {
+
+                        let index = existingTags.indexOf(i);
+
+                        if (index == -1) {
+                          console.log("deleted tags: " + i);
+
+                          this.firebaseApp.database().ref('tag').orderByChild('label').equalTo(snapshot.val().tags[i]).limitToFirst(1).once('value').then((snapshot) => {
+
+                            //table에 tag 존재 X
+                            if (snapshot.val() === null) {
+
+                              alert("치명적인 오류가 발생했습니다. 개발자에게 문의하세요!!!");
+
+                            } else {
+
+                              snapshot.forEach((childSnapshot) => {
+                                var value = childSnapshot.val();
+                                console.log("Title is : " + value.label);
+
+                                this.firebaseApp.database().ref().child('tag/' + value.id).update({
+                                  count: parseInt(value.count) - 1
+                                });
+                              });
+                            }
+                          });
+                        }
+                      }
+
+                      //tag를 포함한 field update
+                      this.firebaseApp.database().ref().child('event/' + event.newData.id).update({
+                        tags: tags,
+                        id: event.newData.id,
+                        title: event.newData.title,
+                        url: event.newData.url,
+                        address: event.newData.address,
+                        begin: event.newData.begin,
+                        updated: true,
+                      });
+                    } else {
+                      //tag를 제외한 field update
+                      this.firebaseApp.database().ref().child('event/' + event.newData.id).update({
+                        id: event.newData.id,
+                        title: event.newData.title,
+                        url: event.newData.url,
+                        address: event.newData.address,
+                        begin: event.newData.begin,
+                        updated: true,
+                      });
+                    }
+                  }
+                });
+
+                event.confirm.resolve(event.newData);
+                this.source.refresh();
+
+              } else {
+                event.confirm.reject();
+                alert("이벤트 태그를 입력해주세요");
               }
-            } **/
-
-            //tag table update for deleted tags
-            for (let i in data.tags) {
-              //update 이전에도 존재했던 태그이면 통과
-              if (existingTags.indexOf(i) == -1) {
-                //Todo: DeleteTags, find tag equal to label and count--
-                console.log("delete tag : ", i, data.tags[i]);
-              }
+            } else {
+              event.confirm.reject();
+              alert("이벤트 주소를 입력해주세요");
             }
-
-            console.log(event.newData);
-
-            //tag table update for new tags
-            //Todo: push on the tag table to this data : newTags
-            //Todo: check if is tag already exist
-            //case 1: exist : count ++;
-            //case 2: not exist : create new record
-
-            /*this.db.object('event/' + event.newData.id).set(data)
-             .then(_ => console.log("Updated"))
-             .catch(err => console.log(err, "Failed"));
-             */
-            console.log(event.newData.url.split('event/')[1]);
-
-            let _id = event.newData.url.split('event/')[1];
-
-
-            this.firebaseApp.database().ref().child('event/' + _id).once('value', (snapshot) => {
-              this.firebaseApp.database().ref().child('event/' + _id).update({
-                tags: tags
-              });
-            });
+          } else {
+            event.confirm.reject();
+            alert("이벤트 url을 입력해주세요");
           }
-        });
+        } else {
+          event.confirm.reject();
+          alert("이벤트 시작일을 입력해주세요");
+        }
+      } else {
+        event.confirm.reject();
+        alert("이벤트 제목을 입력해주세요");
+      }
 
     } else {
       event.confirm.reject();
@@ -382,7 +423,6 @@ export class EventManagerComponent implements OnInit {
                   });
                 }
 
-                //todo: add new record to event table
                 this.firebaseApp.database().ref('event/' + timestamp).set({
                   title: event.newData.title,
                   address: event.newData.address,
@@ -396,7 +436,7 @@ export class EventManagerComponent implements OnInit {
                 });
 
                 event.confirm.resolve();
-
+                this.source.refresh();
 
               } else {
                 event.confirm.reject();
