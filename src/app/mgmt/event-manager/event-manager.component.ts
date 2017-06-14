@@ -392,6 +392,7 @@ export class EventManagerComponent implements OnInit {
                   isDeprecated: false,
                   id: timestamp,
                   tags: tags,
+                  updated: true,
                 });
 
                 event.confirm.resolve();
