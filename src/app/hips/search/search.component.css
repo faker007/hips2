@@ -9,7 +9,8 @@
 
 .hips-search .floating-header{
   position: fixed;
-  border-bottom: solid 1px #cccccc;
+  /*border-bottom: solid 1px #bbbbbb;*/
+  box-shadow: 0px 6px 10px #cccccc;
   background-color: white;
   left: 0;
   top: 0;
