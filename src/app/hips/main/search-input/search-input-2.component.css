@@ -1,6 +1,17 @@
 ._search {
   padding: 50px 0 25px 0;
 }
-.tag-input, .search-option{
+.tag-input, .search-options{
   margin: 5px 0;
+}
+
+.search-options{
+  text-align: center;
+}
+
+.floating-calender{
+  z-index: 10000;
+  width: 1px;
+  height: 1px;
+  margin: auto;
 }
