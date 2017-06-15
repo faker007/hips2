@@ -25,7 +25,7 @@ export class TagListService {
     this.trendtags = this.db.list('/tag', {
       query: {
         orderByChild: 'count',
-        limitToLast: 45
+        limitToLast: 15
       },
       preserveSnapshot: true
     });
