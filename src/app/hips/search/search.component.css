@@ -9,11 +9,12 @@
 
 .hips-search .floating-header{
   position: fixed;
-  border-bottom: solid 2px #777777;
+  border-bottom: solid 1px #cccccc;
   background-color: white;
   left: 0;
   top: 0;
   padding: 50px 0;
+  z-index: 1000;
 }
 
 .hips-search .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
