@@ -44,3 +44,11 @@
   margin: 7.5px 0;
   /*font-size: 50px;*/
 }
+.search .ng2-tag-input-field{
+  background-color: transparent;
+}
+
+.search .btn-search{
+  margin: 8px 0;
+  padding: 8px 0;
+}
