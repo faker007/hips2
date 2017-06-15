@@ -5,6 +5,8 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 import * as _ from 'lodash';
 
+import 'rxjs/add/operator/take';
+
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
@@ -52,7 +54,7 @@ export class EventListComponent implements OnInit {
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
     this.disableScroll();
-    this.pullEvents(); 
+    this.pullEvents();
   }
 
   ngOnInit() {
@@ -62,18 +64,18 @@ export class EventListComponent implements OnInit {
 	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
 
 	preventDefault(e) {
-  e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
-  e.returnValue = false;  
-}
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;
+  }
 
 	preventDefaultForScrollKeys(e) {
     if (this.keys[e.keyCode]) {
-        this.preventDefault(e);
-        return false;
+     this.preventDefault(e);
+      return false;
     }
-}  
+  }  
 
 	disableScroll() {
 	  if (window.addEventListener) // older FF
@@ -126,7 +128,7 @@ export class EventListComponent implements OnInit {
   }
 
   pullEvents() {
-  	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
+  	this.elS.getEventsNumber(this.countPullEvents).take(1).subscribe((snapshots) => {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
         if(snapshot.val().updated === true) {
@@ -135,7 +137,7 @@ export class EventListComponent implements OnInit {
   		});
 
       if(this.searchArray.length === 0) {
-        this.elS.getTodayEvents().subscribe((snapshots) => {
+        this.elS.getTodayEvents().take(1).subscribe((snapshots) => {
           this.searchArray = [];
           snapshots.forEach((snapshot, index) => {
             if(snapshot.val().updated === true) {
