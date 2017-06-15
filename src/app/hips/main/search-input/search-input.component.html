@@ -1,25 +1,22 @@
 <section class="search">
   <div class="container">
-    <div class="row">
+    <div class="row header">
       <div class="col-xs-12 title">
-        <h1>힙스에서 여러분에게 필요한</h1>
+        <h1><span>HIPS</span>에서 여러분에게 필요한</h1>
         <h1>스타트업 행사들을</h1>
         <h1>찾아보세요.</h1>
       </div>
-      <!-- <div class="col-xs-12">
-        <button (click)="searchByDate()">searchByDate</button>
-      </div>
-      <div class="col-xs-12">
-        <form #myForm="ngForm" novalidate>
-          <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="model" required></my-date-range-picker>
-        </form>
-      </div> -->
+    </div>
 
-      <div class="col-xs-12">
-        <rl-tag-input [(ngModel)]="search_queries" [addOnSpace]="true" (addTag)="onAddTag()" (removeTag)="onRemoveTag()" style="width: 100%"></rl-tag-input>
-      <button class="btn btn-primary" style="width: 100%" (click)="navigateToSearch()">navigateToSearch()</button>          
+    <div class="row content">
+      <div class="col-sm-9 col-xs-12">
+        <rl-tag-input [(ngModel)]="search_queries" [addOnSpace]="true" (addTag)="onAddTag()" (removeTag)="onRemoveTag()"
+                      style="width: 100%"></rl-tag-input>
       </div>
+      <div class="col-sm-3 col-xs-12" style="height: 52px">
+        <button class="btn btn-danger btn-search" style="width: 100%" (click)="navigateToSearch()">navigateToSearch()</button>
       </div>
+    </div>
   </div>
 </section>
 

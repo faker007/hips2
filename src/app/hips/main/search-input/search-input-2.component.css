@@ -1,11 +1,17 @@
 ._search {
-  padding: 100px 0;
+  padding: 50px 0 25px 0;
 }
-._search .title{
-  padding-bottom: 25px;
+.tag-input, .search-options{
+  margin: 5px 0;
 }
-._search .title h1{
-  color: white;
-  margin: 7.5px 0;
-  /*font-size: 50px;*/
+
+.search-options{
+  text-align: center;
+}
+
+.floating-calender{
+  z-index: 10000;
+  width: 1px;
+  height: 1px;
+  margin: auto;
 }

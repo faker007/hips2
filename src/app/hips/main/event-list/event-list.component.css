@@ -3,19 +3,19 @@
 }
 
 .event-list .event-group {
-  border-bottom: solid 1px #777777;
+  border-bottom: solid 1px #cccccc;
 }
 
 .event-list .event-item {
   padding: 10px;
-  border: solid 1px #777777;
+  border: solid 1px #cccccc;
   border-bottom: none;
   line-height: 34px;
   vertical-align: middle;
 }
 
 .event-list .my-ng-if {
-  
+
 }
 
 .event-list .event-item .tag-container{
@@ -33,6 +33,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.event-list .event-item .title{
+  font-size: 1.5rem;
 }
 .loader,
 .loader:before,
