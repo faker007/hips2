@@ -4,4 +4,6 @@
 
 .trend-tag .tag-container .tag-item{
   text-decoration: none;
+  display: inline-block;
+  margin: 1px 0;
 }
