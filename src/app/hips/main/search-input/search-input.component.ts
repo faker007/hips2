@@ -175,6 +175,7 @@ export class SearchInputComponent implements OnInit {
 export class SearchInput2Component implements OnInit {
   @Input() ref;
   @Input() ref2;
+
   public isDatepickerVisible: boolean = false;
 
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
@@ -196,7 +197,11 @@ export class SearchInput2Component implements OnInit {
     inline: true,
     showSelectDateText: true,
     markCurrentDay: true,
-    disableUntil:{year: this.todayYear, month:this.todayMonth, day:this.todayDay},
+    disableUntil: {
+      year: this.todayYear, 
+      month: this.todayMonth, 
+      day: this.todayDay - 1
+    }
   };
 
   constructor(public slS: SearchListService) {
@@ -211,7 +216,8 @@ export class SearchInput2Component implements OnInit {
         if(this.search_queries.length !== 0) {
           setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
             this.returnSearchedArray();
-          }, 1000);
+            console.log('Okay!');
+          }, 1500);
         }
       });
     }
@@ -230,8 +236,7 @@ export class SearchInput2Component implements OnInit {
   }
 
   addSearchQueries(word) {
-
-    //트랜딩 태그에서 태그 추가할 때, 중복체크.
+    //트렌딩 태그에서 태그 추가할 때, 중복체크.
     for(let query of this.search_queries){
       if(query === word)
         return;
@@ -324,6 +329,10 @@ export class SearchInput2Component implements OnInit {
       }
 
       this.ref.groupBy(this.atarashi_array);
+
+      if(this.atarashi_array.length === 0) {
+        this.ref.sortedGroupByEventList = [];
+      }
     });
   }
 
@@ -349,8 +358,8 @@ export class SearchInput2Component implements OnInit {
   }
 
   onDateRangeChanged(event: any) {
-    console.log(event);
     this.searchByDate(event.beginDate, event.endDate);
+    this.isDatepickerVisible = false;
   }
 
   addZero(argu) {
