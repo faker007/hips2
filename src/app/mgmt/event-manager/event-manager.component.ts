@@ -13,8 +13,7 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf = "isUndefined" (click) = "onClick()">{{ renderValue }}</button>
-    <p *ngIf = "!isUndefined">{{ renderValue }}</p>
+    <button (click) = "onClick()">승인하기</button>
   `
 })
 export class ButtonViewComponent implements ViewCell, OnInit {

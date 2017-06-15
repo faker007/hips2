@@ -129,14 +129,18 @@ export class EventListComponent implements OnInit {
   	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
-  			this.eventLists.push(snapshot.val());  
+        if(snapshot.val().updated === true) {
+          this.eventLists.push(snapshot.val());
+        }
   		});
 
       if(this.searchArray.length === 0) {
         this.elS.getTodayEvents().subscribe((snapshots) => {
           this.searchArray = [];
           snapshots.forEach((snapshot, index) => {
-            this.searchArray.push(snapshot.val());
+            if(snapshot.val().updated === true) {
+              this.searchArray.push(snapshot.val());
+            }
           });
         });
       }
