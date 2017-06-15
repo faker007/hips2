@@ -28,6 +28,7 @@ export class SearchInputComponent implements OnInit {
 
   private myDateRangePickerModule: IMyDrpOptions = {
     dateFormat: 'yyyy.mm.dd',
+
   };
 
   private model: any = {
@@ -190,22 +191,13 @@ export class SearchInput2Component implements OnInit {
   todayMonth: any = this.today.getMonth() + 1;
   todayDay: any = this.today.getDate();
 
-  private myDateRangePickerModule: IMyDrpOptions = {
-    dateFormat: 'yyyy.mm.dd'
+  private myDateRangePickerOptions: IMyDrpOptions = {
+    dateFormat: 'yyyy.mm.dd',
+    inline: true,
+    showSelectDateText: true,
+    markCurrentDay: true,
+    disableUntil:{year: this.todayYear, month:this.todayMonth, day:this.todayDay},
   };
-
-  private model: any = {
-    beginDate: {
-      year: 2017,
-      month: 6,
-      day: 17
-    },
-    endDate: {
-      year: 2017,
-      month: 6,
-      day: 18
-    }
-  }
 
   constructor(public slS: SearchListService) {
     if(EmitterService.get('queries') !== undefined) {

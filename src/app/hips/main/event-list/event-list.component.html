@@ -11,7 +11,7 @@
         </div>
         <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
 
-          <div class="my-ng-if" *ngIf="eventList.isDeprecated === true">
+          <div *ngIf="eventList.isDeprecated === false">
             <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin | datePipe}}</div>
             <a target="_blank" href="{{eventList.url}}">
               <div class="col-sm-8 col-xs-9 title">{{eventList.title}} {{eventList.isDeprecated}}</div>
@@ -24,7 +24,7 @@
                 <a *ngIf="i>0" href="#" class="btn-danger tag-item">{{tag}}</a>
                 <a *ngIf="eventList.tags.length===1" class="btn-primary tag-item">등록된_태그가_없어요_ㅜㅜㅜ</a>
               </span>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
