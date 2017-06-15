@@ -44,9 +44,9 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     if (result) {
       console.log('승인하기', this.rowData);
-      /* this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
-       isDeprecated: true
-       }); */
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+        updated: true
+      });
     } else {
       console.log('승인하기가 거절되었습니다.', this.rowData);
     }
@@ -69,9 +69,9 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
 
   ngOnInit() {
     if (this.value) {
-      this.renderValue = "복구하기1234";
+      this.renderValue = "복구하기";
     } else {
-      this.renderValue = "삭제하기1234";
+      this.renderValue = "삭제하기";
     }
   }
 
@@ -376,7 +376,7 @@ export class EventManagerComponent implements OnInit {
     var mmChars = mm.split('');
     var ddChars = dd.split('');
 
-    return yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]);
+    return `${yyyy}-${(mmChars[1] ? mm : "0" + mmChars[0])}-${(ddChars[1] ? dd : "0" + ddChars[0])}`;
   }
 
   onCreateConfirm(event) {

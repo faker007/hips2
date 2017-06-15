@@ -11,10 +11,10 @@
         </div>
         <div class="col-xs-12 event-item" *ngFor="let eventList of eventList2">
 
-          <div class="my-ng-if" *ngIf="eventList.isDeprecated === true">
+          <div class="my-ng-if" *ngIf="eventList.updated === true">
             <div class="col-sm-2 col-xs-3 begin text-center">{{eventList.begin | datePipe}}</div>
             <a target="_blank" href="{{eventList.url}}">
-              <div class="col-sm-8 col-xs-9 title">{{eventList.title}} {{eventList.isDeprecated}}</div>
+              <div class="col-sm-8 col-xs-9 title">{{eventList.title}}</div>
             </a>
             <div class="col-sm-2 col-xs-3 address text-center">
               <button class="tag-item-location btn btn-warning">{{eventList.tags[0]}}</button>
@@ -29,6 +29,6 @@
         </div>
       </div>
     </ng-template>
-    <p [@myAwesomeAnimation]='state' (click)="animateMe()">등록된 행사가 존재하지 않습니다.</p>
+    <p *ngIf="sortedGroupByEventList.length === 0"[@myAwesomeAnimation]='state' (click)="animateMe()">요청하신 검색 결과가 없습니다.</p>
   </section>
 </div>
