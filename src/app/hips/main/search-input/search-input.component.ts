@@ -27,7 +27,7 @@ export class SearchInputComponent implements OnInit {
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
 
   private myDateRangePickerModule: IMyDrpOptions = {
-    dateFormat: 'yyyy.mm.dd'
+    dateFormat: 'yyyy.mm.dd',
   };
 
   private model: any = {
@@ -174,6 +174,7 @@ export class SearchInputComponent implements OnInit {
 export class SearchInput2Component implements OnInit {
   @Input() ref;
   @Input() ref2;
+  public isDatepickerVisible: boolean = false;
 
   atarashi_array: Array<any> = []; // 태그 검색이 반환될 배열
   undo_array: Array<any> = []; // 태그 검색을 하면 원본 배열이 사라지는데, 사라지는 원본 배열에 대한 백업용
