@@ -319,6 +319,7 @@ export class SearchInput2Component implements OnInit {
 
       if(this.atarashi_array.length[0] === undefined) {
         EmitterService.get('searchText').emit('검색 결과가 존재하지 않습니다. ㅠㅠ');
+        EmitterService.get('isShowed').emit({bool:false, text: ''});
       }
 
       this.search_queries.forEach((query, index) => {
