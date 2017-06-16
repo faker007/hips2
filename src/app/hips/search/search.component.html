@@ -6,7 +6,7 @@
         <hips-search-input-2 [ref]="event_list" [ref2]="search_queries"></hips-search-input-2>
       </div>
 
-      <p *ngIf="isShowed">전체행사를 기준으로 <b>{{myText}}</b> 행사 일정입니다.</p> 
+      <p *ngIf="isShowed"><b>전체행사<b/>를 기준으로 <b>{{myText}}</b> 행사 일정입니다.</p> 
 
       <div class="contents">
         <hips-event-list #event_list></hips-event-list>
