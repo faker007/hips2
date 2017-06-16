@@ -220,7 +220,7 @@ export class SearchInput2Component implements OnInit {
           setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
             this.returnSearchedArray();
             console.log('Okay!');
-          }, 800);
+          }, 1500);
         }
       });
     }
