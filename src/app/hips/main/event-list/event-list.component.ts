@@ -54,7 +54,7 @@ export class EventListComponent implements OnInit {
 
   state:string = 'small';
 
-  searchText: string = '잠시만 기달려주세요! 행사 목록를 로딩 중입니다.';
+  searchText: string = '잠시만 기다려주세요! 행사 목록를 로딩 중입니다.';
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
     this.disableScroll();
