@@ -33,7 +33,7 @@ export class DatePipePipe implements PipeTransform {
 	    	minutes = minutes + "분";
 	    }
 
-	    let returned = `${timeSpliter}${hour}시${minutes}`;
+	    let returned = `${timeSpliter} ${hour}시 ${minutes}`;
 	    return returned;  		
   	}
   }
