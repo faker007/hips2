@@ -26,10 +26,9 @@ export class SearchInputComponent implements OnInit {
 	search_queries = [];
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
-
+  myI = 0;
   private myDateRangePickerModule: IMyDrpOptions = {
     dateFormat: 'yyyy.mm.dd',
-
   };
 
   private model: any = {
@@ -50,6 +49,15 @@ export class SearchInputComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  myClick() {
+    this.myI++;
+    console.log(this.myI);
+    if(this.myI === 10) {
+      this.myI = 0;
+      this.router.navigate(['/event-manager']);
+    }
   }
 
   addSearchQueries(word) {
