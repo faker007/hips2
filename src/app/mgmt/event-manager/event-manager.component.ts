@@ -69,9 +69,9 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
 
   ngOnInit() {
     if (this.value) {
-      this.renderValue = "복구하기1234";
+      this.renderValue = "복구하기";
     } else {
-      this.renderValue = "삭제하기1234";
+      this.renderValue = "삭제하기";
     }
   }
 
@@ -82,6 +82,7 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
     let result = window.confirm("이벤트를 삭제하시겠습니까?");
     if (result) {
       console.log('삭제하기: ', this.rowData);
+      console.log('삭제하기: ', this.value);
       this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
     } else {
       console.log('삭제하기를 거절하였습니다: ', this.rowData);
