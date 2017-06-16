@@ -13,7 +13,8 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'button-view',
   template: `
-    <button (click) = "onClick()">승인하기</button>
+    <button *ngIf = "rowData.updated === fasle || rowData.updated !== true && rowData" (click) = "onClick()">승인하기</button>
+    <button *ngIf = "rowData.updated === true"(click) = "onClick2()">승인해제</button>
   `
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
@@ -48,6 +49,18 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       });
     } else {
       console.log('승인하기가 거절되었습니다.', this.rowData);
+    }
+  }
+
+  onClick2() { // 승인해제 하기
+    let result = window.confirm('이 이벤트의 승인을 해제하시겠습니까?');
+    if (result) {
+      console.log('승인 해제하기', this.rowData);
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+        updated: false
+      });
+    } else {
+      console.log('승인 해제하기가 거절되었습니다.', this.rowData);
     }
   }
 }
