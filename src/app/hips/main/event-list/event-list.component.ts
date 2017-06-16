@@ -34,7 +34,7 @@ export class EventListComponent implements OnInit {
   private el: HTMLElement;
 
 	eventLists:Array<any> = [];
-	countPullEvents:number = 50;
+	countPullEvents:number = 1000;
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
@@ -95,37 +95,37 @@ export class EventListComponent implements OnInit {
 	    document.onkeydown = null;  
 	}
 
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-		let status = false;
-		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
-		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-		let body = document.body, html = document.documentElement;
-		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-		let windowBottom = windowHeight + window.pageYOffset + 5;
-    console.log('windowBottom: ' + windowBottom);
-    console.log('docHeight: ' + docHeight);
-		if(windowBottom >= docHeight) {
-			status = true;
-		} else {
-			status = false;
-		}
+  // @HostListener("window:scroll", [])
+  // onWindowScroll() {
+		// let status = false;
+		// let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+		// let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		// let body = document.body, html = document.documentElement;
+		// let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+		// let windowBottom = windowHeight + window.pageYOffset + 5;
+  //   console.log('windowBottom: ' + windowBottom);
+  //   console.log('docHeight: ' + docHeight);
+		// if(windowBottom >= docHeight) {
+		// 	status = true;
+		// } else {
+		// 	status = false;
+		// }
 
-		if(status === true) {
-			if(window.innerWidth <= 400) {
-				scrollBarPosition = scrollBarPosition - 1000;
-			} else {
-				scrollBarPosition = scrollBarPosition - 150;
-			}
+		// if(status === true) {
+		// 	if(window.innerWidth <= 400) {
+		// 		scrollBarPosition = scrollBarPosition - 1000;
+		// 	} else {
+		// 		scrollBarPosition = scrollBarPosition - 150;
+		// 	}
 
-			window.scrollTo(0, scrollBarPosition);
-			this.disableScroll();
-			this.pullEvents();
-			console.log('도달');
-		} else {
-			console.log('안 도달');
-		}  		
-  }
+		// 	window.scrollTo(0, scrollBarPosition);
+		// 	this.disableScroll();
+		// 	this.pullEvents();
+		// 	console.log('도달');
+		// } else {
+		// 	console.log('안 도달');
+		// }  		
+  // }
 
   pullEvents() {
   	this.elS.getEventsNumber(this.countPullEvents).take(1).subscribe((snapshots) => {
