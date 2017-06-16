@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	items = ['Pizza', 'Pasta', 'Parmesan'];
-  title = 'app works!';
+  constructor(public router: Router) { 
 
-  show() {
-  	console.log(this.items);
+  }
+
+  ngOnInit() {
+  	this.router.navigate(['/hips']);
+  	console.log('ㅎㅇ');
   }
 }

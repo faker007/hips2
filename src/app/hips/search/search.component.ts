@@ -10,7 +10,8 @@ import { EmitterService } from '../../services/my.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-
+  isShowed: Boolean = false;
+  myText: String = '';
 
   search_queries: any;
   private sub: any;
@@ -20,6 +21,11 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.queryParams.subscribe(params => {
       EmitterService.get('queries').emit(params.array);
+    });
+
+    EmitterService.get('isShowed').subscribe((obj) => {
+      this.isShowed = obj.bool
+      this.myText = obj.text
     });
   }
 }

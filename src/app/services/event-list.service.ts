@@ -3,6 +3,9 @@ import { Observable, Subject } from 'rxjs';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 
+import 'rxjs/add/operator/take';
+
+import { EmitterService } from './my.service';
 
 @Injectable()
 export class EventListService {
@@ -10,6 +13,7 @@ export class EventListService {
   status: Subject<boolean>;
   Subject: Subject<boolean>;
   events: any;
+  events2: any;
   my_events: Subject<Array<any>>;
   eventCount: number = 0;
 
@@ -20,6 +24,7 @@ export class EventListService {
 
   constructor(public db: AngularFireDatabase) {
     this.events = this.db.list('/event', { preserveSnapshot: true });
+    this.events2 = this.db.list('/event', { preserveSnapshot: true });
     this.name = new Subject();
   	this.status = new Subject();
     this.my_events = new Subject();
@@ -27,12 +32,16 @@ export class EventListService {
     this.date = new Date();
     this.todayYear = this.date.getFullYear();
     this.todayMonth = this.date.getMonth() + 1;
-    this.todayDay = this.date.getDate();    
+    this.todayDay = this.date.getDate();
   }
 
   getEvents(): any {
     return this.events;
   }
+
+  getEvents2(): any {
+    return this.events2;
+  }  
 
   getMyEvents() {
     return this.my_events;
@@ -90,7 +99,7 @@ export class EventListService {
 
   getEventsNumber(count: number): any {
   	console.log(this.events);
-    this.eventCount = this.eventCount + count;
+    this.eventCount = count; // this.eventCount + count;
     this.events = this.db.list('/event', {
       query: {
         orderByChild: 'begin',
@@ -103,7 +112,7 @@ export class EventListService {
   }
 
   getTodayEvents(): any {
-    this.events = this.db.list('event', {
+    this.events = this.db.list('/event', {
       query: {
         orderByChild: 'begin',
         startAt: `${this.todayYear}-${this.todayMonth}-${this.todayDay}`,

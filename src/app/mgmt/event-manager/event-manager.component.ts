@@ -1,20 +1,20 @@
-import {Component, OnInit, Input, Output, EventEmitter, Inject, HostListener} from '@angular/core';
-import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
-import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
-import {EventListService} from "../../services/event-list.service";
-import {isNullOrUndefined} from "util";
-import {isUndefined} from "util";
-import {split} from "ts-node/dist";
+import { Component, OnInit, Input, Output, EventEmitter, Inject, HostListener } from '@angular/core';
+import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from "angularfire2/database";
+import { EventListService } from "../../services/event-list.service";
+import { isNullOrUndefined } from "util";
+import { isUndefined } from "util";
+import { split } from "ts-node/dist";
 import 'rxjs/add/operator/take';
 
-import {FirebaseApp} from 'angularfire2';
+import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
   selector: 'button-view',
   template: `
-    <button *ngIf = "isUndefined" (click) = "onClick()">{{ renderValue }}</button>
-    <p *ngIf = "!isUndefined">{{ renderValue }}</p>
+    <button *ngIf = "rowData.updated === fasle || rowData.updated !== true && rowData" (click) = "onClick()">승인하기</button>
+    <button *ngIf = "rowData.updated === true"(click) = "onClick2()">승인해제</button>
   `
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
@@ -44,11 +44,23 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     if (result) {
       console.log('승인하기', this.rowData);
-      /* this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
-       isDeprecated: true
-       }); */
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+        updated: true
+      });
     } else {
       console.log('승인하기가 거절되었습니다.', this.rowData);
+    }
+  }
+
+  onClick2() { // 승인해제 하기
+    let result = window.confirm('이 이벤트의 승인을 해제하시겠습니까?');
+    if (result) {
+      console.log('승인 해제하기', this.rowData);
+      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+        updated: false
+      });
+    } else {
+      console.log('승인 해제하기가 거절되었습니다.', this.rowData);
     }
   }
 }
@@ -190,9 +202,8 @@ export class EventManagerComponent implements OnInit {
 
   constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
     this.source = new LocalDataSource();
-    this.items = this.elService.getEvents();
+    this.items = this.elService.getEvents2();
     this.eventObj = this.db.list('/event');
-    this.callEvents();
   }
 
   callEvents() {
@@ -377,7 +388,7 @@ export class EventManagerComponent implements OnInit {
     var mmChars = mm.split('');
     var ddChars = dd.split('');
 
-    return yyyy + '-' + (mmChars[1] ? mm : "0" + mmChars[0]) + '-' + (ddChars[1] ? dd : "0" + ddChars[0]);
+    return `${yyyy}-${(mmChars[1] ? mm : "0" + mmChars[0])}-${(ddChars[1] ? dd : "0" + ddChars[0])}`;
   }
 
   onCreateConfirm(event) {
@@ -474,6 +485,7 @@ export class EventManagerComponent implements OnInit {
   }
 
   ngOnInit() {
+  	this.callEvents();
   }
 
 }

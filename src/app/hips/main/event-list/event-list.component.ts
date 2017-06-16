@@ -5,7 +5,11 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 import * as _ from 'lodash';
 
+import 'rxjs/add/operator/take';
+
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+
+import { EmitterService } from '../../../services/my.service';
 
 @Component({
   selector: 'hips-event-list',
@@ -32,7 +36,7 @@ export class EventListComponent implements OnInit {
   private el: HTMLElement;
 
 	eventLists:Array<any> = [];
-	countPullEvents:number = 50;
+	countPullEvents:number = 1000;
 
 	dayName:string = ''; // 요일
 	month:string = ''; // 월
@@ -48,32 +52,36 @@ export class EventListComponent implements OnInit {
 
   searchArray:Array<any> = [];
 
-  state:string = 'small'
+  state:string = 'small';
+
+  searchText: string = '잠시만 기다려주세요! 행사 목록를 로딩 중입니다.';
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
     this.disableScroll();
-    this.pullEvents(); 
+    this.pullEvents();
   }
 
   ngOnInit() {
-
+    EmitterService.get('searchText').subscribe((text) => {
+      this.searchText = text;
+    });
   }
 
 	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
 
 	preventDefault(e) {
-  e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
-  e.returnValue = false;  
-}
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;
+  }
 
 	preventDefaultForScrollKeys(e) {
     if (this.keys[e.keyCode]) {
-        this.preventDefault(e);
-        return false;
+     this.preventDefault(e);
+      return false;
     }
-}  
+  }  
 
 	disableScroll() {
 	  if (window.addEventListener) // older FF
@@ -93,56 +101,60 @@ export class EventListComponent implements OnInit {
 	    document.onkeydown = null;  
 	}
 
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-		let status = false;
-		let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
-		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-		let body = document.body, html = document.documentElement;
-		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-		let windowBottom = windowHeight + window.pageYOffset + 5;
-    console.log('windowBottom: ' + windowBottom);
-    console.log('docHeight: ' + docHeight);
-		if(windowBottom >= docHeight) {
-			status = true;
-		} else {
-			status = false;
-		}
+  // @HostListener("window:scroll", [])
+  // onWindowScroll() {
+		// let status = false;
+		// let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+		// let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		// let body = document.body, html = document.documentElement;
+		// let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+		// let windowBottom = windowHeight + window.pageYOffset + 5;
+  //   console.log('windowBottom: ' + windowBottom);
+  //   console.log('docHeight: ' + docHeight);
+		// if(windowBottom >= docHeight) {
+		// 	status = true;
+		// } else {
+		// 	status = false;
+		// }
 
-		if(status === true) {
-			if(window.innerWidth <= 400) {
-				scrollBarPosition = scrollBarPosition - 1000;
-			} else {
-				scrollBarPosition = scrollBarPosition - 150;
-			}
+		// if(status === true) {
+		// 	if(window.innerWidth <= 400) {
+		// 		scrollBarPosition = scrollBarPosition - 1000;
+		// 	} else {
+		// 		scrollBarPosition = scrollBarPosition - 150;
+		// 	}
 
-			window.scrollTo(0, scrollBarPosition);
-			this.disableScroll();
-			this.pullEvents();
-			console.log('도달');
-		} else {
-			console.log('안 도달');
-		}  		
-  }
+		// 	window.scrollTo(0, scrollBarPosition);
+		// 	this.disableScroll();
+		// 	this.pullEvents();
+		// 	console.log('도달');
+		// } else {
+		// 	console.log('안 도달');
+		// }  		
+  // }
 
   pullEvents() {
-  	this.elS.getEventsNumber(this.countPullEvents).subscribe((snapshots) => {
+  	this.elS.getEventsNumber(this.countPullEvents).take(1).subscribe((snapshots) => {
       this.eventLists = [];  		
   		snapshots.forEach((snapshot) => {
-  			this.eventLists.push(snapshot.val());  
+        if(snapshot.val().updated === true) {
+          this.eventLists.push(snapshot.val());
+        }
   		});
 
       if(this.searchArray.length === 0) {
-        this.elS.getTodayEvents().subscribe((snapshots) => {
+        this.elS.getTodayEvents().take(1).subscribe((snapshots) => {
           this.searchArray = [];
           snapshots.forEach((snapshot, index) => {
-            this.searchArray.push(snapshot.val());
+            if(snapshot.val().updated === true) {
+              this.searchArray.push(snapshot.val());
+            }
           });
         });
       }
 
       this.enableScroll();  		
-			// this.sortArray();
+			this.sortArray();
 			// this.removeArrayFromToday();
 			this.groupBy(this.eventLists);  		
 			console.log(this.eventLists);   		
@@ -250,9 +262,14 @@ export class EventListComponent implements OnInit {
       let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin'));
       objKeys.forEach((key, index) => {
         this.sortedGroupByEventList.push(tatanoArray[key]);
-      });      
-    }
+      });
 
+      if(this.sortedGroupByEventList.length === 0) {
+        EmitterService.get('searchText').emit('요청하신 검색 결과가 없습니다.');
+      } else {
+        EmitterService.get('searchText').emit('잠시만 기달려주세요! 검색 결과를 로딩 중입니다.');      
+      }
+    }
   }
 
   getDday(month, day) {
