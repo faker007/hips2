@@ -26,7 +26,11 @@ export class SearchInputComponent implements OnInit {
 	search_queries = [];
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
+  
+  // 관리자, 태그 어드민에 접속하기 위한 임시 변수들 To do : 반드시 리팩토링 되어야 할 것임.
   myI = 0;
+  myI2 = 0;
+
   private myDateRangePickerModule: IMyDrpOptions = {
     dateFormat: 'yyyy.mm.dd',
   };
@@ -59,6 +63,16 @@ export class SearchInputComponent implements OnInit {
       this.router.navigate(['/event-manager']);
     }
   }
+
+  myClick2() {
+    this.myI2++;
+    console.log(this.myI2);
+    if(this.myI2 === 10) {
+      this.myI2 = 0;
+      this.router.navigate(['/tag-manager']);
+    }
+  }
+
 
   addSearchQueries(word) {
 
