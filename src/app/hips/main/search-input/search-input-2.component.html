@@ -6,7 +6,7 @@
       </div>
 
       <div class="search-options">
-        <button class="btn btn-danger" (click)="beDefaultWeek()">최근날짜순</button>
+        <button class="btn btn-danger" (click)="beDefaultWeek()">최근순</button>
         <button class="btn btn-danger" (click)="searchForThisWeek()">이번주</button>
         <button class="btn btn-danger" (click)="searchForNextWeek()">다음주</button>
         <button class="btn btn-default" (click)="isDatepickerVisible=!isDatepickerVisible">
@@ -19,8 +19,6 @@
           <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="model" (dateRangeChanged)="onDateRangeChanged($event)" required></my-date-range-picker>
         </form>
       </div>
-
-
     </div>
   </div>
 </div>

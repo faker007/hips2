@@ -220,7 +220,7 @@ export class SearchInput2Component implements OnInit {
           setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
             this.returnSearchedArray();
             console.log('Okay!');
-          }, 1500);
+          }, 800);
         }
       });
     }
@@ -316,6 +316,10 @@ export class SearchInput2Component implements OnInit {
       });
 
       this.ref.groupBy(this.atarashi_array);
+
+      if(this.atarashi_array.length[0] === undefined) {
+        EmitterService.get('searchText').emit('검색 결과가 존재하지 않습니다. ㅠㅠ');
+      }
 
       this.search_queries.forEach((query, index) => {
         this.slS.addUserSearch(query);
@@ -416,6 +420,12 @@ export class SearchInput2Component implements OnInit {
     }
 
     console.log(today2);
+    this.search_queries = [];
+    let obj = {
+      bool: true,
+      text: '이번주'
+    }
+    EmitterService.get('isShowed').emit(obj);     
     this.searchByDate(todayObj, formatedObj);
   }
 
@@ -444,12 +454,23 @@ export class SearchInput2Component implements OnInit {
       month: `${formatedNextWeekMonth}`,
       day: `${formatedNextWeekDay}`
     }
-
+    this.search_queries = [];
+    let obj = {
+      bool: true,
+      text: '다음주'
+    }
+    EmitterService.get('isShowed').emit(obj);    
     this.searchByDate(todayObj, formatedObj);
   }
 
   beDefaultWeek() {
+    this.search_queries = [];    
     this.beOriginalArray();
+    let obj = {
+      bool: true,
+      text: '최근순'
+    }
+    EmitterService.get('isShowed').emit(obj);
   }
 
 }
