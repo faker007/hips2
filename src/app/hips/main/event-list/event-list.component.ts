@@ -9,6 +9,8 @@ import 'rxjs/add/operator/take';
 
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
+import { EmitterService } from '../../../services/my.service';
+
 @Component({
   selector: 'hips-event-list',
   templateUrl: './event-list.component.html',
@@ -50,7 +52,9 @@ export class EventListComponent implements OnInit {
 
   searchArray:Array<any> = [];
 
-  state:string = 'small'
+  state:string = 'small';
+
+  searchText: string = '잠시만 기달려주세요! 행사 목록를 로딩 중입니다.';
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
     this.disableScroll();
@@ -58,7 +62,9 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    EmitterService.get('searchText').subscribe((text) => {
+      this.searchText = text;
+    });
   }
 
 	keys:any = {37: 1, 38: 1, 39: 1, 40: 1};
@@ -256,9 +262,14 @@ export class EventListComponent implements OnInit {
       let objKeys = Object.keys(_.groupBy(tempArray, 'parsed_begin'));
       objKeys.forEach((key, index) => {
         this.sortedGroupByEventList.push(tatanoArray[key]);
-      });      
-    }
+      });
 
+      if(this.sortedGroupByEventList.length === 0) {
+        EmitterService.get('searchText').emit('요청하신 검색 결과가 없습니다.');
+      } else {
+        EmitterService.get('searchText').emit('잠시만 기달려주세요! 검색 결과를 로딩 중입니다.');      
+      }
+    }
   }
 
   getDday(month, day) {
