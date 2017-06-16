@@ -1,13 +1,13 @@
-import {Component, OnInit, Input, Output, EventEmitter, Inject, HostListener} from '@angular/core';
-import {Ng2SmartTableModule, LocalDataSource, ViewCell} from 'ng2-smart-table';
-import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2/database";
-import {EventListService} from "../../services/event-list.service";
-import {isNullOrUndefined} from "util";
-import {isUndefined} from "util";
-import {split} from "ts-node/dist";
+import { Component, OnInit, Input, Output, EventEmitter, Inject, HostListener } from '@angular/core';
+import { Ng2SmartTableModule, LocalDataSource, ViewCell } from 'ng2-smart-table';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from "angularfire2/database";
+import { EventListService } from "../../services/event-list.service";
+import { isNullOrUndefined } from "util";
+import { isUndefined } from "util";
+import { split } from "ts-node/dist";
 import 'rxjs/add/operator/take';
 
-import {FirebaseApp} from 'angularfire2';
+import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 @Component({
@@ -201,9 +201,8 @@ export class EventManagerComponent implements OnInit {
 
   constructor(public db: AngularFireDatabase, public elService: EventListService, @Inject(FirebaseApp) public firebaseApp: firebase.app.App) {
     this.source = new LocalDataSource();
-    this.items = this.elService.getEvents();
+    this.items = this.elService.getEvents2();
     this.eventObj = this.db.list('/event');
-    this.callEvents();
   }
 
   callEvents() {
@@ -485,6 +484,7 @@ export class EventManagerComponent implements OnInit {
   }
 
   ngOnInit() {
+  	this.callEvents();
   }
 
 }

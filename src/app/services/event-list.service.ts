@@ -39,6 +39,10 @@ export class EventListService {
     return this.events;
   }
 
+  getEvents2(): any {
+    return this.events2;
+  }  
+
   getMyEvents() {
     return this.my_events;
   }
