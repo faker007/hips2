@@ -9,7 +9,7 @@
       "outDir": "dist/firebase/public",
       "assets": [
         "assets",
-        "favicon.ico"
+        "assets/img/thumb.jpg"
       ],
       "index": "index.html",
       "main": "main.ts",

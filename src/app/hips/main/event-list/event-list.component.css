@@ -14,10 +14,6 @@
   vertical-align: middle;
 }
 
-.event-list .my-ng-if {
-
-}
-
 .event-list .event-item .tag-container{
   display: none;
 }
@@ -33,11 +29,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .event-list .event-item .title{
   font-size: 1.5rem;
 }
+
 .loader,
 .loader:before,
 .loader:after {
@@ -96,27 +94,14 @@
   }
 }
 
-
-/* Extra small devices (phones, less than 768px) */
-/* No media query since this is the default in Bootstrap */
-
-/* Small devices (tablets, 768px and up) */
-@media (min-width:768px) {
-  .mobile-content{
-    display: inherit;
+@media(max-width:767px){
+  .event-list .event-item .title,
+  .event-list .event-item .begin,
+  .event-list .event-item .tag-item-location,
+  .event-list .event-item .tag-container .tag-item{
+    font-size: 1.3rem;
   }
-  .web-content{
-    display: none;
-  }
-
 }
-
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
-}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}

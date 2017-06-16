@@ -14,14 +14,14 @@ export class TrendTagComponent implements OnInit {
   test;
   constructor(public tgService: TagListService) {
     this.test = this.tgService.getTrendTags();
-    console.log(this.test);
+    // console.log(this.test);
     this.callEvents()
   }
   ngOnInit() {
   }
 
   add(word) {
-    console.log(word);
+    // console.log(word);
   	this.ref.addSearchQueries(word);
   }
 
@@ -33,7 +33,7 @@ export class TrendTagComponent implements OnInit {
 
   TagsOrderByCount(data){
     data.forEach(tag => this.trend_tags.unshift(tag.val()));
-    console.log(this.trend_tags);
+    // console.log(this.trend_tags);
   }
 
 }

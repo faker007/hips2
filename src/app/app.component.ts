@@ -8,12 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public router: Router) { 
+  constructor(public router: Router) {
 
   }
 
   ngOnInit() {
   	this.router.navigate(['/hips']);
-  	console.log('ㅎㅇ');
+  	// console.log('ㅎㅇ');
   }
 }

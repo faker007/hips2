@@ -69,3 +69,19 @@
 .search .btn-danger:hover{
   background-color: #c9302c;
 }
+
+@media(max-width:767px){
+  .search .title h1{
+    font-size: 4.0rem;
+  }
+
+  /*.search{*/
+    /*padding: 50px 0 25px 0;*/
+  /*}*/
+  .search .title{
+    padding: 12.5px 0 37.5px 0;
+  }
+}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}

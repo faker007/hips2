@@ -81,7 +81,7 @@ export class EventListComponent implements OnInit {
      this.preventDefault(e);
       return false;
     }
-  }  
+  }
 
 	disableScroll() {
 	  if (window.addEventListener) // older FF
@@ -95,10 +95,10 @@ export class EventListComponent implements OnInit {
 	enableScroll() {
 	    if (window.removeEventListener)
 	        window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
-	    window.onmousewheel = document.onmousewheel = null; 
-	    window.onwheel = null; 
-	    window.ontouchmove = null;  
-	    document.onkeydown = null;  
+	    window.onmousewheel = document.onmousewheel = null;
+	    window.onwheel = null;
+	    window.ontouchmove = null;
+	    document.onkeydown = null;
 	}
 
   // @HostListener("window:scroll", [])
@@ -130,12 +130,12 @@ export class EventListComponent implements OnInit {
 		// 	console.log('도달');
 		// } else {
 		// 	console.log('안 도달');
-		// }  		
+		// }
   // }
 
   pullEvents() {
   	this.elS.getEventsNumber(this.countPullEvents).take(1).subscribe((snapshots) => {
-      this.eventLists = [];  		
+      this.eventLists = [];
   		snapshots.forEach((snapshot) => {
         if(snapshot.val().updated === true) {
           this.eventLists.push(snapshot.val());
@@ -153,12 +153,12 @@ export class EventListComponent implements OnInit {
         });
       }
 
-      this.enableScroll();  		
+      this.enableScroll();
 			this.sortArray();
 			// this.removeArrayFromToday();
-			this.groupBy(this.eventLists);  		
-			console.log(this.eventLists);   		
-  	});  	
+			this.groupBy(this.eventLists);
+			// console.log(this.eventLists);
+  	});
   }
 
   getTodayDay() {
@@ -230,8 +230,8 @@ export class EventListComponent implements OnInit {
 
   addMyArray() {
     this.array.push('something');
-    console.log(this.array);
-  }  
+    // console.log(this.array);
+  }
 
   groupBy(array) {
     if(array[0] === undefined) {
@@ -241,7 +241,7 @@ export class EventListComponent implements OnInit {
       this.groupByEventList.forEach((eventList, index) => {
         let obj = {
           address: eventList.address,
-          parsed_begin: eventList.begin.split(" ")[0], 
+          parsed_begin: eventList.begin.split(" ")[0],
           begin: eventList.begin,
           created: eventList.created,
           end: eventList.end,
@@ -267,7 +267,7 @@ export class EventListComponent implements OnInit {
       if(this.sortedGroupByEventList.length === 0) {
         EmitterService.get('searchText').emit('요청하신 검색 결과가 없습니다.');
       } else {
-        EmitterService.get('searchText').emit('잠시만 기달려주세요! 검색 결과를 로딩 중입니다.');      
+        EmitterService.get('searchText').emit('잠시만 기달려주세요! 검색 결과를 로딩 중입니다.');
       }
     }
   }

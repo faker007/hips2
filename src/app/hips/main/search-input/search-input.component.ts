@@ -26,7 +26,7 @@ export class SearchInputComponent implements OnInit {
 	search_queries = [];
 
   eventListIndex:number = 0;; // eventListIndex 변수는 Array.prototype.filter에서 index를 가져올 수 없어서 이렇게 선언 해두었음. 나중에 리펙토링할 수 있으면, 하는 게 좋을듯.
-  
+
   // 관리자, 태그 어드민에 접속하기 위한 임시 변수들 To do : 반드시 리팩토링 되어야 할 것임.
   myI = 0;
   myI2 = 0;
@@ -57,7 +57,7 @@ export class SearchInputComponent implements OnInit {
 
   myClick() {
     this.myI++;
-    console.log(this.myI);
+    // console.log(this.myI);
     if(this.myI === 10) {
       this.myI = 0;
       this.router.navigate(['/event-manager']);
@@ -66,7 +66,7 @@ export class SearchInputComponent implements OnInit {
 
   myClick2() {
     this.myI2++;
-    console.log(this.myI2);
+    // console.log(this.myI2);
     if(this.myI2 === 10) {
       this.myI2 = 0;
       this.router.navigate(['/tag-manager']);
@@ -96,7 +96,7 @@ export class SearchInputComponent implements OnInit {
       var priority = 0;
       this.eventListIndex = this.eventListIndex + 1;
       this.search_queries.forEach((query:any, index) => {
-        console.log(query);
+        // console.log(query);
         if(query) {
           if(eventList.title.indexOf(query) !== -1) {
             priority++;
@@ -156,7 +156,7 @@ export class SearchInputComponent implements OnInit {
 
       if(eventListDate >= myDate && eventListDate <= myDate2) {
         this.atarashi_array.push(eventList);
-        console.log(index);
+        // console.log(index);
       }
 
       this.ref.groupBy(this.atarashi_array);
@@ -169,7 +169,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   showArray() {
-    console.log(this.ref.eventLists);
+    // console.log(this.ref.eventLists);
   }
 
   onAddTag() {
@@ -223,8 +223,8 @@ export class SearchInput2Component implements OnInit {
     showSelectDateText: true,
     markCurrentDay: true,
     disableUntil: {
-      year: this.todayYear, 
-      month: this.todayMonth, 
+      year: this.todayYear,
+      month: this.todayMonth,
       day: this.todayDay - 1
     }
   };
@@ -241,7 +241,7 @@ export class SearchInput2Component implements OnInit {
         if(this.search_queries.length !== 0) {
           setTimeout(() => { // To do : 이건 꼼수로 해결한 부분. 반드시 리팩토링 되어야 할 것임.
             this.returnSearchedArray();
-            console.log('Okay!');
+            // console.log('Okay!');
           }, 1500);
         }
       });
@@ -255,7 +255,7 @@ export class SearchInput2Component implements OnInit {
         }
       });
       EmitterService.get('fullEvents').emit(this.fullEvents);
-      console.log(this.fullEvents);
+      // console.log(this.fullEvents);
     });
 
     if(this.ref2 !== undefined) {
@@ -264,7 +264,7 @@ export class SearchInput2Component implements OnInit {
       this.search_queries = [];
     }
 
-    console.log(this.search_queries);
+    // console.log(this.search_queries);
   }
 
   ngOnInit() {
@@ -281,9 +281,9 @@ export class SearchInput2Component implements OnInit {
   }
 
   returnSearchedArray() {
-    console.log(this.fullEvents);
+    // console.log(this.fullEvents);
     if(this.fullEvents === undefined) {
-      console.log('망함');
+      // console.log('망함');
     } else {
       this.eventListIndex = 0;
       if(this.undo_array[0] === undefined) {
@@ -293,11 +293,11 @@ export class SearchInput2Component implements OnInit {
       this.atarashi_array = [];
 
       this.fullEvents.filter((eventList) => {
-        console.log(eventList);
+        // console.log(eventList);
         var priority = 0;
         this.eventListIndex = this.eventListIndex + 1;
         this.search_queries.forEach((query:any, index) => {
-          console.log(query);
+          // console.log(query);
           if(query) {
             if(eventList.title.indexOf(query) !== -1) {
               priority++;
@@ -326,7 +326,7 @@ export class SearchInput2Component implements OnInit {
           this.atarashi_array.push(obj);
         }
 
-        console.log(this.atarashi_array[0]);
+        // console.log(this.atarashi_array[0]);
 
         if(this.atarashi_array[0] === undefined) {
           this.ref.sortedGroupByEventList = [];
@@ -346,13 +346,13 @@ export class SearchInput2Component implements OnInit {
 
       this.search_queries.forEach((query, index) => {
         this.slS.addUserSearch(query);
-      });      
+      });
     }
   }
 
   searchByDate(beginDate, endDate) {
-    console.log('Called by searchByDate() beginDate: ' + beginDate);
-    console.log('Called by searchByDate() endDate: ' + endDate);
+    // console.log('Called by searchByDate() beginDate: ' + beginDate);
+    // console.log('Called by searchByDate() endDate: ' + endDate);
 
     if(this.undo_array[0] === undefined) {
       this.undo_array = this.ref.eventLists;
@@ -372,7 +372,7 @@ export class SearchInput2Component implements OnInit {
 
       if(eventListDate >= myDate && eventListDate <= myDate2) {
         this.atarashi_array.push(eventList);
-        console.log(index);
+        // console.log(index);
       }
 
       this.ref.groupBy(this.atarashi_array);
@@ -389,7 +389,7 @@ export class SearchInput2Component implements OnInit {
   }
 
   showArray() {
-    console.log(this.ref.eventLists);
+    // console.log(this.ref.eventLists);
   }
 
   onAddTag() {
@@ -442,13 +442,13 @@ export class SearchInput2Component implements OnInit {
     	day: `${formatedThisWeekDay}`
     }
 
-    console.log(today2);
+    // console.log(today2);
     this.search_queries = [];
     let obj = {
       bool: true,
       text: '이번주'
     }
-    EmitterService.get('isShowed').emit(obj);     
+    EmitterService.get('isShowed').emit(obj);
     this.searchByDate(todayObj, formatedObj);
   }
 
@@ -482,12 +482,12 @@ export class SearchInput2Component implements OnInit {
       bool: true,
       text: '다음주'
     }
-    EmitterService.get('isShowed').emit(obj);    
+    EmitterService.get('isShowed').emit(obj);
     this.searchByDate(todayObj, formatedObj);
   }
 
   beDefaultWeek() {
-    this.search_queries = [];    
+    this.search_queries = [];
     this.beOriginalArray();
     let obj = {
       bool: true,

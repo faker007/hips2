@@ -2,7 +2,7 @@
   padding: 50px 0 25px 0;
 }
 .tag-input, .search-options{
-  margin: 5px 0;
+  margin: 7.5px 0;
 }
 
 .search-options{
@@ -11,7 +11,7 @@
 
 .floating-calender{
   z-index: 10000;
-  width: 1px;
+  width: 30%;
   height: 1px;
-  margin: auto;
+  margin: 0 auto;
 }
