@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hips.component.css']
 })
 export class HipsComponent implements OnInit {
+  constructor() { 
 
-  constructor() { }
-
-  ngOnInit() {
   }
 
+  ngOnInit() {
+
+  }
 }

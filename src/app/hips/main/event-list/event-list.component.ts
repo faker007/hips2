@@ -148,7 +148,7 @@ export class EventListComponent implements OnInit {
       }
 
       this.enableScroll();  		
-			// this.sortArray();
+			this.sortArray();
 			// this.removeArrayFromToday();
 			this.groupBy(this.eventLists);  		
 			console.log(this.eventLists);   		
