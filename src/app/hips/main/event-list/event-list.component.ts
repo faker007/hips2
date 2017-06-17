@@ -57,6 +57,7 @@ export class EventListComponent implements OnInit {
   searchText: string = '잠시만 기다려주세요! 행사 목록를 로딩 중입니다.';
 
   constructor(public elS: EventListService, public lc: NgZone, @Inject(DOCUMENT) private document: Document) {
+    this.getTodayDay();
     this.disableScroll();
     this.pullEvents();
   }
@@ -154,8 +155,8 @@ export class EventListComponent implements OnInit {
       }
 
       this.enableScroll();
-			this.sortArray();
-			// this.removeArrayFromToday();
+			// this.sortArray();
+			this.removeArrayFromToday();
 			this.groupBy(this.eventLists);
 			// console.log(this.eventLists);
   	});
@@ -213,13 +214,21 @@ export class EventListComponent implements OnInit {
   		var day1 = parseInt(this.eventLists[i].begin.split(" ")[0].split("-")[2]);
   		var day2 = parseInt(this.day);
 
-  		if(month1 < month2) {
-  			index++;
-  		}
+      // if(month1 < month2) {
+      //   index++;
+      // }
 
-  		if(day1 < day2 && month1 <= month2) {
-  			index++;
-  		}
+      // if(day1 < day2 && month1 <= month2) {
+      //   index++;
+      // }
+
+      // 2017. 06. 17 민지 님의 요청으로 추가된 부분 : 이미 행사 시간이 지난 행사들을 삭제하기.
+      let eventHours = parseInt(this.eventLists[i].begin.split(" ")[1].split(":")[0]);
+      let nowHours = new Date().getHours();
+
+      if(nowHours >= eventHours && day1 === day2 && month1 === month2) {
+        index++;
+      }
   	}
 
   	while(index) {
