@@ -304,6 +304,7 @@ export class EventListComponent implements OnInit {
     this.state = (this.state === 'small' ? 'large' : 'small');
   }
 }
+
 @Directive({
   selector: '[myHighlight]',
   host: {
