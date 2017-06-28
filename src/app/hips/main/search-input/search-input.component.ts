@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { forEach } from "@angular/router/src/utils/collection";
 
@@ -96,7 +96,6 @@ export class SearchInputComponent implements OnInit {
       var priority = 0;
       this.eventListIndex = this.eventListIndex + 1;
       this.search_queries.forEach((query:any, index) => {
-        // console.log(query);
         if(query) {
           if(eventList.title.indexOf(query) !== -1) {
             priority++;

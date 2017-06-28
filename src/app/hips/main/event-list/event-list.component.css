@@ -23,17 +23,30 @@
 }
 
 .event-list .event-item .tag-item{
-  background-color: #fd4242;
+  background-color: transparent;
   padding: 5px;
   border-radius: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-decoration: none;
+  color: #696363;
+  border: solid 1px #696363;
+  font-weight: 400;
+  border-radius: 6px;
 }
 
 .event-list .event-item .title{
   font-size: 1.5rem;
+  color: black;
+}
+
+.event-item .address .btn-danger{
+  background-color: #fd4242;
+}
+
+.event-item .address .btn-danger:hover{
+  background-color: #c9302c;
 }
 
 .loader,
@@ -100,6 +113,14 @@
   .event-list .event-item .tag-item-location,
   .event-list .event-item .tag-container .tag-item{
     font-size: 1.3rem;
+  }
+
+  .event-list .event-item .begin{
+    padding: 0;
+  }
+
+  .event-list .event-item .title{
+    padding-right: 0;
   }
 }
 @media(min-width:768px){}
