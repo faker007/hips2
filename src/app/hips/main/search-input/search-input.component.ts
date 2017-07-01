@@ -293,23 +293,25 @@ export class SearchInput2Component implements OnInit {
 
       this.fullEvents.filter((eventList) => {
         // console.log(eventList);
-        var priority = 0;
+        let priority = 0;
+        let isOkay = false;
         this.eventListIndex = this.eventListIndex + 1;
         this.search_queries.forEach((query:any, index) => {
           // console.log(query);
           if(query) {
             if(eventList.title.indexOf(query) !== -1) {
               priority++;
+              isOkay = true;
             }
             eventList.tags.forEach((tag, index) => {
-              if(tag.indexOf(query) !== -1) {
+              if(tag.indexOf(query) !== -1  && isOkay === false) {
                 priority++;
               }
             });
           }
         });
 
-        if(priority >= 1) {
+        if(priority >= this.search_queries.length) {
           let obj = {
             address: eventList.address,
             begin: eventList.begin,
