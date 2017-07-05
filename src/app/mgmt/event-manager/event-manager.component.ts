@@ -44,9 +44,15 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     if (result) {
       console.log('승인하기', this.rowData);
-      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
-        updated: true
-      });
+      if(this.rowData.id.toString().length === 13) {
+        this.firebaseApp.database().ref().child('event/' + this.rowData.id).update({
+          updated: true
+        });
+      } else {
+        this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+          updated: true
+        });        
+      }
     } else {
       console.log('승인하기가 거절되었습니다.', this.rowData);
     }
@@ -56,9 +62,15 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     let result = window.confirm('이 이벤트의 승인을 해제하시겠습니까?');
     if (result) {
       console.log('승인 해제하기', this.rowData);
-      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
-        updated: false
-      });
+      if(this.rowData.id.toString().length === 13) {
+        this.firebaseApp.database().ref().child('event/' + this.rowData.id).update({
+          updated: false
+        });
+      } else {
+        this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).update({
+          updated: false
+        });
+      }
     } else {
       console.log('승인 해제하기가 거절되었습니다.', this.rowData);
     }
@@ -95,7 +107,11 @@ export class BtnDeleteComponent implements ViewCell, OnInit {
     if (result) {
       console.log('삭제하기: ', this.rowData);
       console.log('삭제하기: ', this.value);
-      this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
+      if(this.rowData.id.toString().length === 13) { /// 관리자에서 직접 등록한 행사의 경우에는 id가 13자리임.
+        this.firebaseApp.database().ref().child('event/' + this.rowData.id).remove();
+      } else {
+        this.firebaseApp.database().ref().child('event/' + this.rowData.url.split('/event/')[1]).remove();
+      }
     } else {
       console.log('삭제하기를 거절하였습니다: ', this.rowData);
     }
