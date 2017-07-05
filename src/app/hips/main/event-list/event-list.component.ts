@@ -209,7 +209,7 @@ export class EventListComponent implements OnInit {
   	}
   }
 
-  sortArray2(arr) {
+  sortArray2(arr) { // Must be refactering : sortArray는 sortArray2로 반드시 대체되어야 할 것임.
     if(arr !== []) {
       arr.sort(function (a, b) {
         if(a !== undefined && b !== undefined) {
