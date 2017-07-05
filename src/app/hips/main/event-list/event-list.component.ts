@@ -160,7 +160,6 @@ export class EventListComponent implements OnInit {
       }
 
       this.enableScroll();
-			// this.sortArray();
 			this.removeArrayFromToday();
 			this.groupBy(this.eventLists);
 			// console.log(this.eventLists);
@@ -209,6 +208,37 @@ export class EventListComponent implements OnInit {
   		});
   	}
   }
+
+  sortArray2(arr) {
+    if(arr !== []) {
+      arr.sort(function (a, b) {
+        if(a !== undefined && b !== undefined) {
+          var monthSort1 = a.begin.split(" ")[0].split("-")[1];
+          var monthSort2 = b.begin.split(" ")[0].split("-")[1];
+
+          var daySort1 = a.begin.split(" ")[0].split("-")[2];
+          var daySort2 = b.begin.split(" ")[0].split("-")[2];
+
+          var hourSort1 = a.begin.split(" ")[1].split(":")[0];
+          var hourSort2 = b.begin.split(" ")[1].split(":")[0];
+
+          var minuteSort1 = a.begin.split(" ")[1].split(":")[1];
+          var minuteSort2 = b.begin.split(" ")[1].split(":")[1];
+
+          if(monthSort1 < monthSort2 ) return -1;
+          if(monthSort1 > monthSort2 ) return 1;
+          if(daySort1 < daySort2 ) return -1;
+          if(daySort1 > daySort2 ) return 1;
+          if(hourSort1 < hourSort2 ) return -1;
+          if(hourSort1 > hourSort2 ) return 1;
+          if(minuteSort1 < minuteSort2 ) return -1;
+          if(minuteSort1 > minuteSort2 ) return 1;
+
+          return 0;
+        }
+      });
+    }
+  }  
 
   removeArrayFromToday() {
   	var index = 0;
@@ -268,6 +298,8 @@ export class EventListComponent implements OnInit {
 
         tempArray.push(obj);
       });
+
+      this.sortArray2(tempArray);
 
       let tatanoArray:any = _.groupBy(tempArray, 'parsed_begin');
 
